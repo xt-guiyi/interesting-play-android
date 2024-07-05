@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 底部导航栏主题样式, Material2的样式    -->
+    <style name="BottomNavigationStyle"  parent="Theme.MaterialComponents.DayNight" >
+        <item name="colorPrimary">@color/purple_200</item>
+    </style>
+</resources>
