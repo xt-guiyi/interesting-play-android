@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import com.hjq.toast.Toaster
 
-class BaseApplication : Application() {
+class MainApplication : Application() {
 //    private var executorService: ExecutorService = Executors.newFixedThreadPool(4) // 全局线程池
 //    private var exampleRepository: ExampleRepository= ExampleRepository(MokeAPi.create())
 //    fun getExecutorService() = executorService
