@@ -9,18 +9,28 @@
     tools:context="com.example.lovelife.MainActivity">
 
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="11"
-      android:textSize="30sp"
-      tools:layout_editor_absoluteX="0dp"
-      tools:layout_editor_absoluteY="316dp"
-      tools:ignore="MissingConstraints" />
+  <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/main_fragment_container"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginBottom="75dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0"
+      />
 
   <com.google.android.material.bottomnavigation.BottomNavigationView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:id="@+id/bottom_navigation"
+      android:layout_width="wrap_content"
+      android:layout_height="75dp"
+      android:paddingTop="2dp"
+      app:menu="@menu/bottom_navigation_menu"
+      android:theme="@style/BottomNavigationStyle"
+      app:itemBackground="@color/white"
+      app:labelVisibilityMode="labeled"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />

@@ -2,8 +2,6 @@ package com.example.lovelife
 
 import android.app.Application
 import android.util.Log
-import com.example.lovelife.store.CommonData
-import com.example.lovelife.store.PersistentData
 import com.hjq.toast.Toaster
 
 class MainApplication : Application() {
@@ -17,6 +15,5 @@ class MainApplication : Application() {
         super.onCreate()
         // 初始化 Toast 框架
         Toaster.init(this);
-        Toaster.show(CommonData.appName)
     }
 }
