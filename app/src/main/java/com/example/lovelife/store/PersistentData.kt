@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "persistent_data")
 
-class PreferencesRepository(context: Context) {
+internal class PersistentData(context: Context) {
 
     private val dataStore = context.dataStore
 
