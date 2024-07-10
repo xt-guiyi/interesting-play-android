@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.lovelife.ui.discover.DiscoverFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <Toolbar
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:title="发现"
+        android:fitsSystemWindows="true"
+        android:background="@color/green_300"/>
+
 
 </FrameLayout>

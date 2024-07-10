@@ -46,19 +46,22 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("androidx.datastore:datastore-preferences-core:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
+    testImplementation(libs.junit)
+    implementation(libs.material)
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.preferences.core)
+    implementation(libs.jetbrains.kotlinx.serialization.json)
+    implementation(libs.lifecycle.viewmodel.ktx)
     // retrofit网络请求框架
     implementation(libs.retrofit)
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation(libs.squareup.converter.gson)
     // 吐司框架：https://github.com/getActivity/Toaster
-    implementation("com.github.getActivity:Toaster:12.6")
+    implementation(libs.getactivity.toaster)
+    // glide 图片加载 https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
+    implementation(libs.github.glide)
 }
