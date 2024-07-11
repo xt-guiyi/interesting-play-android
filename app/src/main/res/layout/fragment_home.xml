@@ -1,13 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.lovelife.ui.home.HomeFragment">
-    <Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="首页"
-        android:fitsSystemWindows="true"
-        android:background="@color/green_300"/>
 
-</FrameLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/included_header"
+            app:layout_scrollFlags="scroll|snap"
+            layout="@layout/fragment_home_header"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/home_tabs"
+            app:tabRippleColor="@null"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/green_300"
+            app:tabMinWidth="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+       <androidx.viewpager2.widget.ViewPager2
+           android:id="@+id/home_viewpager"
+           app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
