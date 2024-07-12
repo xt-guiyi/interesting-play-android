@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.loveLife.databinding.FragmentHomeViewPageRvItem1Binding
 import com.example.lovelife.entity.VideoInfo
 import com.example.lovelife.utils.GlideUtil
+import com.google.android.material.imageview.ShapeableImageView
 
 class CardAdapter(private val list: List<VideoInfo>): RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
@@ -28,7 +29,7 @@ class CardAdapter(private val list: List<VideoInfo>): RecyclerView.Adapter<CardA
             binding.author.text = data.author
             binding.time.text = data.duration.toString()
             binding.videoNumber.text = data.views.toString()
-            GlideUtil.loadUrl(data.url, binding.imgFragment.context, binding.imgFragment)
+            GlideUtil.loadUrl(data.url, binding.imgFragment.context, binding.imgFragment as ShapeableImageView) // 必须指定为ShapeableImageView
         }
     }
 }

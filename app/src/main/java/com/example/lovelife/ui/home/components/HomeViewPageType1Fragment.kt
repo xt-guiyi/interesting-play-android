@@ -1,5 +1,6 @@
 package com.example.lovelife.ui.home.components
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,17 +8,47 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.loveLife.databinding.FragmentHomeViewPageType1Binding
 import com.example.lovelife.base.BaseFragment
 import com.example.lovelife.entity.VideoInfo
 import com.example.lovelife.ui.home.components.adapter.BannerContainerAdapter
 import com.example.lovelife.ui.home.components.adapter.CardAdapter
+import com.example.lovelife.utils.DisplayUtil
 
 private const val ARG_PARAM1 = "type"
 
 class HomeViewPageType1Fragment : BaseFragment() {
     private var type: String? = null
     private lateinit var binding: FragmentHomeViewPageType1Binding
+
+    class GridSpacingItemDecoration(
+        private val spanCount: Int,
+        private val spacing: Int,
+        private val includeEdge: Boolean
+    ) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view) // item position
+            val column = position % spanCount // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount
+                outRect.right = (column + 1) * spacing / spanCount
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing
+                }
+                outRect.bottom = spacing // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount
+                outRect.right = spacing - (column + 1) * spacing / spanCount
+                if (position >= spanCount) {
+                    outRect.top = spacing // item top
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +75,9 @@ class HomeViewPageType1Fragment : BaseFragment() {
             }
         }
         binding.rv.layoutManager = gridLayout
-
+        val spacing = DisplayUtil.dip2px(requireContext(),2f) // 间距，单位为px
+        val includeEdge = true
+        binding.rv.addItemDecoration(GridSpacingItemDecoration(2, spacing, includeEdge))
         val bannerList = listOf(
             "https://images.cubox.pro/iw3rni/file/2024061800331149633/IMG_0021.JPG",
             "https://i0.hdslb.com/bfs/banner/c433fb755aba84b3304a839eeb7f7818ccf9dc4c.jpg@976w_550h_1c_!web-home-carousel-cover.avif",
