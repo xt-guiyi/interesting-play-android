@@ -2,7 +2,9 @@ package com.example.lovelife
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.core.view.forEach
 import com.example.loveLife.R
 import com.example.loveLife.databinding.ActivityMainBinding
 import com.example.lovelife.base.BaseActivity
@@ -21,9 +23,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         init()
         bindingListener()
-        setContentView(binding.root)
     }
 
     override fun init() {
@@ -64,6 +66,11 @@ class MainActivity : BaseActivity() {
                 else -> {}
             }
             return@setOnItemSelectedListener true
+        }
+        // 去除长按提示，拦截长按事件
+        binding.bottomNavigation.menu.forEach {
+            val menuItemView: View = findViewById(it.itemId) // findViewById必须在setContentView之后调用
+            menuItemView.setOnLongClickListener { true }
         }
     }
 }

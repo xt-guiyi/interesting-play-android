@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="TabItemTextStyle">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/sliver_200</item>
+    </style>
+
+    <style name="TabItemSelectedTextStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/green_300</item>
+    </style>
+
+    <style name="ImageRound" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="ImageRoundOnlyTop12" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+    </style>
+
+    <style name="ImageCircle" >
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <!-- 底部导航栏主题样式, Material2的样式    -->
     <style name="BottomNavigationStyle"  parent="Theme.MaterialComponents.DayNight" >
         <item name="colorPrimary">@color/green_300</item>

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+banner = "2.2.3"
 datastorePreferencesVersion = "1.1.1"
 datastorePreferencesCoreVersion = "1.1.1"
 fragmentKtx = "1.8.1"
@@ -7,6 +8,7 @@ glideVersion = "4.16.0"
 kotlin = "2.0.0"
 kotlinxSerializationJsonVersion = "1.6.3"
 lifecycleViewmodelKtxVersion = "2.8.3"
+recyclerview = "1.3.2"
 serialization = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -22,6 +24,8 @@ toasterVersion = "12.6"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+banner = { module = "io.github.youth5201314:banner", version.ref = "banner" }
 getactivity-toaster = { module = "com.github.getActivity:Toaster", version.ref = "toasterVersion" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
