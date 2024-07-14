@@ -10,8 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.loveLife.R
 import com.example.loveLife.databinding.FragmentHomeBinding
 import com.example.lovelife.base.BaseFragment
-import com.example.lovelife.ui.home.components.HomeViewPageType1Fragment
-import com.example.lovelife.ui.home.components.HomeViewPageType2Fragment
+import com.example.lovelife.ui.home.adapter.HomeViewPageAdapter
 import com.example.lovelife.utils.GlideUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -98,18 +97,23 @@ class HomeFragment : BaseFragment() {
 
         // 初始化viewPage
         val fragments = listOf(
-            HomeViewPageType1Fragment.newInstance("1"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
-            HomeViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType1Fragment.newInstance("1"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
+            ViewPageType2Fragment.newInstance("敬请期待"),
         )
 
         val adapter = HomeViewPageAdapter(this, fragments)
-        binding.homeViewpager.adapter = adapter
+
+           binding.homeViewpager.adapter = adapter
+
+
+
+
 
         TabLayoutMediator(binding.homeTabs,binding.homeViewpager) { tab, position ->
             val tabTextView = TextView(requireContext())

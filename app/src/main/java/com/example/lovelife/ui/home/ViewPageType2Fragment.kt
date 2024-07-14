@@ -1,4 +1,4 @@
-package com.example.lovelife.ui.home.components
+package com.example.lovelife.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.example.lovelife.base.BaseFragment
 
 private const val ARG_PARAM1 = "type"
 
-class HomeViewPageType2Fragment : BaseFragment() {
+class ViewPageType2Fragment : BaseFragment() {
     private var type: String? = null
     private lateinit var binding: FragmentHomeViewPageType2Binding
 
@@ -40,7 +40,7 @@ class HomeViewPageType2Fragment : BaseFragment() {
     companion object {
         @JvmStatic
         fun newInstance(type: String) =
-            HomeViewPageType2Fragment().apply {
+            ViewPageType2Fragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, type)
                 }

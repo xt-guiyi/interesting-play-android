@@ -67,4 +67,9 @@ dependencies {
     // banner控件：https://github.com/youth5201314/banner
     implementation(libs.banner)
     implementation(libs.androidx.recyclerview)
+    // 下拉刷新框架
+    implementation(libs.refresh.layout.kernel) //核心必须依赖
+    implementation(libs.refresh.header.material)    //谷歌刷新头
+    implementation(libs.refresh.header.classics)  //经典刷新头
+    implementation(libs.refresh.footer.classics) // 经典加载
 }

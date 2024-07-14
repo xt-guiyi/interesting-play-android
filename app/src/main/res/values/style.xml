@@ -17,10 +17,10 @@
         <item name="cornerSize">10dp</item>
     </style>
 
-    <style name="ImageRoundOnlyTop12" >
+    <style name="ImageRoundOnlyTop6" >
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">12dp</item>
-        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">6dp</item>
+        <item name="cornerSizeTopLeft">6dp</item>
     </style>
 
     <style name="ImageCircle" >

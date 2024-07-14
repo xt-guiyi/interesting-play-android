@@ -3,7 +3,7 @@ package com.example.lovelife.api
 /**
  * HTTP错误状态码枚举类
  */
-enum class ErrorStatus(val code: Int, val errMsg: String) {
+enum class HttpErrorStatus(val code: Int, val errMsg: String) {
     /**
      * 一个错误请求
      */

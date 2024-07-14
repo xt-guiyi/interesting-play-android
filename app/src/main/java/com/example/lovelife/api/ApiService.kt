@@ -30,11 +30,9 @@ object ApiService {
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
             val response = chain.proceed(request)
-            // 响应
-            // 检查响应状态码
             if (!response.isSuccessful) {
-                val errorStatus = ErrorStatus.entries.find { it.code == response.code() }
-                val errorMessage = errorStatus?.errMsg ?: "未知错误"
+                val httpErrorStatus = HttpErrorStatus.entries.find { it.code == response.code() }
+                val errorMessage = httpErrorStatus?.errMsg ?: "未知错误"
                 Toaster.show(errorMessage)
             }
             return response

@@ -3,12 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lovelife.ui.home.components.HomeViewPageType1Fragment">
+    android:background="#E3F0E0"
+    tools:context="com.example.lovelife.ui.home.ViewPageType1Fragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:padding="2dp"
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/sm_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <com.scwang.smart.refresh.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+<!--        <com.scwang.smart.refresh.header.MaterialHeader-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_srlBackgroundColor="@color/green_300"-->
+<!--           -->
+<!--            />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:padding="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

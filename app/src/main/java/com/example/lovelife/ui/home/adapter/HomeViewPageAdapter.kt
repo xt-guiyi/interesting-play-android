@@ -1,6 +1,5 @@
-package com.example.lovelife.ui.home
+package com.example.lovelife.ui.home.adapter
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
