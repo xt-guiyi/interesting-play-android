@@ -9,4 +9,4 @@ package com.example.lovelife.entity
  * @param url 视频封面地址
  * @param views 视频播放量
  * */
-data class VideoInfo(val id: String, val title: String, val duration: Number, val author: String, val url: String, val views: Number )
+data class VideoInfo(val id: String, val title: String, val duration: Long, val author: String, val url: String, val views: Long )

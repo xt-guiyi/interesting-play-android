@@ -1,7 +1,6 @@
 package com.example.lovelife.utils
 
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -19,6 +18,22 @@ object TimeUtil {
         return dateFormat.format(date)
     }
 
+
+    /**
+     * 时间格式化( 02:00、01:01:00)
+     * @param second 秒
+     */
+    fun geDurationTime(second: Long): String {
+        val hours = TimeUnit.SECONDS.toHours(second)
+        val minutes = TimeUnit.SECONDS.toMinutes(second) % 60
+        val secs = second % 60
+
+        return if (hours > 0) {
+            String.format(Locale.getDefault(),"%02d:%02d:%02d", hours, minutes, secs)
+        } else {
+            String.format(Locale.getDefault(),"%02d:%02d", minutes, secs)
+        }
+    }
 
     /**
      * 时间格式化(刚刚、几秒前、几分钟前、几小时前、几天前)

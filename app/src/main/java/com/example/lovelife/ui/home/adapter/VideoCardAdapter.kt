@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loveLife.databinding.FragmentHomeViewPageRvItem1Binding
 import com.example.lovelife.entity.VideoInfo
+import com.example.lovelife.utils.CommonUtil
 import com.example.lovelife.utils.GlideUtil
+import com.example.lovelife.utils.TimeUtil
 import com.google.android.material.imageview.ShapeableImageView
 
 class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<VideoCardAdapter.ViewHolder>() {
@@ -28,8 +30,8 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
         fun bindTo(data: VideoInfo){
             binding.title.text = data.title
             binding.author.text = data.author
-            binding.time.text = data.duration.toString()
-            binding.videoNumber.text = data.views.toString()
+            binding.time.text = TimeUtil.geDurationTime(data.duration)
+            binding.videoNumber.text = CommonUtil.formatNumber(data.views)
             GlideUtil.loadUrl(data.url, binding.imgFragment.context, binding.imgFragment as ShapeableImageView) // 必须指定为ShapeableImageView
         }
     }
