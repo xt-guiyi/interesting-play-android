@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +14,6 @@ import com.example.lovelife.ui.home.adapter.HomeViewPageAdapter
 import com.example.lovelife.utils.GlideUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.hjq.toast.Toaster
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -116,10 +114,5 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun bindingListener() {
-//        binding.includedHeader.searchIcon.setOnClickListener {}
-        binding.includedHeader.linearLayout.viewTreeObserver.addOnScrollChangedListener {
-            val scrollX = binding.includedHeader.linearLayout.scrollX // 获取水平滚动距离
-            val scrollY = binding.includedHeader.linearLayout.scrollY // 获取垂直滚动距离// 在这里执行你想要的操作，例如更新 UI 或记录滚动位置
-        }
     }
 }
