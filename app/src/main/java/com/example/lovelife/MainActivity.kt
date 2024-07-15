@@ -24,7 +24,8 @@ class MainActivity : BaseActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
+        // 重要：配置更改就不需要再添加Fragment
+        if(savedInstanceState == null) { init() }
         bindingListener()
     }
 
@@ -46,21 +47,21 @@ class MainActivity : BaseActivity() {
                     if(currentFragment != null && currentFragment.tag != "Home") {
                         Log.i("bottomNavigationItem","首页")
                         FragmentUtil.hideFragment(supportFragmentManager, currentFragment)
-                        FragmentUtil.showFragment(supportFragmentManager, homeFragment)
+                        FragmentUtil.showFragment(supportFragmentManager, "Home")
                     }
                 }
                 R.id.menu_discover -> {
                     if(currentFragment != null && currentFragment.tag != "Discover") {
                         Log.i("bottomNavigationItem","发现")
                         FragmentUtil.hideFragment(supportFragmentManager, currentFragment)
-                        FragmentUtil.showFragment(supportFragmentManager, discoverFragment)
+                        FragmentUtil.showFragment(supportFragmentManager, "Discover")
                     }
                 }
                 R.id.menu_me -> {
                     if(currentFragment != null && currentFragment.tag != "Me") {
                         Log.i("bottomNavigationItem","我的")
                         FragmentUtil.hideFragment(supportFragmentManager, currentFragment)
-                        FragmentUtil.showFragment(supportFragmentManager, meFragment)
+                        FragmentUtil.showFragment(supportFragmentManager, "Me")
                     }
                 }
                 else -> {}

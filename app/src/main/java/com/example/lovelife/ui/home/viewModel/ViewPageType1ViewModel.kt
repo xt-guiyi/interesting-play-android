@@ -6,6 +6,7 @@ import com.example.lovelife.entity.Banner
 import com.example.lovelife.entity.VideoInfo
 import com.example.lovelife.ui.home.repository.ViewPageType1Repository
 import com.hjq.toast.Toaster
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,20 +26,22 @@ data class ViewPageType1UiState(
 )
 
 
-class ViewPageType1ViewModel() :ViewModel(){
-    private val repository: ViewPageType1Repository = ViewPageType1Repository()
+class ViewPageType1ViewModel : ViewModel() {
 
+    private val repository: ViewPageType1Repository = ViewPageType1Repository()
     private val _uiState = MutableStateFlow(ViewPageType1UiState())
     val uiStateFlow: StateFlow<ViewPageType1UiState> = _uiState.asStateFlow()
+
     // 视频列表数据
     private val _videoList: MutableStateFlow<List<VideoInfo>> = MutableStateFlow(emptyList())
     val videoListFlow: StateFlow<List<VideoInfo>> = _videoList.asStateFlow()
+
     // 轮播图数据
     val bannersFlow: Flow<List<Banner>> = flow {
         val result = runCatching { repository.fetchBanner() }
         result.onFailure { e ->
             e.printStackTrace()
-            if(e is ConnectException) {
+            if (e is ConnectException) {
                 _uiState.update { currentState ->
                     currentState.copy(netWorkError = true)
                 }
@@ -46,7 +49,7 @@ class ViewPageType1ViewModel() :ViewModel(){
             emit(emptyList())
         }
         result.onSuccess {
-            if(it.isOk()) {
+            if (it.isOk()) {
                 emit(it.data)
             }
         }
@@ -57,45 +60,48 @@ class ViewPageType1ViewModel() :ViewModel(){
     }
 
     private fun getVideoList() {
-         viewModelScope.launch {
-             Toaster.show("getVideoList")
-             val result = runCatching { repository.fetchVideoList(_uiState.value.page, _uiState.value.pageSize) }
-             result.onFailure { e ->
-
-                 e.printStackTrace()
-                 if(e is ConnectException) {
-                     _uiState.update { currentState ->
-                         currentState.copy(netWorkError = true)
-                     }
-                 }
-             }
-             result.onSuccess {
-                 if(it.isOk()) {
-
-                     _uiState.update { currentState ->
-                         currentState.copy(page = it.data.page, pageSize = it.data.pageSize)
-                     }
-                     // 更新 videoList
-                     _videoList.update { _ ->
-                         it.data.data
-                     }
-                 }
-             }
-         }
+        viewModelScope.launch {
+            val result = runCatching {
+//                delay(300) // 延迟300ms,防止滑动页面期间渲染数据，导致卡顿，不开启离屏加载使用
+                repository.fetchVideoList(
+                    _uiState.value.page,
+                    _uiState.value.pageSize
+                )
+            }
+            result.onFailure { e ->
+                e.printStackTrace()
+                if (e is ConnectException) {
+                    _uiState.update { currentState ->
+                        currentState.copy(netWorkError = true)
+                    }
+                }
+            }
+            result.onSuccess {
+                if (it.isOk()) {
+                    _uiState.update { currentState ->
+                        currentState.copy(page = it.data.page, pageSize = it.data.pageSize, total = it.data.total)
+                    }
+                    // 更新 videoList
+                    _videoList.update { _ ->
+                        it.data.data
+                    }
+                }
+            }
+        }
     }
 
     // 下拉刷新
-     fun  refresh () {
+    fun refresh() {
         _uiState.update { currentState ->
-            currentState.copy(page = 1, updateType = 1 ,netWorkError = false)
+            currentState.copy(page = 1, updateType = 1, netWorkError = false)
         }
         getVideoList()
     }
 
     // 上拉加载
-     fun loadMore () {
+    fun loadMore() {
         _uiState.update { currentState ->
-            currentState.copy(page = currentState.page + 1, updateType = 0 ,netWorkError = false)
+            currentState.copy(page = currentState.page + 1, updateType = 0, netWorkError = false)
         }
         getVideoList()
     }

@@ -53,6 +53,7 @@ object FragmentUtil {
      * @param containerId 容器视图的 ID，用于放置 Fragment。
      * @param fragment 要添加的 Fragment。
      * @param tag Fragment 的可选标签名。
+     * @param isAddToBackStack 是否添加到返回堆栈。
      * @param enterAnim 进入动画资源 ID。
      * @param exitAnim 退出动画资源 ID。
      * @param popEnterAnim 被分离方进入动画资源 ID。
@@ -63,6 +64,7 @@ object FragmentUtil {
         containerId: Int,
         fragment: Fragment,
         tag: String? = null,
+        isAddToBackStack: Boolean = false,
         enterAnim: Int? = null,
         exitAnim: Int? = null,
         popEnterAnim: Int? = null,
@@ -70,15 +72,17 @@ object FragmentUtil {
     ): FragmentUtil {
         fragmentManager.commit {
             setReorderingAllowed(true)
-            setCustomAnimations(
-                enterAnim ?: -1,
-                exitAnim ?: -1,
-                popEnterAnim ?: -1,
-                popExitAnim ?: -1
-            )
+            if(enterAnim != null && exitAnim != null && popEnterAnim != null && popExitAnim != null) {
+                setCustomAnimations(
+                    enterAnim,
+                    exitAnim,
+                    popEnterAnim,
+                    popExitAnim
+                )
+            }
             add(containerId, fragment, tag)
             setPrimaryNavigationFragment(fragment)
-            addToBackStack(tag)
+            if(isAddToBackStack)  addToBackStack(tag)
         }
         return this@FragmentUtil
     }
@@ -98,6 +102,21 @@ object FragmentUtil {
     }
 
     /**
+     * 显示一个已经添加的 Fragment（根据标签）
+     * @param fragmentManager FragmentManager 实例。
+     * @param tag Fragment 的标签。
+     */
+    fun showFragment(fragmentManager: FragmentManager, tag: String) {
+        val fragment = fragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            fragmentManager.commit {
+                show(fragment)
+                setPrimaryNavigationFragment(fragment)
+            }
+        }
+    }
+
+    /**
      * 隐藏一个已经添加的 Fragment。
      *
      * @param fragmentManager 用于执行事务的 FragmentManager。
@@ -108,6 +127,20 @@ object FragmentUtil {
             hide(fragment)
         }
         return this@FragmentUtil
+    }
+
+    /**
+     * 隐藏一个已经添加的 Fragment(根据标签)
+     * @param fragmentManager FragmentManager 实例。
+     * @param tag Fragment 的标签。
+     */
+    fun hideFragment(fragmentManager: FragmentManager, tag: String) {
+        val fragment = fragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            fragmentManager.commit {
+                hide(fragment)
+            }
+        }
     }
 
     /**
@@ -124,7 +157,7 @@ object FragmentUtil {
     }
 
     /**
-     * 移除一个已经添加的 Fragment。
+     * 移除一个已经添加的 Fragment。(根据标签)
      *
      * @param fragmentManager 用于执行事务的 FragmentManager。
      * @param tag 要移除的 Fragment标签·。

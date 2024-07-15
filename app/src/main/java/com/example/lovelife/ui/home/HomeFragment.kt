@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.example.lovelife.ui.home.adapter.HomeViewPageAdapter
 import com.example.lovelife.utils.GlideUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.toast.Toaster
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,8 +45,10 @@ class HomeFragment : BaseFragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         init()
+        bindingListener()
         return binding.root
     }
+
 
     override fun init() {
         initHeader()
@@ -96,24 +100,9 @@ class HomeFragment : BaseFragment() {
 
 
         // 初始化viewPage
-        val fragments = listOf(
-            ViewPageType1Fragment.newInstance("1"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-            ViewPageType2Fragment.newInstance("敬请期待"),
-        )
-
-        val adapter = HomeViewPageAdapter(this, fragments)
-
-           binding.homeViewpager.adapter = adapter
-
-
-
-
+        val adapter = HomeViewPageAdapter(this, tabItems.size)
+        binding.homeViewpager.adapter = adapter
+        binding.homeViewpager.offscreenPageLimit = 3 // 离屏加载，左右缓存3个
 
         TabLayoutMediator(binding.homeTabs,binding.homeViewpager) { tab, position ->
             val tabTextView = TextView(requireContext())
@@ -126,5 +115,11 @@ class HomeFragment : BaseFragment() {
         }.attach()
     }
 
-    override fun bindingListener() {}
+    override fun bindingListener() {
+//        binding.includedHeader.searchIcon.setOnClickListener {}
+        binding.includedHeader.linearLayout.viewTreeObserver.addOnScrollChangedListener {
+            val scrollX = binding.includedHeader.linearLayout.scrollX // 获取水平滚动距离
+            val scrollY = binding.includedHeader.linearLayout.scrollY // 获取垂直滚动距离// 在这里执行你想要的操作，例如更新 UI 或记录滚动位置
+        }
+    }
 }

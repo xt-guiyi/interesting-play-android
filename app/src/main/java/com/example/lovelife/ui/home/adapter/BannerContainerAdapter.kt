@@ -31,6 +31,7 @@ class BannerContainerAdapter(private val bannerData: MutableList<Banner>, privat
             binding.bannerContainer
                 .setAdapter(BannerDataAdapter(list))
                 .addBannerLifecycleObserver(lifecycleOwner)
+                .setLoopTime(5000)
                 .setIndicator(CircleIndicator(context))
                 .setIndicatorGravity(IndicatorConfig.Direction.RIGHT)
                 .setIndicatorMargins(IndicatorConfig.Margins(
@@ -45,7 +46,7 @@ class BannerContainerAdapter(private val bannerData: MutableList<Banner>, privat
         }
     }
 
-    fun addItems(newItems: List<Banner>) {
+    fun setItem(newItems: List<Banner>) {
         bannerData.clear()
         bannerData.addAll(newItems)
         notifyItemChanged(0)
