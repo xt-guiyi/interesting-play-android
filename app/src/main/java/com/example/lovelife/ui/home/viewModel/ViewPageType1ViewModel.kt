@@ -1,5 +1,6 @@
 package com.example.lovelife.ui.home.viewModel
 
+import androidx.datastore.preferences.protobuf.Empty
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lovelife.entity.Banner
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.net.ConnectException
 
 
@@ -22,7 +24,7 @@ data class ViewPageType1UiState(
     var pageSize: Int = 10,
     var total: Int = 0,
     var updateType: Int = 0,
-    var netWorkError: Boolean = false
+    var netWorkError: Boolean = false,
 )
 
 
@@ -41,7 +43,7 @@ class ViewPageType1ViewModel : ViewModel() {
         val result = runCatching { repository.fetchBanner() }
         result.onFailure { e ->
             e.printStackTrace()
-            if (e is ConnectException) {
+            if (e is IOException) {
                 _uiState.update { currentState ->
                     currentState.copy(netWorkError = true)
                 }
@@ -69,14 +71,16 @@ class ViewPageType1ViewModel : ViewModel() {
                 )
             }
             result.onFailure { e ->
+                Toaster.show("请求失败-${e is IOException}")
                 e.printStackTrace()
-                if (e is ConnectException) {
+                if (e is IOException) {
                     _uiState.update { currentState ->
                         currentState.copy(netWorkError = true)
                     }
                 }
             }
             result.onSuccess {
+                Toaster.show("请求超过")
                 if (it.isOk()) {
                     _uiState.update { currentState ->
                         currentState.copy(page = it.data.page, pageSize = it.data.pageSize, total = it.data.total)

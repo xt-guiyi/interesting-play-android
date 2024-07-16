@@ -93,7 +93,11 @@ class ViewPageType1Fragment : BaseFragment() {
                 launch {
                     viewModel.uiStateFlow.collect {
                         if (it.netWorkError) {
-                            Toaster.show("网络错误")
+//                            Toaster.show("网络错误")
+                            binding.smRefreshLayout.visibility = View.INVISIBLE
+                            binding.retry.visibility = View.VISIBLE
+                        }else{
+                            binding.retry.visibility = View.GONE
                         }
                     }
                 }
@@ -110,6 +114,10 @@ class ViewPageType1Fragment : BaseFragment() {
         binding.smRefreshLayout.setOnLoadMoreListener {
             viewModel.loadMore()
             it.finishLoadMore(true)
+        }
+
+        binding.retry.setOnClickListener {
+            viewModel.refresh()
         }
 
     }

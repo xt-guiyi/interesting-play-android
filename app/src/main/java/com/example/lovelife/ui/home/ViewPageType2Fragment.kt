@@ -31,7 +31,6 @@ class ViewPageType2Fragment : BaseFragment() {
     }
 
     override fun init() {
-        binding.text.text = type
     }
 
     override fun bindingListener() {

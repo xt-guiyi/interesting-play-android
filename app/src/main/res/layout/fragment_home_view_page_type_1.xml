@@ -1,18 +1,24 @@
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_height="match_parent"
-        android:background="#E3F0E0"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.lovelife.ui.home.ViewPageType1Fragment"
+    android:background="#E3F0E0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/sm_refreshLayout"
-        android:layout_width="match_parent"
-        tools:context="com.example.lovelife.ui.home.ViewPageType1Fragment">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
         <com.scwang.smart.refresh.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <!--            <com.scwang.smart.refresh.header.MaterialHeader-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                />-->
+        <!--        <com.scwang.smart.refresh.header.MaterialHeader-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            />-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
@@ -24,3 +30,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/red_200"
+        android:layout_marginBottom="20dp"
+        android:text="@string/retry"
+         />
+</FrameLayout>

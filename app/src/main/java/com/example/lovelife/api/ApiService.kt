@@ -31,6 +31,7 @@ object ApiService {
             val request = chain.request()
             val response = chain.proceed(request)
             if (!response.isSuccessful) {
+                // http状态非200
                 val httpErrorStatus = HttpErrorStatus.entries.find { it.code == response.code() }
                 val errorMessage = httpErrorStatus?.errMsg ?: "未知错误"
                 Toaster.show(errorMessage)
