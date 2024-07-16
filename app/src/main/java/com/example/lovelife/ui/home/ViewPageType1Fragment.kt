@@ -18,7 +18,6 @@ import com.example.lovelife.ui.home.adapter.VideoCardAdapter
 import com.example.lovelife.ui.home.viewModel.ViewPageType1ViewModel
 import com.example.lovelife.utils.DisplayUtil
 import com.hjq.toast.Toaster
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -71,11 +70,13 @@ class ViewPageType1Fragment : BaseFragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.bannersFlow.collect {
+                        Toaster.show("1")
                         bannerContainerAdapter.setItem(it)
                     }
                 }
                 launch {
                     viewModel.videoListFlow.collect {
+                        Toaster.show("2${it.size}")
                         if (viewModel.uiStateFlow.value.updateType == 1) {
                             videoCardAdapter.restItems(it)
                         } else {
@@ -99,6 +100,13 @@ class ViewPageType1Fragment : BaseFragment() {
                         }else{
                             binding.retry.visibility = View.GONE
                         }
+                        if(it.isLoading) {
+                            binding.loading.visibility = View.VISIBLE
+                            binding.loading.playAnimation()
+                        }else {
+                            binding.loading.pauseAnimation()
+                            binding.loading.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -117,7 +125,7 @@ class ViewPageType1Fragment : BaseFragment() {
         }
 
         binding.retry.setOnClickListener {
-            viewModel.refresh()
+            viewModel.retry()
         }
 
     }

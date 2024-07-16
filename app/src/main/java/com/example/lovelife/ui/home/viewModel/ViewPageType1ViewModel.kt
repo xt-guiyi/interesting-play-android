@@ -1,13 +1,10 @@
 package com.example.lovelife.ui.home.viewModel
 
-import androidx.datastore.preferences.protobuf.Empty
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lovelife.entity.Banner
 import com.example.lovelife.entity.VideoInfo
 import com.example.lovelife.ui.home.repository.ViewPageType1Repository
-import com.hjq.toast.Toaster
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +13,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.net.ConnectException
 
 
 data class ViewPageType1UiState(
@@ -25,6 +21,7 @@ data class ViewPageType1UiState(
     var total: Int = 0,
     var updateType: Int = 0,
     var netWorkError: Boolean = false,
+    var isLoading: Boolean = false
 )
 
 
@@ -39,15 +36,10 @@ class ViewPageType1ViewModel : ViewModel() {
     val videoListFlow: StateFlow<List<VideoInfo>> = _videoList.asStateFlow()
 
     // 轮播图数据
-    val bannersFlow: Flow<List<Banner>> = flow {
+    var bannersFlow: Flow<List<Banner>> = flow {
         val result = runCatching { repository.fetchBanner() }
         result.onFailure { e ->
             e.printStackTrace()
-            if (e is IOException) {
-                _uiState.update { currentState ->
-                    currentState.copy(netWorkError = true)
-                }
-            }
             emit(emptyList())
         }
         result.onSuccess {
@@ -58,6 +50,9 @@ class ViewPageType1ViewModel : ViewModel() {
     }
 
     init {
+        _uiState.update { currentState ->
+            currentState.copy(page = 1, updateType = 1, netWorkError = false, isLoading = true)
+        }
         getVideoList()
     }
 
@@ -70,8 +65,10 @@ class ViewPageType1ViewModel : ViewModel() {
                     _uiState.value.pageSize
                 )
             }
+            _uiState.update { currentState ->
+                currentState.copy(isLoading = false)
+            }
             result.onFailure { e ->
-                Toaster.show("请求失败-${e is IOException}")
                 e.printStackTrace()
                 if (e is IOException) {
                     _uiState.update { currentState ->
@@ -80,7 +77,6 @@ class ViewPageType1ViewModel : ViewModel() {
                 }
             }
             result.onSuccess {
-                Toaster.show("请求超过")
                 if (it.isOk()) {
                     _uiState.update { currentState ->
                         currentState.copy(page = it.data.page, pageSize = it.data.pageSize, total = it.data.total)
@@ -106,6 +102,26 @@ class ViewPageType1ViewModel : ViewModel() {
     fun loadMore() {
         _uiState.update { currentState ->
             currentState.copy(page = currentState.page + 1, updateType = 0, netWorkError = false)
+        }
+        getVideoList()
+    }
+
+    fun retry() {
+        _uiState.update { currentState ->
+            currentState.copy(page = 1, updateType = 1, netWorkError = false, isLoading = true)
+        }
+        // 重新触发bannersFlow流
+        bannersFlow = flow {
+            val result = runCatching { repository.fetchBanner() }
+            result.onFailure { e ->
+                e.printStackTrace()
+                emit(emptyList())
+            }
+            result.onSuccess {
+                if (it.isOk()) {
+                    emit(it.data)
+                }
+            }
         }
         getVideoList()
     }

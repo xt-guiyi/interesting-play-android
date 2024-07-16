@@ -72,4 +72,6 @@ dependencies {
     implementation(libs.refresh.header.material)    //谷歌刷新头
     implementation(libs.refresh.header.classics)  //经典刷新头
     implementation(libs.refresh.footer.classics) // 经典加载
+    // Lottie动画：https://github.com/airbnb/lottie-android
+    implementation(libs.lottie)
 }
