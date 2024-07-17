@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lovelife.ui.discover.DiscoverFragment">
+    tools:context="com.example.loveLife.ui.discover.DiscoverFragment">
 
     <Toolbar
         android:layout_width="match_parent"

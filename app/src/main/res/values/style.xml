@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
     <!-- tabLayout 样式   -->
     <style name="TabItemTextStyle">
         <item name="android:textStyle">normal</item>

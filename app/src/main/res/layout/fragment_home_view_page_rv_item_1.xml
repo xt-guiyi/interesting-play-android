@@ -14,6 +14,7 @@
         android:layout_height="120dp"
         android:contentDescription="@string/video"
         android:scaleType="fitXY"
+        app:strokeColor="@null"
         app:shapeAppearance="@style/ImageRoundOnlyTop6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

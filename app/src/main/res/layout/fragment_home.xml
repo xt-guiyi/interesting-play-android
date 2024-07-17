@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.lovelife.ui.home.HomeFragment">
+    tools:context="com.example.loveLife.ui.home.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:fitsSystemWindows="true"
@@ -22,7 +22,7 @@
 
    <androidx.viewpager2.widget.ViewPager2
        android:id="@+id/home_viewpager"
-       app:layout_behavior="com.example.lovelife.ui.home.behaviors.CustomScrollingViewBehavior"
+       app:layout_behavior="com.example.loveLife.ui.home.behaviors.CustomScrollingViewBehavior"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>
 
