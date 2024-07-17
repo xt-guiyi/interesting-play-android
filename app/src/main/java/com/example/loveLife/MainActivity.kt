@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.forEach
-import com.example.loveLife.databinding.ActivityMainBinding
 import com.example.loveLife.base.BaseActivity
+import com.example.loveLife.databinding.ActivityMainBinding
 import com.example.loveLife.ui.discover.DiscoverFragment
 import com.example.loveLife.ui.home.HomeFragment
 import com.example.loveLife.ui.me.MeFragment
@@ -17,6 +17,7 @@ class MainActivity : BaseActivity() {
     private val homeFragment by lazy { HomeFragment() }
     private val discoverFragment by lazy { DiscoverFragment() }
     private val meFragment by lazy { MeFragment() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

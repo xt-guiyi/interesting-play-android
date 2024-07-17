@@ -6,14 +6,11 @@
     android:background="#E3F0E0"
     tools:context="com.example.loveLife.ui.home.ViewPageType2Fragment">
 
-    <TextView
+    <ImageView
         android:id="@+id/empty_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/empty_data"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:drawableTopCompat="@drawable/empty_box"
+        android:src="@drawable/empty_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

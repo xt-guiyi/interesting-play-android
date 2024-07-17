@@ -28,6 +28,7 @@ class BannerContainerAdapter(private val bannerData: MutableList<Banner>, privat
 
     class ViewHolder(private val binding: FragmentHomeViewPageRvItem2Binding): RecyclerView.ViewHolder(binding.root) {
         fun bindTo(list: List<Banner>,lifecycleOwner: LifecycleOwner, context: Context) {
+            binding.bannerContainer.viewPager2.offscreenPageLimit = 1
             binding.bannerContainer
                 .setAdapter(BannerDataAdapter(list))
                 .addBannerLifecycleObserver(lifecycleOwner)

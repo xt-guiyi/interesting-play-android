@@ -2,6 +2,7 @@ package com.example.loveLife.ui.home.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loveLife.databinding.FragmentHomeViewPageRvItem1Binding
@@ -12,6 +13,11 @@ import com.example.loveLife.utils.TimeUtil
 import com.google.android.material.imageview.ShapeableImageView
 
 class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<VideoCardAdapter.ViewHolder>() {
+    private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
+
+    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfo) -> Unit) {
+        this.mClickCall = mClickCall
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
        val binding = FragmentHomeViewPageRvItem1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,13 +26,16 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindTo(videoData[position])
+        holder.binding.root.setOnClickListener {
+            mClickCall?.invoke(it, position, videoData[position])
+        }
     }
 
     override fun getItemCount(): Int {
        return videoData.size
     }
 
-    class ViewHolder(private val binding: FragmentHomeViewPageRvItem1Binding):RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: FragmentHomeViewPageRvItem1Binding):RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
             binding.title.text = data.title
             binding.author.text = data.author

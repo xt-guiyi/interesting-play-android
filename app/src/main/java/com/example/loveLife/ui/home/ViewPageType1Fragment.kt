@@ -1,5 +1,6 @@
 package com.example.loveLife.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.loveLife.databinding.FragmentHomeViewPageType1Binding
 import com.example.loveLife.base.BaseFragment
 import com.example.loveLife.common.GridSpacingItemDecoration
+import com.example.loveLife.databinding.FragmentHomeViewPageType1Binding
 import com.example.loveLife.ui.home.adapter.BannerContainerAdapter
 import com.example.loveLife.ui.home.adapter.VideoCardAdapter
 import com.example.loveLife.ui.home.viewModel.ViewPageType1ViewModel
+import com.example.loveLife.ui.videoPlayer.VideoPlayerActivity
 import com.example.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -123,6 +125,13 @@ class ViewPageType1Fragment : BaseFragment() {
             lifecycleScope.launch {
                 viewModel.retry()
             }
+        }
+
+        videoCardAdapter.setOnClickListenerByRoot { view, position, videoData ->
+            // 处理点击事件
+            val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
+            intent.putExtra("id", videoData.id)
+            startActivity(intent)
         }
 
     }
