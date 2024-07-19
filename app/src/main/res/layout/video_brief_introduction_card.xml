@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="75dp" />
+
+    <ImageView
+        android:id="@+id/user_avator"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/user_avator"
+        app:layout_constraintTop_toTopOf="@+id/user_avator"
+        tools:text="用户名" />
+
+    <TextView
+        android:id="@+id/fans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/user_avator"
+        app:layout_constraintStart_toStartOf="@+id/user_name"
+        tools:text="2.3万粉丝" />
+
+    <TextView
+        android:id="@+id/publish_video_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fans"
+        app:layout_constraintStart_toEndOf="@+id/fans"
+        app:layout_constraintTop_toTopOf="@+id/fans"
+        tools:text="100视频" />
+
+    <Button
+        android:id="@+id/star_status_button"
+        style="@style/ButtonRoundStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/baseline_add_24"
+        android:drawableTint="@color/white"
+        android:text="@string/star"
+        app:layout_constraintBottom_toBottomOf="@+id/user_avator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/user_avator" />
+
+    <TextView
+        android:id="@+id/video_descript"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/expanded_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:text="视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情视频详情" />
+
+    <ImageView
+        android:id="@+id/expanded_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/video_descript"
+        app:srcCompat="@drawable/baseline_arrow_down_24"
+        app:tint="@color/black" />
+
+
+    <ImageView
+        android:id="@+id/play_number_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_descript"
+        app:srcCompat="@drawable/video_number"
+        app:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/play_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/play_number_img"
+        app:layout_constraintStart_toEndOf="@+id/play_number_img"
+        app:layout_constraintTop_toTopOf="@+id/play_number_img" />
+
+    <ImageView
+        android:id="@+id/comment_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/play_number"
+        app:layout_constraintStart_toEndOf="@+id/play_number"
+        app:layout_constraintTop_toTopOf="@+id/play_number"
+        app:srcCompat="@drawable/baseline_add_24" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_img"
+        app:layout_constraintStart_toEndOf="@+id/comment_img"
+        app:layout_constraintTop_toTopOf="@+id/comment_img" />
+
+    <TextView
+        android:id="@+id/publish_data_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/comment"
+        app:layout_constraintStart_toEndOf="@+id/comment"
+        app:layout_constraintTop_toTopOf="@+id/comment" />
+
+    <ImageView
+        android:id="@+id/seeing_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/publish_data_time"
+        app:layout_constraintStart_toEndOf="@+id/publish_data_time"
+        app:layout_constraintTop_toTopOf="@+id/publish_data_time"
+        app:srcCompat="@drawable/baseline_add_24" />
+
+    <TextView
+        android:id="@+id/seeing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/seeing_img"
+        app:layout_constraintStart_toEndOf="@+id/seeing_img"
+        app:layout_constraintTop_toTopOf="@+id/seeing_img" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
