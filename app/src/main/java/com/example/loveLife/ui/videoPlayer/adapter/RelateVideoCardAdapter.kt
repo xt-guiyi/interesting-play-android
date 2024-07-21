@@ -1,18 +1,17 @@
 package com.example.loveLife.ui.home.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loveLife.databinding.VideoCardBinding
+import com.example.loveLife.databinding.VideoCard2Binding
 import com.example.loveLife.entity.VideoInfo
 import com.example.loveLife.utils.CommonUtil
 import com.example.loveLife.utils.GlideUtil
 import com.example.loveLife.utils.TimeUtil
 import com.google.android.material.imageview.ShapeableImageView
 
-class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<VideoCardAdapter.ViewHolder>() {
+class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<RelateVideoCardAdapter.ViewHolder>() {
     private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
 
     public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfo) -> Unit) {
@@ -20,9 +19,10 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       val binding = VideoCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = VideoCard2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindTo(videoData[position])
@@ -32,10 +32,10 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
     }
 
     override fun getItemCount(): Int {
-       return videoData.size
+        return videoData.size
     }
 
-    class ViewHolder(val binding: VideoCardBinding):RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: VideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
             binding.title.text = data.title
             binding.author.text = data.owner.name
@@ -45,12 +45,6 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun restItems(newItems: List<VideoInfo>) {
-        videoData.clear()
-        videoData.addAll(newItems)
-        notifyDataSetChanged()
-    }
 
     fun addItems(newItems: List<VideoInfo>) {
         val startPosition = videoData.size

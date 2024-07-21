@@ -11,6 +11,11 @@ interface VideosApi {
     @GET("mock/video/getVideoList")
     suspend fun getVideoList(@Query("page") page: Int, @Query("pageSize") size: Int): ResponseResult<PageData<List<VideoInfo>>>
 
+
+    @GET("mock/video/getVideoDetail")
+    suspend fun getVideoDetail(@Query("id") id: Int): ResponseResult<VideoInfo>
+
+
     companion object {
         val instance: VideosApi by lazy {
             ApiService.retrofit

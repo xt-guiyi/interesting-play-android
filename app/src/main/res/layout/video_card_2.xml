@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:background="@drawable/round_6"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:layout_constraintTop_toTopOf="@+id/pic"
+        tools:layout_constraintEnd_toEndOf="parent"
+        tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
+
+    <TextView
+        android:id="@+id/views"
+        android:layout_width="18dp"
+        android:layout_height="11dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/sliver_200"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/video_icon"
+        app:layout_constraintStart_toEndOf="@+id/video_icon"
+        app:layout_constraintTop_toTopOf="@+id/video_icon"
+        tools:text="2365" />
+
+    <ImageView
+        android:id="@+id/up_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/video_icon"
+        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:srcCompat="@drawable/up_man" />
+
+    <ImageView
+        android:id="@+id/video_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
+        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:srcCompat="@drawable/video_number"
+        app:tint="@color/sliver_400" />
+
+    <ImageView
+        android:id="@+id/three_dot"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/video_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/video_icon"
+        app:srcCompat="@drawable/three_dot"
+        app:tint="@color/sliver_400" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/pic"
+        android:layout_width="124dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/video"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/ImageRound_4"
+        app:strokeColor="@null"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/button_bg"
+        android:backgroundTint="#4C4C4C"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
+        app:layout_constraintEnd_toEndOf="@+id/pic"
+        tools:text="3:36" />
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/sliver_100"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/up_icon"
+        app:layout_constraintStart_toEndOf="@+id/up_icon"
+        app:layout_constraintTop_toTopOf="@+id/up_icon"
+        tools:text="作者" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

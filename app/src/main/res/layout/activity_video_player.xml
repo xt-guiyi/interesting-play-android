@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <VideoView
-            app:layout_scrollFlags="scroll"
+            android:id="@+id/video_player"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="245dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
                 app:tabRippleColor="@null"
                 app:tabMinWidth="50dp"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="36dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

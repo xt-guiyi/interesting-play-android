@@ -9,7 +9,7 @@
     android:layout_marginBottom="2dp"
     android:background="@drawable/round_6">
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/img_fragment"
+        android:id="@+id/pic"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:contentDescription="@string/video"
@@ -27,12 +27,12 @@
         android:layout_height="14dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_fragment"
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/video_number" />
 
     <TextView
-        android:id="@+id/video_number"
+        android:id="@+id/views"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -45,14 +45,14 @@
         tools:text="2365" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="2dp"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_fragment"
+        app:layout_constraintBottom_toBottomOf="@+id/pic"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="3:36" />
 
@@ -69,7 +69,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/pic"
         tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
 
     <TextView

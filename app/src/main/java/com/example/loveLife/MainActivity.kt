@@ -1,5 +1,6 @@
 package com.example.loveLife
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +11,7 @@ import com.example.loveLife.databinding.ActivityMainBinding
 import com.example.loveLife.ui.discover.DiscoverFragment
 import com.example.loveLife.ui.home.HomeFragment
 import com.example.loveLife.ui.me.MeFragment
+import com.example.loveLife.ui.videoPlayer.VideoPlayerActivity
 import com.example.loveLife.utils.FragmentUtil
 
 class MainActivity : BaseActivity() {
@@ -55,11 +57,13 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 R.id.menu_discover -> {
-                    if(currentFragment.tag != "Discover") {
-                        Log.i("bottomNavigationItem","发现")
-                        FragmentUtil.hideFragment(supportFragmentManager, currentFragment)
-                        FragmentUtil.showFragment(supportFragmentManager, "Discover")
-                    }
+                    val intent = Intent(this, VideoPlayerActivity::class.java)
+                    startActivity(intent)
+//                    if(currentFragment.tag != "Discover") {
+//                        Log.i("bottomNavigationItem","发现")
+//                        FragmentUtil.hideFragment(supportFragmentManager, currentFragment)
+//                        FragmentUtil.showFragment(supportFragmentManager, "Discover")
+//                    }
                 }
                 R.id.menu_me -> {
                     if(currentFragment.tag != "Me") {

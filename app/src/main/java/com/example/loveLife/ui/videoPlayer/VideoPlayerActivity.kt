@@ -1,24 +1,33 @@
 package com.example.loveLife.ui.videoPlayer
 
+import android.net.Uri
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.loveLife.R
 import com.example.loveLife.base.BaseActivity
 import com.example.loveLife.databinding.ActivityVideoPlayerBinding
 import com.example.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
+import com.example.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.launch
 
 class VideoPlayerActivity : BaseActivity() {
     private lateinit var binding: ActivityVideoPlayerBinding
+    private val viewModel: VideoBriefIntroductionViewModel by viewModels()
+    private val id: Int by lazy {
+        intent.getIntExtra("id", -1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityVideoPlayerBinding.inflate(layoutInflater)
         initView()
+        initData()
         setContentView(binding.root)
     }
 
@@ -27,7 +36,14 @@ class VideoPlayerActivity : BaseActivity() {
     }
 
     override fun initData() {
-        TODO("Not yet implemented")
+        lifecycleScope.launch {
+            viewModel.uiStateFlow.collect { uiState ->
+                uiState.videoInfo?.let {
+                    binding.videoPlayer.setVideoURI(Uri.parse(it.url))
+                    binding.videoPlayer.start()
+                }
+            }
+        }
     }
 
     override fun bindingListener() {
@@ -44,7 +60,7 @@ class VideoPlayerActivity : BaseActivity() {
                 R.color.green_300,null))
 
         // 初始化viewPage
-        val adapter = VideoPlayViewPageAdapter(this, tabItems.size)
+        val adapter = VideoPlayViewPageAdapter(this, tabItems.size,id)
         binding.videoPlayerViewpager.adapter = adapter
 
         TabLayoutMediator(binding.videoPlayerTabs,binding.videoPlayerViewpager) { tab, position ->

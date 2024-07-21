@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    android:paddingBottom="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -11,13 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="75dp" />
+        app:layout_constraintGuide_begin="45dp" />
 
     <ImageView
-        android:id="@+id/user_avator"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/face"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,51 +28,62 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@+id/user_avator"
-        app:layout_constraintTop_toTopOf="@+id/user_avator"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/face"
+        app:layout_constraintTop_toTopOf="@+id/face"
+        android:textSize="14sp"
         tools:text="用户名" />
 
     <TextView
         android:id="@+id/fans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/user_avator"
+        android:layout_marginBottom="0dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintBottom_toBottomOf="@+id/face"
         app:layout_constraintStart_toStartOf="@+id/user_name"
+        android:textSize="10sp"
         tools:text="2.3万粉丝" />
 
     <TextView
         android:id="@+id/publish_video_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/fans"
         app:layout_constraintStart_toEndOf="@+id/fans"
         app:layout_constraintTop_toTopOf="@+id/fans"
+        android:textColor="@color/sliver_400"
+        android:textSize="10sp"
         tools:text="100视频" />
 
     <Button
         android:id="@+id/star_status_button"
         style="@style/ButtonRoundStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="2dp"
         android:drawableStart="@drawable/baseline_add_24"
         android:drawableTint="@color/white"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:text="@string/star"
-        app:layout_constraintBottom_toBottomOf="@+id/user_avator"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/face"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/user_avator" />
+        app:layout_constraintTop_toTopOf="@+id/face" />
 
     <TextView
-        android:id="@+id/video_descript"
+        android:id="@+id/video_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/expanded_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
@@ -79,85 +91,232 @@
 
     <ImageView
         android:id="@+id/expanded_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/video_descript"
+        app:layout_constraintTop_toTopOf="@+id/video_title"
         app:srcCompat="@drawable/baseline_arrow_down_24"
-        app:tint="@color/black" />
+        app:tint="@color/sliver_400" />
 
 
     <ImageView
         android:id="@+id/play_number_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/video_descript"
+        app:layout_constraintTop_toBottomOf="@+id/video_title"
         app:srcCompat="@drawable/video_number"
-        app:tint="@color/black" />
+        app:tint="@color/sliver_400" />
 
     <TextView
-        android:id="@+id/play_number"
+        android:id="@+id/views"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/sliver_400"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/play_number_img"
         app:layout_constraintStart_toEndOf="@+id/play_number_img"
-        app:layout_constraintTop_toTopOf="@+id/play_number_img" />
+        app:layout_constraintTop_toTopOf="@+id/play_number_img"
+        tools:text="2000" />
 
     <ImageView
         android:id="@+id/comment_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/play_number"
-        app:layout_constraintStart_toEndOf="@+id/play_number"
-        app:layout_constraintTop_toTopOf="@+id/play_number"
-        app:srcCompat="@drawable/baseline_add_24" />
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/play_number_img"
+        app:layout_constraintStart_toEndOf="@+id/views"
+        app:layout_constraintTop_toTopOf="@+id/play_number_img"
+        app:srcCompat="@drawable/comment" />
 
     <TextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/sliver_400"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/comment_img"
         app:layout_constraintStart_toEndOf="@+id/comment_img"
-        app:layout_constraintTop_toTopOf="@+id/comment_img" />
+        app:layout_constraintTop_toTopOf="@+id/comment_img"
+        tools:text="2652" />
 
     <TextView
-        android:id="@+id/publish_data_time"
+        android:id="@+id/pubDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/comment"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/sliver_400"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/play_number_img"
         app:layout_constraintStart_toEndOf="@+id/comment"
-        app:layout_constraintTop_toTopOf="@+id/comment" />
+        app:layout_constraintTop_toTopOf="@+id/play_number_img"
+        tools:text="2024年7月1日" />
 
     <ImageView
         android:id="@+id/seeing_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/publish_data_time"
-        app:layout_constraintStart_toEndOf="@+id/publish_data_time"
-        app:layout_constraintTop_toTopOf="@+id/publish_data_time"
-        app:srcCompat="@drawable/baseline_add_24" />
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/play_number_img"
+        app:layout_constraintStart_toEndOf="@+id/pubDate"
+        app:layout_constraintTop_toTopOf="@+id/play_number_img"
+        app:srcCompat="@drawable/mutiple_person" />
 
     <TextView
         android:id="@+id/seeing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:layout_marginStart="2dp"
+        android:textColor="@color/sliver_400"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/seeing_img"
         app:layout_constraintStart_toEndOf="@+id/seeing_img"
-        app:layout_constraintTop_toTopOf="@+id/seeing_img" />
+        app:layout_constraintTop_toTopOf="@+id/seeing_img"
+        tools:text="123人正在看" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_number_img">
+
+        <TextView
+            android:id="@+id/video_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/sliver_400"
+            android:textSize="12sp"
+            tools:text="介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tag_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                app:chipSpacing="8dp"
+                android:paddingBottom="8dp">
+
+            </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/likes_icon"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/un_likes_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/likes" />
+
+    <TextView
+        android:id="@+id/like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintEnd_toEndOf="@+id/likes_icon"
+        app:layout_constraintStart_toStartOf="@+id/likes_icon"
+        app:layout_constraintTop_toBottomOf="@+id/likes_icon"
+        tools:text="1.3万" />
+
+
+    <TextView
+        android:id="@+id/dislike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintEnd_toEndOf="@+id/un_likes_icon"
+        app:layout_constraintStart_toStartOf="@+id/un_likes_icon"
+        app:layout_constraintTop_toBottomOf="@+id/un_likes_icon"
+        tools:text="130" />
+
+    <ImageView
+        android:id="@+id/coin_icon"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/collect_icon"
+        app:layout_constraintStart_toEndOf="@+id/un_likes_icon"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/coin" />
+
+    <TextView
+        android:id="@+id/coin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintEnd_toEndOf="@+id/coin_icon"
+        app:layout_constraintStart_toStartOf="@+id/coin_icon"
+        app:layout_constraintTop_toBottomOf="@+id/coin_icon"
+        tools:text="1.3万" />
+
+    <ImageView
+        android:id="@+id/collect_icon"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/share_icon"
+        app:layout_constraintStart_toEndOf="@+id/coin_icon"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/collect" />
+
+    <TextView
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintEnd_toEndOf="@+id/collect_icon"
+        app:layout_constraintStart_toStartOf="@+id/collect_icon"
+        app:layout_constraintTop_toBottomOf="@+id/collect_icon"
+        tools:text="1242" />
+
+    <TextView
+        android:id="@+id/share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/sliver_400"
+        app:layout_constraintEnd_toEndOf="@+id/share_icon"
+        app:layout_constraintStart_toStartOf="@+id/share_icon"
+        app:layout_constraintTop_toBottomOf="@+id/share_icon"
+        tools:text="999" />
+
+    <ImageView
+        android:id="@+id/share_icon"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/collect_icon"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/share" />
+
+    <ImageView
+        android:id="@+id/un_likes_icon"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:rotation="180"
+        app:layout_constraintEnd_toStartOf="@+id/coin_icon"
+        app:layout_constraintStart_toEndOf="@+id/likes_icon"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/likes" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
