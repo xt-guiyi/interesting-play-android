@@ -52,8 +52,4 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <!-- 底部导航栏主题样式, Material2的样式    -->
-    <style name="BottomNavigationStyle"  parent="Theme.MaterialComponents.DayNight" >
-        <item name="colorPrimary">@color/green_300</item>
-    </style>
 </resources>

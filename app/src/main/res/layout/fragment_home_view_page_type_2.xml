@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E3F0E0"
-    tools:context="com.example.loveLife.ui.home.ViewPageType2Fragment">
+    tools:context="com.xtguiyi.loveLife.ui.home.ViewPageType2Fragment">
 
     <ImageView
         android:id="@+id/empty_data"

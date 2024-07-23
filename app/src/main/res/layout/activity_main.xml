@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.loveLife.MainActivity">
+    tools:context="com.xtguiyi.loveLife.MainActivity">
 
 
   <androidx.fragment.app.FragmentContainerView
@@ -26,7 +26,7 @@
       android:layout_height="wrap_content"
       android:paddingTop="2dp"
       app:menu="@menu/bottom_navigation_menu"
-      android:theme="@style/BottomNavigationStyle"
+      android:theme="@style/M2Theme"
       app:itemBackground="@color/white"
       app:labelVisibilityMode="labeled"
       app:layout_constraintBottom_toBottomOf="parent"

@@ -5,6 +5,7 @@ datastorePreferencesVersion = "1.1.1"
 datastorePreferencesCoreVersion = "1.1.1"
 fragmentKtx = "1.8.1"
 glideVersion = "4.16.0"
+gsyvideoplayer = "v8.6.0-release-jitpack"
 kotlin = "2.0.0"
 kotlinxSerializationJsonVersion = "1.6.3"
 lifecycleViewmodelKtxVersion = "2.8.3"
@@ -32,6 +33,8 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 banner = { module = "io.github.youth5201314:banner", version.ref = "banner" }
 getactivity-toaster = { module = "com.github.getActivity:Toaster", version.ref = "toasterVersion" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
+gsyvideoplayer = { module = "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer", version.ref = "gsyvideoplayer" }
+gsyvideoplayer-aliplay = { module = "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer-aliplay", version.ref = "gsyvideoplayer" }
 jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCoreVersion" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesVersion" }

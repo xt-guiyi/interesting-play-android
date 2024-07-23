@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.loveLife"
+    namespace = "com.xtguiyi.loveLife"
     compileSdk = 34
     // https://developer.android.com/build/configure-app-module?hl=zh-cn#set-application-id
     defaultConfig {
-        applicationId = "com.example.loveLife"
+        applicationId = "com.xtguiyi.loveLife"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -74,4 +74,8 @@ dependencies {
     implementation(libs.refresh.footer.classics) // 经典加载
     // Lottie动画：https://github.com/airbnb/lottie-android
     implementation(libs.lottie)
+    // GSY播放器 https://github.com/CarGuo/GSYVideoPlayer
+    implementation(libs.gsyvideoplayer)
+    //是否需要AliPlayer模式
+//    implementation(libs.gsyvideoplayer.aliplay)
 }

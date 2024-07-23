@@ -10,16 +10,20 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <VideoView
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
             android:id="@+id/video_player"
             android:layout_width="match_parent"
             android:layout_height="245dp"/>
+<!--        <VideoView-->
+<!--            android:id="@+id/video_player"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="245dp"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/video_player_tabs"
+                android:id="@+id/tabs"
                 style="@style/TabItemTextStyle"
                 android:layout_weight="1"
                 app:tabRippleColor="@null"
@@ -38,7 +42,7 @@
 
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/video_player_viewpager"
+        android:id="@+id/viewpager"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

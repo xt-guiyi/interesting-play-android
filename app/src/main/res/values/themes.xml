@@ -13,4 +13,9 @@
         <item name="android:activityCloseEnterAnimation">@anim/slider_in_left_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/slider_out_right_exit</item>
     </style>
+
+    <!--  Material2主题    -->
+    <style name="M2Theme"  parent="Theme.MaterialComponents.DayNight" >
+        <item name="colorPrimary">@color/green_300</item>
+    </style>
 </resources>
