@@ -74,8 +74,10 @@ dependencies {
     implementation(libs.refresh.footer.classics) // 经典加载
     // Lottie动画：https://github.com/airbnb/lottie-android
     implementation(libs.lottie)
-    // GSY播放器 https://github.com/CarGuo/GSYVideoPlayer
+    // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
     //是否需要AliPlayer模式
-//    implementation(libs.gsyvideoplayer.aliplay)
+    implementation(libs.gsyvideoplayer.aliplay)
+    // 阿里云播放器
+    implementation(libs.aliyunplayer)
 }

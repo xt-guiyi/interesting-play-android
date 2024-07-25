@@ -8,16 +8,14 @@
     android:background="@color/white"
     tools:context=".ui.videoPlayer.VideoPlayerActivity">
     <com.google.android.material.appbar.AppBarLayout
+        app:layout_behavior=".ui.videoPlayer.behaviors.CustomScrollingViewBehavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
             android:id="@+id/video_player"
             android:layout_width="match_parent"
             android:layout_height="245dp"/>
-<!--        <VideoView-->
-<!--            android:id="@+id/video_player"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="245dp"/>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
