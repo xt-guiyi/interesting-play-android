@@ -48,13 +48,13 @@ class VideoBriefIntroductionFragment : BaseFragment() {
     override fun initView() {
         // 设置线性布局
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.briefIntroductionRv.layoutManager = layoutManager
+        binding.rv.layoutManager = layoutManager
 
         // 设置适配器
         videoBriefIntroductionAdapter = VideoBriefIntroductionAdapter(mutableListOf())
         relateVideoCardAdapter = RelateVideoCardAdapter(mutableListOf())
         concatAdapter = ConcatAdapter(videoBriefIntroductionAdapter, relateVideoCardAdapter)
-        binding.briefIntroductionRv.adapter = concatAdapter
+        binding.rv.adapter = concatAdapter
     }
 
     override fun initData() {
