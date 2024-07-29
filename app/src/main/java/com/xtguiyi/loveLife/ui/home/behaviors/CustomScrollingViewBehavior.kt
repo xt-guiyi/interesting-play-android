@@ -36,7 +36,7 @@ class CustomScrollingViewBehavior(val context: Context, attrs: AttributeSet?) :
             1 - (scrollDistance.toFloat() / maxScrollDistance)
         }
         homeTitleBar.alpha = alpha
-        Log.i("CustomScrollingViewBehavior", "alpha: $alpha")
+        Log.i("VideoPlayBehavior", "alpha: $alpha")
         return super.onDependentViewChanged(parent, child, dependency)
     }
 }
