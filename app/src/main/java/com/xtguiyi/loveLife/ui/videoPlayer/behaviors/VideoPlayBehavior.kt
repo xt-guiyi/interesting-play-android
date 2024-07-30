@@ -9,8 +9,10 @@ import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.math.MathUtils
+import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -19,14 +21,17 @@ import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
 
-class VideoPlayBehavior( ctx: Context, attrs: AttributeSet?) :
+class VideoPlayBehavior(private val ctx: Context, attrs: AttributeSet?) :
     CoordinatorLayout.Behavior<FrameLayout>(ctx, attrs) {
 
-       private val topBarHeight = 150
-       private var totalOffset = 0
-       private var videoPlayerHeight = 0
-       private lateinit var videoPlayer: NormalGSYVideoPlayer
-       private lateinit var content: LinearLayout
+    private lateinit var mTopBar: ConstraintLayout // topBar
+    private lateinit var mVideoPlayer: NormalGSYVideoPlayer // 播放器
+    private lateinit var mContentContainer: LinearLayout // 内容区域
+    private var mChildView: View? = null
+
+    private var totalOffset = 0 // 总偏移量
+    private var topBarHeight = 0 // topBar高度
+    private var videoPlayerHeight = 0 // 播放器初始高度
 
 
     override fun onLayoutChild(
@@ -34,11 +39,13 @@ class VideoPlayBehavior( ctx: Context, attrs: AttributeSet?) :
         child: FrameLayout,
         layoutDirection: Int
     ): Boolean {
-        if(!::videoPlayer.isInitialized) {
-            videoPlayer = parent.findViewById(R.id.video_player)
-            content = parent.findViewById(R.id.content)
-            videoPlayerHeight = videoPlayer.measuredHeight
-        }
+            mTopBar = parent.findViewById(R.id.topBar)
+            mVideoPlayer = parent.findViewById(R.id.video_player)
+            mContentContainer = parent.findViewById(R.id.content)
+            mChildView = parent.findViewById(R.id.rv) // 直接通过id获取
+            if(videoPlayerHeight  == 0) videoPlayerHeight = mVideoPlayer.height
+            if(topBarHeight == 0) topBarHeight = mTopBar.height
+
         return super.onLayoutChild(parent, child, layoutDirection)
     }
 
@@ -50,7 +57,7 @@ class VideoPlayBehavior( ctx: Context, attrs: AttributeSet?) :
         nestedScrollAxes: Int,
         type: Int
     ): Boolean {
-        return true
+        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL && !mVideoPlayer.getGSYVideoManager().isPlaying;
     }
 
     override fun onNestedPreScroll(
@@ -62,35 +69,114 @@ class VideoPlayBehavior( ctx: Context, attrs: AttributeSet?) :
         consumed: IntArray,
         type: Int
     ) {
-       if(dy < 0 && (-totalOffset == videoPlayerHeight - topBarHeight)  && target is SmartRefreshLayout) {
-            target.children.forEach {
-                if(it is RecyclerView) {
-                    Log.i("VideoPlayBehavior", "$it-${it.canScrollVertically(-1)}")
-                    if(!target.canScrollVertically(-1)) return
-                }
-            }
-
-       }
+        // 向下滚动(上拉)， dy > 0
+        // 向上滚动（下拉）， dy< 0
+        // 变化范围：topBarHeight到videoPlayerHeight之间
+        if(!canUpNestPreScroll(dy)) return
         val newOffset = totalOffset - dy
-        val newHeight = MathUtils.clamp(videoPlayerHeight + newOffset, topBarHeight, videoPlayerHeight)
-        videoPlayer.layoutParams.height = newHeight
-        videoPlayer.requestLayout()
-
-        var consumedY = dy
-        if(dy > 0 && (videoPlayerHeight + newOffset) < topBarHeight) {
-            consumedY =  (videoPlayerHeight + totalOffset) - topBarHeight
-        }else if(dy < 0 && (videoPlayerHeight  + newOffset) > videoPlayerHeight) {
-            consumedY =  (videoPlayerHeight + totalOffset) - videoPlayerHeight
+        // 实际消费dy
+        val consumedY = if ((videoPlayerHeight + newOffset) < topBarHeight) {
+            (videoPlayerHeight + totalOffset) - topBarHeight
+        } else if ((videoPlayerHeight + newOffset) > videoPlayerHeight) {
+            (videoPlayerHeight + totalOffset) - videoPlayerHeight
+        } else {
+            dy
         }
         totalOffset -= consumedY
         consumed[1] = consumedY
-        updateContent(abs(newHeight).toFloat())
+        // 更新videoPlayer大小
+        updateVideoPlayer(newOffset)
+        // 更新content位置
+        updateContent(consumedY)
+        // 更新topBar透明度
+        updateTopBar(abs(totalOffset))
 //        Log.i("VideoPlayBehavior","newHeight-${newHeight}-totalOffset:${totalOffset}-consumedY:${consumedY}-dy:${dy}")
     }
 
-    private fun updateContent(offset: Float) {
-        content.translationY = offset
+    override fun onNestedScroll(
+        coordinatorLayout: CoordinatorLayout,
+        child: FrameLayout,
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        type: Int,
+        consumed: IntArray
+    ) {
+        // 如果是惯性滚动，且方向为向上
+        // 这里是为了避免child滚动到顶部后，没办法依靠惯性继续让videoPlayer改变
+        if(type == ViewCompat.TYPE_NON_TOUCH && dyUnconsumed < 0) {
+            val newOffset = totalOffset - dyUnconsumed
+            // 实际消费dy
+            val consumedY = if ((videoPlayerHeight + newOffset) < topBarHeight) {
+                (videoPlayerHeight + totalOffset) - topBarHeight
+            } else if ((videoPlayerHeight + newOffset) > videoPlayerHeight) {
+                (videoPlayerHeight + totalOffset) - videoPlayerHeight
+            } else {
+                dyUnconsumed
+            }
+            totalOffset -= consumedY
+
+            consumed[1] = consumedY
+            // 更新videoPlayer大小
+            updateVideoPlayer(newOffset)
+            // 更新content位置
+            updateContent(consumedY)
+            // 更新topBar透明度
+            updateTopBar(abs(totalOffset))
+//            Log.i(
+//                "NestParentLayout",
+//                "onNestedScroll：consumedY--${consumedY}，dyUnconsumed:${dyUnconsumed}，totalOffset:${totalOffset}"
+//            )
+        }
     }
 
+    /**
+     * 是否可以向上滚动
+     * @param dy 垂直滚动距离
+     * */
+    private fun canUpNestPreScroll(dy: Int): Boolean {
+        Log.i("canUpNestPreScroll", mChildView.toString())
+        if (mChildView is RecyclerView) {
+            if (
+                dy < 0
+                && totalOffset == -(videoPlayerHeight - topBarHeight)
+                && (mChildView as RecyclerView).canScrollVertically(-1)
+            ) return false
+        }
+        return true
+    }
 
+    /**
+     * 更新videoPlayer
+     * @param offset 当前偏移大小
+     * */
+    fun updateVideoPlayer(offset: Int) {
+        val newHeight = (videoPlayerHeight + offset).coerceIn(topBarHeight, videoPlayerHeight)
+        mVideoPlayer.layoutParams.height = newHeight
+        mVideoPlayer.requestLayout()
+    }
+
+    /**
+     * 更新Content
+     * @param offset 当前偏移大小
+     * */
+    private fun updateContent(offset: Int) {
+        mContentContainer.translationY -= offset.toFloat()
+    }
+
+    /**
+     * 更新topBar
+     * @param totalOffset 总偏移大小
+     * */
+    private fun updateTopBar(totalOffset: Int) {
+        val meddle = (videoPlayerHeight - topBarHeight) / 2
+        if (totalOffset <= meddle) {
+            mTopBar.alpha = 0f
+        }
+        if (totalOffset > meddle) {
+            mTopBar.alpha = (totalOffset - meddle) * 1f / meddle
+        }
+    }
 }
