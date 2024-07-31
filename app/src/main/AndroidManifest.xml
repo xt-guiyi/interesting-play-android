@@ -18,17 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveLife"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.aliyun.alivc_license.licensekey"
-            android:value="UPMJ7LMB6BP2aX4Hb68fc4cea92d841e394e1c53745391603" />
-        <meta-data
-            android:name="com.aliyun.alivc_license.licensefile"
-            android:value="assets/AliVideoCert-com_xtguiyi_loveLife-20240723180041.crt" />
-
         <activity
             android:name="com.xtguiyi.loveLife.ui.videoPlayer.VideoPlayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name="com.xtguiyi.loveLife.MainActivity"

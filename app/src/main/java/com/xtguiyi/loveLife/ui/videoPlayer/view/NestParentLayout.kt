@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
 
@@ -19,7 +19,7 @@ class NestParentLayout(val ctx: Context, private val attrs: AttributeSet) :
 
     private lateinit var mTopBar: ConstraintLayout
     private lateinit var mVideoPlayerContainer: FrameLayout
-    private lateinit var mVideoPlay: NormalGSYVideoPlayer
+    private lateinit var mVideoPlay: StandardGSYVideoPlayer
     private lateinit var mContentContainer: LinearLayout
     private var mChildViewId = -1
     private  val mChildView: View? by lazy {
@@ -124,6 +124,7 @@ class NestParentLayout(val ctx: Context, private val attrs: AttributeSet) :
         Log.i("NestParentLayout","噜啦噜啦嘞--dyConsumed:${dyConsumed}--dyUnconsumed:${dyUnconsumed}")
 
     }
+
 
     override fun onNestedScroll(
         target: View,

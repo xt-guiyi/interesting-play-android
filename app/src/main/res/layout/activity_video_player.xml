@@ -16,7 +16,7 @@
             android:id="@+id/video_player_container"
             android:layout_width="match_parent"
             android:layout_height="200dp">
-            <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+            <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
                 android:id="@+id/video_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

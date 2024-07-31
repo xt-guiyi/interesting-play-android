@@ -76,8 +76,4 @@ dependencies {
     implementation(libs.lottie)
     // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
-    //是否需要AliPlayer模式
-    implementation(libs.gsyvideoplayer.aliplay)
-    // 阿里云播放器
-    implementation(libs.aliyunplayer)
 }

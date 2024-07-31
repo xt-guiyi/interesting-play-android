@@ -3,19 +3,15 @@ package com.xtguiyi.loveLife.ui.videoPlayer.behaviors
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.math.MathUtils
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
 
@@ -25,8 +21,9 @@ class VideoPlayBehavior( ctx: Context, attrs: AttributeSet?) :
        private val topBarHeight = 150
        private var totalOffset = 0
        private var videoPlayerHeight = 0
-       private lateinit var videoPlayer: NormalGSYVideoPlayer
+       private lateinit var videoPlayer: StandardGSYVideoPlayer
        private lateinit var content: LinearLayout
+
 
 
     override fun onLayoutChild(
