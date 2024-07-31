@@ -3,21 +3,14 @@ package com.xtguiyi.loveLife.ui.videoPlayer.behaviors
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.math.MathUtils
 import androidx.core.view.ViewCompat
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
 
@@ -25,7 +18,7 @@ class VideoPlayBehavior(private val ctx: Context, attrs: AttributeSet?) :
     CoordinatorLayout.Behavior<FrameLayout>(ctx, attrs) {
 
     private lateinit var mTopBar: ConstraintLayout // topBar
-    private lateinit var mVideoPlayer: NormalGSYVideoPlayer // 播放器
+    private lateinit var mVideoPlayer: StandardGSYVideoPlayer // 播放器
     private lateinit var mContentContainer: LinearLayout // 内容区域
     private var mChildView: View? = null
 

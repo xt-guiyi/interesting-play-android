@@ -2,7 +2,6 @@ package com.xtguiyi.loveLife.ui.videoPlayer.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -10,8 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.scwang.smart.refresh.layout.util.SmartUtil.fling
-import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
 
@@ -19,7 +17,7 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
     FrameLayout(ctx, attrs), NestedScrollingParent3 {
 
     private lateinit var mTopBar: ConstraintLayout // topBar
-    private lateinit var mVideoPlayer: NormalGSYVideoPlayer // 播放器
+    private lateinit var mVideoPlayer: StandardGSYVideoPlayer // 播放器
     private lateinit var mContentContainer: LinearLayout // 内容区域
     private var mChildViewId = -1 // 可滚动viewId, 这里因为Viewpage2里面使用的SmartRefreshLayout,导致onNestedPreScroll的target没办法拿到NestedScrollingChild3对应的实例
     private  val mChildView: View? by lazy {
