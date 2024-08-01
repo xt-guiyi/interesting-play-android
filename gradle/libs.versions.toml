@@ -26,6 +26,7 @@ activity = "1.9.0"
 constraintlayout = "2.1.4"
 retrofit = "2.11.0"
 toasterVersion = "12.6"
+pagingRuntimeKtx = "3.3.1"
 
 [libraries]
 aliyunplayer = { module = "com.aliyun.sdk.android:AliyunPlayer", version.ref = "aliyunplayer" }
@@ -55,6 +56,7 @@ refresh-header-material = { module = "io.github.scwang90:refresh-header-material
 refresh-layout-kernel = { module = "io.github.scwang90:refresh-layout-kernel", version.ref = "refreshLayoutKernel" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

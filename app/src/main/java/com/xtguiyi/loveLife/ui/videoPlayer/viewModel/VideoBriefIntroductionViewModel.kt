@@ -13,18 +13,21 @@ data class VideoBriefIntroductionUiState(
     var page: Int = 1,
     var pageSize: Int = 20,
     var total: Int = 0,
-    var updateType: Int = 0,
     var netWorkError: Boolean = false,
-    var videoInfo: VideoInfo? = null,
-    var relatedVideoInfoList: List<VideoInfo>? = null
 )
 
 class VideoBriefIntroductionViewModel : ViewModel() {
 
     private val repository: VideoBriefIntroductionRepository = VideoBriefIntroductionRepository()
-
+    // ui状态
     private val _uiState = MutableStateFlow(VideoBriefIntroductionUiState())
     val uiStateFlow: StateFlow<VideoBriefIntroductionUiState> = _uiState.asStateFlow()
+    // 视频详情
+    private var _videoInfo =  MutableStateFlow<VideoInfo?>(null)
+    var videoInfoFlow: StateFlow<VideoInfo?> = _videoInfo.asStateFlow()
+    // 视频列表
+    private var _relatedVideoInfoList =  MutableStateFlow<List<VideoInfo>>(listOf())
+    var relatedVideoInfoListFlow: StateFlow<List<VideoInfo>> = _relatedVideoInfoList.asStateFlow()
 
      suspend fun getVideoList() {
         val result = runCatching {
@@ -49,9 +52,9 @@ class VideoBriefIntroductionViewModel : ViewModel() {
                         pageSize = it.data.pageSize,
                         total = it.data.total,
                         netWorkError = false,
-                        relatedVideoInfoList = it.data.data
                     )
                 }
+                _relatedVideoInfoList.value = it.data.data
             }
         }
     }
@@ -59,7 +62,7 @@ class VideoBriefIntroductionViewModel : ViewModel() {
     // 上拉加载
     suspend fun loadMore() {
         _uiState.update { currentState ->
-            currentState.copy(page = currentState.page + 1, updateType = 0)
+            currentState.copy(page = currentState.page + 1)
         }
         getVideoList()
     }
@@ -83,9 +86,9 @@ class VideoBriefIntroductionViewModel : ViewModel() {
                 _uiState.update { currentState ->
                     currentState.copy(
                         netWorkError = false,
-                        videoInfo = it.data
                     )
                 }
+                _videoInfo.value = it.data
             }
         }
     }

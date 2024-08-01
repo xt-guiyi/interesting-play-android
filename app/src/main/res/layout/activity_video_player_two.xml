@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    app:nestedChildId="@id/rv"
     tools:context=".ui.videoPlayer.VideoPlayerActivity">
     <!-- 视频播放器   -->
     <FrameLayout

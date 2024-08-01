@@ -8,7 +8,6 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    app:nestedChildId="@id/rv"
     tools:context=".ui.videoPlayer.VideoPlayerActivity">
 
         <!--  视频播放器  -->

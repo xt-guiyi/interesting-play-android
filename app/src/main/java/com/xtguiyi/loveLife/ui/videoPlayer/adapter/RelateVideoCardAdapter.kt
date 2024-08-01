@@ -1,4 +1,4 @@
-package com.xtguiyi.loveLife.ui.home.adapter
+package com.xtguiyi.loveLife.ui.videoPlayer.adapter
 
 import android.view.LayoutInflater
 import android.view.View

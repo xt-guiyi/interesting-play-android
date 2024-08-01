@@ -86,8 +86,8 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
 
      private fun initData() {
         lifecycleScope.launch {
-            viewModel.uiStateFlow.first  { uiState ->
-                uiState.videoInfo?.let {
+            viewModel.videoInfoFlow.first  { videoInfo ->
+                videoInfo?.let {
                     // 设置样式
                     binding.videoPlayer.setBottomProgressBarDrawable(ResourcesCompat.getDrawable(resources, R.drawable.seek_bar_style,null))
                     binding.videoPlayer.setBottomShowProgressBarDrawable(
@@ -101,7 +101,7 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
                     url= it.url
 //                    url = "https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4"
                     initVideoBuilderMode()
-                    binding.videoPlayer.startPlayLogic()
+//                    binding.videoPlayer.startPlayLogic()
                     true
                 }?: false
             }
