@@ -2,7 +2,6 @@ package com.xtguiyi.loveLife.ui.videoPlayer.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -10,8 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.hjq.toast.Toaster
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import kotlin.math.abs
@@ -26,7 +23,7 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
     private var totalOffset = 0 // 总偏移量
     private var topBarHeight = 0 // topBar高度
     private var videoPlayerHeight = 0 // 播放器初始高度
-
+    private var defaultScrollViewHeight = 0 // 可滚动去区域初始高度
 
     // 获取view实例
     override fun onFinishInflate() {
@@ -41,20 +38,25 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (topBarHeight == 0) topBarHeight = mTopBar.measuredHeight
         if (videoPlayerHeight == 0) videoPlayerHeight = mVideoPlayer.measuredHeight
-        // 设置contentContainer高度为：屏幕高度 - topBar高度
-        mContentContainer.layoutParams.height = measuredHeight - topBarHeight
+        // 设置contentContainer高度为：屏幕高度 - topBar高度 - paddingTop - paddingBottom
+        mContentContainer.layoutParams.height = measuredHeight - topBarHeight - paddingTop - paddingBottom
     }
 
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
+        if (defaultScrollViewHeight == 0) defaultScrollViewHeight = target.height
+        updateScrollableHeight(
+            target,
+            if (mVideoPlayer.gsyVideoManager.isPlaying) defaultScrollViewHeight - (videoPlayerHeight - topBarHeight) else defaultScrollViewHeight
+        )
         // 垂直方向的滚动以及视频正在播放才处理
-        return axes == ViewCompat.SCROLL_AXIS_VERTICAL && !mVideoPlayer.getGSYVideoManager().isPlaying;
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL && !mVideoPlayer.gsyVideoManager.isPlaying;
     }
 
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
         // 这个方法用于，子child滚动之前，先让父元素去进行滚动
         // 向下滚动(上拉)， dy > 0
-        // 向上滚动（下拉）， dy< 0
+        // 向上滚动（下拉）， dy < 0
         // 变化范围：topBarHeight到videoPlayerHeight之间
         if(!canUpNestPreScroll(dy,target)) return
         val newOffset = totalOffset - dy
@@ -72,13 +74,8 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         updateVideoPlayer(newOffset)
         // 更新content位置
         updateContent(consumedY)
-        updateScrollable(target, totalOffset, videoPlayerHeight - topBarHeight)
         // 更新topBar透明度
         updateTopBar(abs(totalOffset))
-//        Log.i(
-//            "NestParentLayout",
-//            "onNestedPreScroll：dy:${dy}，consumedY:${consumedY}，totalOffset:${totalOffset}"
-//        )
     }
 
 
@@ -92,8 +89,8 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         consumed: IntArray
     ) {
         // 这个方法用于，子child滚动后，继续交给父元素去进行滚动
-        // 如果方向为向上
         // 这里是为了避免child滚动到顶部后，没办法依靠惯性继续让videoPlayer改变
+        // 如果方向为向上
         if( dyUnconsumed < 0) {
             val newOffset = totalOffset - dyUnconsumed
             // 实际消费dy
@@ -105,7 +102,6 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
                 dyUnconsumed
             }
             totalOffset -= consumedY
-
             consumed[1] = consumedY
             // 更新videoPlayer大小
             updateVideoPlayer(newOffset)
@@ -113,10 +109,6 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
             updateContent(consumedY)
             // 更新topBar透明度
             updateTopBar(abs(totalOffset))
-//            Log.i(
-//                "NestParentLayout",
-//                "onNestedScroll：consumedY--${consumedY}，dyUnconsumed:${dyUnconsumed}，totalOffset:${totalOffset}"
-//            )
         }
     }
 
@@ -138,7 +130,6 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
      * */
     private fun canUpNestPreScroll(dy: Int, child: View): Boolean {
         if (child is RecyclerView) {
-            Log.i("canUpNestPreScroll", child.canScrollVertically(-1).toString())
             if (
                 dy < 0
                 && totalOffset == -(videoPlayerHeight - topBarHeight)
@@ -166,13 +157,17 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         mContentContainer.translationY -= offset.toFloat()
     }
 
-    private fun updateScrollable(child: View, totalOffset: Int, max: Int) {
+    /**
+     * 更新可滚动view高度
+     * @param child 可滚动view
+     * @param height 高度
+     * */
+    private fun updateScrollableHeight(child: View, height: Int) {
         if(child is RecyclerView) {
-            child.layoutParams.height = child.measuredHeight - (max + totalOffset)
+            child.layoutParams.height = height
             child.requestLayout()
-            Toaster.show("sd-${child.measuredHeight}-${450}")
+//            Toaster.show("setScrollableHeight-${child.height}")
         }
-
     }
 
     /**

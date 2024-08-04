@@ -1,13 +1,10 @@
 package com.xtguiyi.loveLife.ui.videoPlayer
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +16,6 @@ import com.xtguiyi.loveLife.databinding.FragmentVideoBriefIntroductionBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoBriefIntroductionAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "id"
@@ -32,7 +28,7 @@ class VideoBriefIntroductionFragment : BaseFragment() {
     private lateinit var relateVideoCardAdapter: RelateVideoCardAdapter
     private lateinit var footerAdapter: FooterAdapter
     private lateinit var concatAdapter: ConcatAdapter
-    private val viewModel: VideoBriefIntroductionViewModel by viewModels()
+    private val viewModel: VideoBriefIntroductionViewModel by activityViewModels()
     // 分页加载参数
     var scrollDirection = -1 // 滚动方向
     val prefetchDistance = 10 // 提前量
@@ -102,7 +98,6 @@ class VideoBriefIntroductionFragment : BaseFragment() {
                     loading = false
                     footerAdapter.setStatus(loading = false, error = false)
                     relateVideoCardAdapter.addItems(it)
-                    Log.i("onScrollStateChanged", " - ${viewModel.uiStateFlow.value.total} - ${relateVideoCardAdapter.itemCount}")
                     loadFinish = relateVideoCardAdapter.itemCount == viewModel.uiStateFlow.value.total
                 }
             }
@@ -122,7 +117,6 @@ class VideoBriefIntroductionFragment : BaseFragment() {
                         lifecycleScope.launch {
                             loading = true
                             footerAdapter.setStatus(true, error = false)
-                            delay(5000)
                             viewModel.loadMore()
                         }
                     }

@@ -25,7 +25,7 @@ class VideoPlayBehavior(private val ctx: Context, attrs: AttributeSet?) :
     private var totalOffset = 0 // 总偏移量
     private var topBarHeight = 0 // topBar高度
     private var videoPlayerHeight = 0 // 播放器初始高度
-
+    private var defaultScrollViewHeight = 0 // 可滚动去区域初始高度
 
     override fun onLayoutChild(
         parent: CoordinatorLayout,
@@ -50,6 +50,11 @@ class VideoPlayBehavior(private val ctx: Context, attrs: AttributeSet?) :
         nestedScrollAxes: Int,
         type: Int
     ): Boolean {
+        if (defaultScrollViewHeight == 0) defaultScrollViewHeight = target.height
+        updateScrollableHeight(
+            target,
+            if (mVideoPlayer.gsyVideoManager.isPlaying) defaultScrollViewHeight - (videoPlayerHeight - topBarHeight) else defaultScrollViewHeight
+        )
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL && !mVideoPlayer.getGSYVideoManager().isPlaying;
     }
 
@@ -157,6 +162,18 @@ class VideoPlayBehavior(private val ctx: Context, attrs: AttributeSet?) :
      * */
     private fun updateContent(offset: Int) {
         mContentContainer.translationY -= offset.toFloat()
+    }
+
+    /**
+     * 更新可滚动view高度
+     * @param child 可滚动view
+     * @param height 高度
+     * */
+    private fun updateScrollableHeight(child: View, height: Int) {
+        if(child is RecyclerView) {
+            child.layoutParams.height = height
+            child.requestLayout()
+        }
     }
 
     /**

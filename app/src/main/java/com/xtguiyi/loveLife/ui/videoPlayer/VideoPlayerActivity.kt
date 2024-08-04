@@ -1,8 +1,12 @@
 package com.xtguiyi.loveLife.ui.videoPlayer
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,14 +20,15 @@ import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 
 
 class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
+    // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
+    // private lateinit var binding: ActivityVideoPlayerTwoBinding
     private val viewModel: VideoBriefIntroductionViewModel by viewModels()
     private val id: Int by lazy {
         intent.getIntExtra("id", -1)
@@ -44,6 +49,15 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoPlayerBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
+        // 修改状态栏
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = false
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, systemBars.top, 0, 0)
+            insets
+        }
         initView()
         initData()
         setContentView(binding.root)
@@ -86,7 +100,7 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
 
      private fun initData() {
         lifecycleScope.launch {
-            viewModel.videoInfoFlow.first  { videoInfo ->
+            viewModel.videoInfoFlow.collect  { videoInfo ->
                 videoInfo?.let {
                     // 设置样式
                     binding.videoPlayer.setBottomProgressBarDrawable(ResourcesCompat.getDrawable(resources, R.drawable.seek_bar_style,null))
@@ -101,7 +115,7 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
                     url= it.url
 //                    url = "https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4"
                     initVideoBuilderMode()
-//                    binding.videoPlayer.startPlayLogic()
+                    binding.videoPlayer.startPlayLogic()
                     true
                 }?: false
             }
