@@ -141,7 +141,6 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
         binding.tabs.setSelectedTabIndicatorColor(
             ResourcesCompat.getColor(resources,
                 R.color.green_300,null))
-
         // 初始化viewPage
         val adapter = VideoPlayViewPageAdapter(this, tabItems.size,id)
         binding.viewpager.adapter = adapter
