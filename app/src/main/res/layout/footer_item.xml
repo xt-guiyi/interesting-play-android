@@ -19,6 +19,15 @@
         android:layout_gravity="center"
         android:textColor="@color/green_300"
         android:textSize="22sp"
-        android:text="重试" />
+        android:text="@string/retry_2" />
+
+    <TextView
+        android:id="@+id/no_more_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/sliver_200"
+        android:textSize="16sp"
+        android:text="@string/no_more_message" />
 
 </FrameLayout>

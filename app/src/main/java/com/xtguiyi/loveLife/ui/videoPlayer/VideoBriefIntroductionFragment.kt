@@ -29,11 +29,10 @@ class VideoBriefIntroductionFragment : BaseFragment() {
     private lateinit var footerAdapter: FooterAdapter
     private lateinit var concatAdapter: ConcatAdapter
     private val viewModel: VideoBriefIntroductionViewModel by activityViewModels()
+
     // 分页加载参数
     var scrollDirection = -1 // 滚动方向
     val prefetchDistance = 10 // 提前量
-    var loadFinish = false // 加载完毕，没有更多数据了
-    var loading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,48 +56,46 @@ class VideoBriefIntroductionFragment : BaseFragment() {
         // 设置线性布局
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.layoutManager = layoutManager
-
         // 设置适配器
         videoBriefIntroductionAdapter = VideoBriefIntroductionAdapter(mutableListOf())
         relateVideoCardAdapter = RelateVideoCardAdapter(mutableListOf())
-         footerAdapter =  FooterAdapter(){
+        footerAdapter = FooterAdapter {
             Toaster.show("重试")
         }
-        concatAdapter = ConcatAdapter(videoBriefIntroductionAdapter, relateVideoCardAdapter, footerAdapter)
+        concatAdapter =
+            ConcatAdapter(videoBriefIntroductionAdapter, relateVideoCardAdapter, footerAdapter)
         binding.rv.adapter = concatAdapter
     }
 
     override fun initData() {
         lifecycleScope.launch {
             id?.let {
-               viewModel.getVideoDetail(it)
-                viewModel.getVideoList()
+                viewModel.getVideoDetail(it)
+                viewModel.getRelatedVideoList()
             }
 
             launch {
-                viewModel.uiStateFlow.collect { uiState ->
-                    uiState.netWorkError.let {
-                        loading = false
-                        footerAdapter.setStatus(loading = false, error = it)
-                    }
+                viewModel.netWorkErrorFlow.collect {
+                    footerAdapter.setStatus(FooterAdapter.LoadResult.Error())
                 }
             }
 
             launch {
-                viewModel.videoInfoFlow.collect{
+                viewModel.videoInfoFlow.collect {
                     it?.let {
                         videoBriefIntroductionAdapter.setData(it)
-
                     }
                 }
             }
 
             launch {
-                viewModel.relatedVideoInfoListFlow.collect{
-                    loading = false
-                    footerAdapter.setStatus(loading = false, error = false)
+                viewModel.relatedVideoInfoListFlow.collect {
                     relateVideoCardAdapter.addItems(it)
-                    loadFinish = relateVideoCardAdapter.itemCount == viewModel.uiStateFlow.value.total
+                    if(relateVideoCardAdapter.itemCount == viewModel.total) {
+                        footerAdapter.setStatus(FooterAdapter.LoadResult.NotMore())
+                    }else {
+                        footerAdapter.setStatus(FooterAdapter.LoadResult.NotLoading())
+                    }
                 }
             }
         }
@@ -108,18 +105,15 @@ class VideoBriefIntroductionFragment : BaseFragment() {
         // 加载更多
         binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                 scrollDirection = if (dy > 0) 1 else -1
+                scrollDirection = if (dy > 0) 1 else -1
                 // 判断是否加载完毕，以及正在加载中
-                if (loadFinish || loading) return
-                    // 判断是向着列表尾部滚动，并且临界点已经显示，可以加载更多数据。
-                    //  1是底部加载占位，需要排除
-                    if(scrollDirection == 1 && layoutManager.findViewByPosition(layoutManager.itemCount - 1 - prefetchDistance) != null) {
-                        lifecycleScope.launch {
-                            loading = true
-                            footerAdapter.setStatus(true, error = false)
-                            viewModel.loadMore()
-                        }
-                    }
+                if (footerAdapter.getStatus() is FooterAdapter.LoadResult.NotMore || footerAdapter.getStatus() is FooterAdapter.LoadResult.Loading) return
+                // 判断是向着列表尾部滚动，并且临界点已经显示，可以加载更多数据。
+                //  减1是要减去一个底部加载占位，然后减去提前量
+                if (scrollDirection == 1 && layoutManager.findViewByPosition(layoutManager.itemCount - 1 - prefetchDistance) != null) {
+                    footerAdapter.setStatus(FooterAdapter.LoadResult.Loading())
+                    lifecycleScope.launch {viewModel.loadMore()}
+                }
             }
         })
     }

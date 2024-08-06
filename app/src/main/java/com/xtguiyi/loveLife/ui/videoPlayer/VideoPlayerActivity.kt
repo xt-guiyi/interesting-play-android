@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -19,6 +20,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
+import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
@@ -60,6 +62,7 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
         }
         initView()
         initData()
+        bindingListener()
         setContentView(binding.root)
     }
 
@@ -122,8 +125,11 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
         }
     }
 
-     fun bindingListener() {
-        TODO("Not yet implemented")
+     private fun bindingListener() {
+        binding.barrageInput.setOnClickListener {
+            Toaster.show("发弹幕")
+            BarrageDialogFragment().show(supportFragmentManager,"BarrageDialogFragment")
+        }
     }
 
     private fun initToolbar() {
@@ -141,7 +147,6 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
         binding.tabs.setSelectedTabIndicatorColor(
             ResourcesCompat.getColor(resources,
                 R.color.green_300,null))
-
         // 初始化viewPage
         val adapter = VideoPlayViewPageAdapter(this, tabItems.size,id)
         binding.viewpager.adapter = adapter

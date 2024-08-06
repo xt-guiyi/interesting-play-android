@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.databinding.FooterItemBinding
 
 /**
@@ -13,8 +14,7 @@ import com.xtguiyi.loveLife.databinding.FooterItemBinding
  * */
 class FooterAdapter(private val retry: () -> Unit) : RecyclerView.Adapter<FooterAdapter.ViewHolder>() {
 
-    private var mLoading = false
-    private var mError = false
+    private var mLoadResult: LoadResult = LoadResult.NotLoading()
 
     override fun getItemCount(): Int {
         return 1
@@ -26,23 +26,35 @@ class FooterAdapter(private val retry: () -> Unit) : RecyclerView.Adapter<Footer
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bingTo(mLoading, mError)
+        holder.bingTo(mLoadResult)
     }
 
 
     class ViewHolder(val binding: FooterItemBinding, private val retry: () -> Unit): RecyclerView.ViewHolder(binding.root) {
-        fun bingTo(loading: Boolean, error: Boolean) {
-            binding.progressBar.isVisible = loading
-            binding.retryAction.isVisible = error
+        fun bingTo(loadResult: LoadResult) {
+            binding.progressBar.isVisible = loadResult is LoadResult.Loading
+            binding.retryAction.isVisible = loadResult is LoadResult.Error
             binding.retryAction.setOnClickListener {
                 retry.invoke()
             }
+            binding.noMoreTips.isVisible = loadResult is LoadResult.NotMore
         }
     }
 
-    fun setStatus(loading: Boolean, error: Boolean) {
-        mLoading = loading
-        mError = error
+    fun setStatus(loadResult: LoadResult) {
+        mLoadResult = loadResult
+        notifyItemChanged(0)
+    }
+
+    fun getStatus(): LoadResult {
+       return  mLoadResult
+    }
+
+    sealed class LoadResult {
+        data class Loading(val message: String? = "加载中") : LoadResult()
+        data class NotLoading(val message: String? = "未加载") : LoadResult()
+        data class Error(val message: String? = "加载失败") : LoadResult()
+        data class NotMore(val message: String? = "没有跟多了") : LoadResult()
     }
 
 }
