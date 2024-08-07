@@ -27,10 +27,13 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 
 
-class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
+
+
+class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
+    BarrageDialogFragment.OnBarrageListener {
     // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
-    // private lateinit var binding: ActivityVideoPlayerTwoBinding
+    // private late init var binding: ActivityVideoPlayerTwoBinding
     private val viewModel: VideoBriefIntroductionViewModel by viewModels()
     private val id: Int by lazy {
         intent.getIntExtra("id", -1)
@@ -156,5 +159,13 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>() {
             // 去除长按提示，拦截长按事件
             tab.view.setOnLongClickListener { true }
         }.attach()
+    }
+
+    override suspend fun sendBarrage(message: String?): Boolean {
+        Toaster.show(message)
+        // TODO 提交弹幕数据
+        // TODO 显示弹幕
+
+       return true
     }
 }

@@ -18,4 +18,20 @@
     <style name="M2Theme"  parent="Theme.MaterialComponents.DayNight" >
         <item name="colorPrimary">@color/green_300</item>
     </style>
+
+    <!-- 可全屏dialog   -->
+    <style name="CustomDialog1" parent="Theme.AppCompat.Light.Dialog">
+        <!-- true（默认值）：对话框会以浮动窗口的形式显示，通常会有圆角和阴影效果，并且不会占满整个屏幕。-->
+        <!-- false：对话框将作为一个普通的 Activity 窗口显示，可以占满整个屏幕或根据需要自定义大小。此时，它不会表现出浮动窗口的特性 -->
+        <item name="android:windowIsFloating">false</item>
+        <!-- dialog外点击关闭       -->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <!--  紧贴屏幕，消除padding    -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!--  背景是否透明    -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>

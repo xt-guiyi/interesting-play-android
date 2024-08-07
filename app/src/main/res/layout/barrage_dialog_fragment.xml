@@ -1,19 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/barrage_dialog"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/dialog_style_1">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="一张图片"
-        android:textSize="18sp"
-        android:gravity="center"
-       />
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_style_1"
+    android:fitsSystemWindows="true">
+
+    <com.xtguiyi.loveLife.common.view.InputView
+        android:id="@+id/inputView"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:background="@drawable/button_bg_24"
+        android:backgroundTint="#f6f7f9"
+        android:hint="@string/send_barrage"
+        android:textColorHint="@color/sliver_100"
+        android:textSize="14sp"
+        android:imeOptions="actionSend"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="38dp"
+        android:paddingBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/send"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/bilibil_vision"
-       />
-</LinearLayout>
+        android:id="@+id/send"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/inputView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputView"
+        app:srcCompat="@drawable/send" />
+
+    <ImageView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputView"
+        app:srcCompat="@drawable/empty_message" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     android:paddingBottom="6dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
-    android:background="@drawable/round_6">
+    android:background="@drawable/round_no_stroke_6">
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/pic"
         android:layout_width="0dp"

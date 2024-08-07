@@ -1,4 +1,4 @@
-package com.xtguiyi.loveLife.ui.videoPlayer.view
+package com.xtguiyi.loveLife.common.view
 
 import android.content.Context
 import android.util.AttributeSet

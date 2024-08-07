@@ -16,7 +16,6 @@ import com.xtguiyi.loveLife.databinding.FragmentVideoBriefIntroductionBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoBriefIntroductionAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "id"
@@ -92,7 +91,6 @@ class VideoBriefIntroductionFragment : BaseFragment() {
             launch {
                 viewModel.relatedVideoInfoListFlow.collect {
                     relateVideoCardAdapter.addItems(it)
-                    Toaster.show("${relateVideoCardAdapter.itemCount}-${viewModel.total}")
                     if(relateVideoCardAdapter.itemCount == viewModel.total) {
                         footerAdapter.setStatus(FooterAdapter.LoadResult.NotMore())
                     }else {
@@ -114,7 +112,6 @@ class VideoBriefIntroductionFragment : BaseFragment() {
                 //  减1是要减去一个底部加载占位，然后减去提前量
                 if (scrollDirection == 1 && layoutManager.findViewByPosition(layoutManager.itemCount - 1 - prefetchDistance) != null) {
                     footerAdapter.setStatus(FooterAdapter.LoadResult.Loading())
-                    Toaster.show("11")
                     lifecycleScope.launch {viewModel.loadMore()}
                 }
             }
