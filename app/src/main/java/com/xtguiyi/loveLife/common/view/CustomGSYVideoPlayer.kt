@@ -3,6 +3,7 @@ package com.xtguiyi.loveLife.common.view
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
+import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer
 import com.xtguiyi.loveLife.R
@@ -41,6 +42,7 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
     }
 
     override fun changeUiToPreparingShow() {
+
         setViewShowState(mTopContainer, VISIBLE)
         setViewShowState(mBottomContainer, VISIBLE)
         setViewShowState(mStartButton, VISIBLE)
@@ -58,6 +60,8 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
     }
 
     override fun changeUiToPlayingBufferingShow() {
+        Toaster.show("1--${gsyVideoManager.videoWidth  }-${gsyVideoManager.videoHeight}")
+
         setViewShowState(mTopContainer, VISIBLE)
         setViewShowState(mBottomContainer, VISIBLE)
         setViewShowState(mStartButton, VISIBLE)

@@ -183,4 +183,18 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
             mTopBar.alpha = (totalOffset - meddle) * 1f / meddle
         }
     }
+
+    /**
+     * 重置状态
+     * */
+    fun resetStatus() {
+        val curTotal = totalOffset
+        totalOffset = 0
+        // 更新videoPlayer大小
+        updateVideoPlayer(0)
+        // 更新content位置
+        updateContent(curTotal)
+        // 更新topBar透明度
+        updateTopBar(abs(totalOffset))
+    }
 }

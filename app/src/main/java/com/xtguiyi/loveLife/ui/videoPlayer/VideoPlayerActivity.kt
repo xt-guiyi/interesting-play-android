@@ -21,8 +21,6 @@ import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoView
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.base.BaseActivity
 import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
@@ -90,11 +88,12 @@ class VideoPlayerActivity : BaseActivity(),
                     // 设置地址
                     gsyVideoOption
                         .setVideoTitle("测试视频")
-//                        .setUrl(it.url)
-                        .setUrl("https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4")
+                        .setUrl(it.url)
+//                        .setUrl("https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4")
                         .build(binding.videoPlayer)
                     binding.videoTitle.text = "测试视频"
                     binding.videoPlayer.startPlayLogic()
+                    Toaster.show("1--${  binding.videoPlayer.gsyVideoManager.videoWidth  }-${binding.videoPlayer.gsyVideoManager.videoHeight}")
                     true
                 } ?: false
             }
@@ -145,7 +144,7 @@ class VideoPlayerActivity : BaseActivity(),
             .setIsTouchWiget(true)
             .setRotateViewAuto(false)
             .setLockLand(false)
-            .setAutoFullWithSize(false)
+            .setAutoFullWithSize(true)
             .setShowFullAnimation(false)
             .setNeedLockFull(true)
             .setCacheWithPlay(false)
@@ -155,7 +154,24 @@ class VideoPlayerActivity : BaseActivity(),
                     //开始播放了才能旋转和全屏
                     orientationUtils.isEnable = true
                     isPlay = true
+
                 }
+
+                override fun onClickResume(url: String?, vararg objects: Any?) {
+                    Toaster.show("onClickResume")
+                    binding.main.resetStatus()
+
+                }
+
+                override fun onClickResumeFullscreen(url: String?, vararg objects: Any?) {
+                    Toaster.show("onClickResumeFullscreen")
+                }
+
+                override fun onClickStop(url: String?, vararg objects: Any?) {
+                    Toaster.show("onClickStop")
+                    super.onClickStop(url, *objects)
+                }
+
 
                 override fun onQuitFullscreen(url: String, vararg objects: Any) {
                     orientationUtils.backToProtVideo()
