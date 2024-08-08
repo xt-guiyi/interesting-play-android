@@ -9,15 +9,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.NestedScrollingParent3
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.xtguiyi.loveLife.R
+import com.xtguiyi.loveLife.common.view.CustomGSYVideoPlayer
 import kotlin.math.abs
 
 class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet) :
     FrameLayout(ctx, attrs), NestedScrollingParent3 {
 
     private lateinit var mTopBar: ConstraintLayout // topBar
-    private lateinit var mVideoPlayer: StandardGSYVideoPlayer // 播放器
+    private lateinit var mVideoPlayer: CustomGSYVideoPlayer // 播放器
     private lateinit var mContentContainer: LinearLayout // 内容区域
 
     private var totalOffset = 0 // 总偏移量

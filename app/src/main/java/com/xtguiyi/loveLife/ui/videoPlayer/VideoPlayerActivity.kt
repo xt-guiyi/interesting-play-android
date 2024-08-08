@@ -1,6 +1,9 @@
 package com.xtguiyi.loveLife.ui.videoPlayer
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
@@ -11,13 +14,17 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hjq.toast.Toaster
-import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoView
 import com.xtguiyi.loveLife.R
+import com.xtguiyi.loveLife.base.BaseActivity
 import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
@@ -27,10 +34,9 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 
 
-
-
-class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
+class VideoPlayerActivity : BaseActivity(),
     BarrageDialogFragment.OnBarrageListener {
+
     // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
     // private late init var binding: ActivityVideoPlayerTwoBinding
@@ -38,7 +44,9 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
     private val id: Int by lazy {
         intent.getIntExtra("id", -1)
     }
-    private lateinit var url : String
+    private lateinit var orientationUtils: OrientationUtils
+    private var isPlay: Boolean = false
+    private val gsyVideoOption = GSYVideoOptionBuilder()
 
     init {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java) // 使用Exo2内核
@@ -55,7 +63,7 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
         super.onCreate(savedInstanceState)
         binding = ActivityVideoPlayerBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-        // 修改状态栏
+        // 修改状态栏, 适配沉浸式布局
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.isAppearanceLightStatusBars = false
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -69,75 +77,37 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
         setContentView(binding.root)
     }
 
-    override fun getGSYVideoPlayer(): StandardGSYVideoPlayer{
-        return findViewById(R.id.video_player)
-    }
 
-    override fun getGSYVideoOptionBuilder(): GSYVideoOptionBuilder {
-        //内置封面可参考SampleCoverVideo
-//        val imageView = ImageView(this)
-//        imageView.setImageResource(R.drawable.video_number)
-        return GSYVideoOptionBuilder()
-//            .setThumbImageView(imageView)
-            .setUrl(url)
-            .setCacheWithPlay(true)
-            .setIsTouchWiget(true)
-            .setRotateViewAuto(true)
-            .setLockLand(false)
-            .setShowFullAnimation(false)
-            .setNeedLockFull(true)
-            .setSeekRatio(1f)
-            .setStartAfterPrepared(true)
-            .setNeedShowWifiTip(true)
-    }
-
-    override fun clickForFullScreen() {
-    }
-
-    override fun getDetailOrientationRotateAuto(): Boolean {
-        return true;
-    }
-
-
-     private fun initView() {
-        initToolbar()
+    override fun initView() {
         initTabLayoutAndViewPager()
+        initPlayer()
     }
 
-     private fun initData() {
+    override fun initData() {
         lifecycleScope.launch {
-            viewModel.videoInfoFlow.collect  { videoInfo ->
+            viewModel.videoInfoFlow.collect { videoInfo ->
                 videoInfo?.let {
-                    // 设置样式
-                    binding.videoPlayer.setBottomProgressBarDrawable(ResourcesCompat.getDrawable(resources, R.drawable.seek_bar_style,null))
-                    binding.videoPlayer.setBottomShowProgressBarDrawable(
-                        ResourcesCompat.getDrawable(resources, R.drawable.seek_bar_style,null),
-                        ResourcesCompat.getDrawable(resources, R.drawable.bilibil_vision,null)
-                    )
-                    binding.videoPlayer.setDialogProgressBar(ResourcesCompat.getDrawable(resources, R.drawable.seek_bar_style,null))
-                    binding.videoPlayer.setDialogProgressColor(resources.getColor(R.color.green_300, null), resources.getColor(R.color.white, null))
-                    binding.videoPlayer.setDialogVolumeProgressBar(ResourcesCompat.getDrawable(resources, R.drawable.progress_bar_style,null))
                     // 设置地址
-                    url= it.url
-//                    url = "https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4"
-                    initVideoBuilderMode()
+                    gsyVideoOption
+                        .setVideoTitle("测试视频")
+//                        .setUrl(it.url)
+                        .setUrl("https://privateimage-1306081565.cos.ap-shanghai.myqcloud.com/%5B%E5%8D%83%E5%A4%8F%E5%AD%97%E5%B9%95%E7%BB%84%5D%5B%E5%88%A9%E5%85%B9%E4%B8%8E%E9%9D%92%E9%B8%9F%5D%5BMovie%5D%5BBDRip_1080p%5D%5Bx264_AAC%5D%5BCHS%5D.mp4")
+                        .build(binding.videoPlayer)
+                    binding.videoTitle.text = "测试视频"
                     binding.videoPlayer.startPlayLogic()
                     true
-                }?: false
+                } ?: false
             }
         }
     }
 
-     private fun bindingListener() {
+    override fun bindingListener() {
+        binding.back.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         binding.barrageInput.setOnClickListener {
             Toaster.show("发弹幕")
-            BarrageDialogFragment().show(supportFragmentManager,"BarrageDialogFragment")
-        }
-    }
-
-    private fun initToolbar() {
-        binding.back.setOnClickListener {
-            onBackPressed()
+            BarrageDialogFragment().show(supportFragmentManager, "BarrageDialogFragment")
         }
     }
 
@@ -148,24 +118,107 @@ class VideoPlayerActivity :  GSYBaseActivityDetail<StandardGSYVideoPlayer>(),
         binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
         binding.tabs.tabGravity = TabLayout.GRAVITY_FILL
         binding.tabs.setSelectedTabIndicatorColor(
-            ResourcesCompat.getColor(resources,
-                R.color.green_300,null))
+            ResourcesCompat.getColor(
+                resources,
+                R.color.green_300, null
+            )
+        )
         // 初始化viewPage
-        val adapter = VideoPlayViewPageAdapter(this, tabItems.size,id)
+        val adapter = VideoPlayViewPageAdapter(this, tabItems.size, id)
         binding.viewpager.adapter = adapter
 
-        TabLayoutMediator(binding.tabs,binding.viewpager) { tab, position ->
+        TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.text = tabItems[position]
             // 去除长按提示，拦截长按事件
             tab.view.setOnLongClickListener { true }
         }.attach()
     }
 
+    private fun initPlayer() {
+        //外部辅助的旋转，帮助全屏
+        orientationUtils = OrientationUtils(this, binding.videoPlayer);
+        //初始化不打开外部的旋转
+        orientationUtils.setEnable(false);
+
+        gsyVideoOption
+//            .setThumbImageView(imageView)
+            .setIsTouchWiget(true)
+            .setRotateViewAuto(false)
+            .setLockLand(false)
+            .setAutoFullWithSize(false)
+            .setShowFullAnimation(false)
+            .setNeedLockFull(true)
+            .setCacheWithPlay(false)
+            .setVideoAllCallBack(object : GSYSampleCallBack() {
+                override fun onPrepared(url: String, vararg objects: Any) {
+                    super.onPrepared(url, *objects)
+                    //开始播放了才能旋转和全屏
+                    orientationUtils.isEnable = true
+                    isPlay = true
+                }
+
+                override fun onQuitFullscreen(url: String, vararg objects: Any) {
+                    orientationUtils.backToProtVideo()
+                }
+            }).setLockClickListener { _, lock ->
+                orientationUtils.isEnable = !lock
+            }
+
+        binding.videoPlayer.fullscreenButton.setOnClickListener(View.OnClickListener { //直接横屏
+            orientationUtils.resolveByClick()
+            //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
+            binding.videoPlayer.startWindowFullscreen(this, true, true)
+        })
+
+        // 退出
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                orientationUtils.backToProtVideo()
+                if (!GSYVideoManager.backFromWindowFull(this@VideoPlayerActivity)) {
+                    //退出应用
+                    finish()
+                }
+            }
+        })
+    }
+
+    override fun onPause() {
+        binding.videoPlayer.getCurrentPlayer().onVideoPause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+//        binding.videoPlayer.getCurrentPlayer().onVideoResume(false)
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isPlay) {
+            binding.videoPlayer.getCurrentPlayer().release()
+        }
+        orientationUtils.releaseListener()
+    }
+
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        //如果旋转了就全屏,binding.videoPlayer.currentState != GSYVideoPlayer.CURRENT_STATE_PAUSE
+        if (isPlay) {
+            binding.videoPlayer.onConfigurationChanged(
+                this,
+                newConfig,
+                orientationUtils,
+                true,
+                true
+            )
+        }
+    }
+
     override suspend fun sendBarrage(message: String?): Boolean {
         Toaster.show(message)
         // TODO 提交弹幕数据
         // TODO 显示弹幕
-
-       return true
+        return true
     }
 }
