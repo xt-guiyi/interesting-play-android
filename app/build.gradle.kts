@@ -14,7 +14,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -68,7 +67,7 @@ dependencies {
     // banner控件：https://github.com/youth5201314/banner
     implementation(libs.banner)
     implementation(libs.androidx.recyclerview)
-    // 下拉刷新框架
+    // 下拉刷新框架 https://github.com/scwang90/SmartRefreshLayout
     implementation(libs.refresh.layout.kernel) //核心必须依赖
     implementation(libs.refresh.header.material)    //谷歌刷新头
     implementation(libs.refresh.header.classics)  //经典刷新头
@@ -77,4 +76,6 @@ dependencies {
     implementation(libs.lottie)
     // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
+    // 弹幕库,不太好用,有需求可以fork下来自己改 https://github.com/bytedance/DanmakuRenderEngine/blob/main/README_cn.md
+    implementation(libs.danmaku.render.engine)
 }

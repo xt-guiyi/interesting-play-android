@@ -5,7 +5,7 @@
     android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <!-- 视频容器   -->
     <RelativeLayout
         android:id="@+id/surface_container"
         android:layout_width="match_parent"
@@ -18,6 +18,7 @@
 
     </RelativeLayout>
 
+    <!-- 手指触摸操作容器  -->
     <RelativeLayout
         android:id="@+id/thumb"
         android:layout_width="match_parent"
@@ -28,12 +29,23 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="#000000"
         android:scaleType="fitCenter" />
+
+    <!-- 弹幕容器  -->
+    <com.bytedance.danmaku.render.engine.DanmakuView
+        android:id="@+id/dan_ma_ku_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ImageView
+        android:id="@+id/back_tiny"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/back_tiny"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginLeft="6dp"

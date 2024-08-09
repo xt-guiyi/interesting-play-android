@@ -12,6 +12,13 @@ object DisplayUtil {
     }
 
     /**
+     * 获取设备屏幕宽度，单位为像素
+     * */
+    fun getScreenWidth(context: Context): Int {
+        return context.resources.displayMetrics.widthPixels
+    }
+
+    /**
      * 获取屏幕密度
      * */
     fun getDensity(context: Context): Float {

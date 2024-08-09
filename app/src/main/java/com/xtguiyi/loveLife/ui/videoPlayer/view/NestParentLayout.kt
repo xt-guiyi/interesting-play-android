@@ -188,13 +188,12 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
      * 重置状态
      * */
     fun resetStatus() {
-        val curTotal = totalOffset
-        totalOffset = 0
         // 更新videoPlayer大小
         updateVideoPlayer(0)
         // 更新content位置
-        updateContent(curTotal)
+        updateContent(totalOffset)
         // 更新topBar透明度
-        updateTopBar(abs(totalOffset))
+        updateTopBar(0)
+        totalOffset = 0
     }
 }

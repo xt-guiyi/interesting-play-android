@@ -2,6 +2,7 @@
 agp = "8.5.0"
 aliyunplayer = "6.14.0-full"
 banner = "2.2.3"
+danmakuRenderEngine = "0.1.0"
 datastorePreferencesVersion = "1.1.1"
 datastorePreferencesCoreVersion = "1.1.1"
 fragmentKtx = "1.8.1"
@@ -34,6 +35,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 banner = { module = "io.github.youth5201314:banner", version.ref = "banner" }
+danmaku-render-engine = { module = "com.github.bytedance:danmaku-render-engine", version.ref = "danmakuRenderEngine" }
 getactivity-toaster = { module = "com.github.getActivity:Toaster", version.ref = "toasterVersion" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 gsyvideoplayer = { module = "com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer", version.ref = "gsyvideoplayer" }

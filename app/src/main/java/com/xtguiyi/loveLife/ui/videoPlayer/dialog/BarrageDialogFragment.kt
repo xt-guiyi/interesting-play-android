@@ -13,6 +13,7 @@ import android.widget.EditText
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.hjq.toast.Toaster
@@ -69,6 +70,7 @@ class BarrageDialogFragment: DialogFragment() {
     // 监听事件
     private fun bindingListener() {
         mSendButton.setOnClickListener {
+            if(mInputView.text.isEmpty()) return@setOnClickListener
             if(requireActivity() is OnBarrageListener) {
                 lifecycleScope.launch {
                     if((requireActivity() as OnBarrageListener).sendBarrage(mInputView.text.toString())) {
@@ -79,6 +81,13 @@ class BarrageDialogFragment: DialogFragment() {
             }
         }
 
+        mInputView.doOnTextChanged { text, start, before, count ->
+            if(text?.isNotEmpty() == true) {
+                mSendButton.backgroundTintList = resources.getColorStateList(R.color.green_300, null)
+            }else {
+                mSendButton.backgroundTintList = resources.getColorStateList(R.color.sliver_400, null)
+            }
+        }
         mInputView.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEND ||
                 (event != null && event.action == KeyEvent.ACTION_DOWN &&
@@ -99,6 +108,6 @@ class BarrageDialogFragment: DialogFragment() {
 
     interface OnBarrageListener {
         // 发送弹幕
-        suspend fun sendBarrage(message: String?): Boolean
+        suspend fun sendBarrage(message: String): Boolean
     }
 }

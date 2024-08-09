@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.bytedance.danmaku.render.engine.render.draw.text.TextData
+import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hjq.toast.Toaster
@@ -27,9 +29,11 @@ import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
+import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
+import kotlin.math.roundToInt
 
 
 class VideoPlayerActivity : BaseActivity(),
@@ -37,6 +41,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
+
     // private late init var binding: ActivityVideoPlayerTwoBinding
     private val viewModel: VideoBriefIntroductionViewModel by viewModels()
     private val id: Int by lazy {
@@ -77,6 +82,7 @@ class VideoPlayerActivity : BaseActivity(),
 
 
     override fun initView() {
+        initStatus()
         initTabLayoutAndViewPager()
         initPlayer()
     }
@@ -93,7 +99,6 @@ class VideoPlayerActivity : BaseActivity(),
                         .build(binding.videoPlayer)
                     binding.videoTitle.text = "测试视频"
                     binding.videoPlayer.startPlayLogic()
-                    Toaster.show("1--${  binding.videoPlayer.gsyVideoManager.videoWidth  }-${binding.videoPlayer.gsyVideoManager.videoHeight}")
                     true
                 } ?: false
             }
@@ -108,6 +113,13 @@ class VideoPlayerActivity : BaseActivity(),
             Toaster.show("发弹幕")
             BarrageDialogFragment().show(supportFragmentManager, "BarrageDialogFragment")
         }
+    }
+
+    private fun initStatus() {
+        val calculatorHeight = calculateVideoViewHeight()
+        binding.videoPlayerContainer.layoutParams.height = calculatorHeight
+        binding.videoPlayerContainer.requestLayout()
+        binding.contentContainer.translationY = calculatorHeight.toFloat()
     }
 
     private fun initTabLayoutAndViewPager() {
@@ -138,7 +150,6 @@ class VideoPlayerActivity : BaseActivity(),
         orientationUtils = OrientationUtils(this, binding.videoPlayer);
         //初始化不打开外部的旋转
         orientationUtils.setEnable(false);
-
         gsyVideoOption
 //            .setThumbImageView(imageView)
             .setIsTouchWiget(true)
@@ -154,24 +165,11 @@ class VideoPlayerActivity : BaseActivity(),
                     //开始播放了才能旋转和全屏
                     orientationUtils.isEnable = true
                     isPlay = true
-
                 }
 
                 override fun onClickResume(url: String?, vararg objects: Any?) {
-                    Toaster.show("onClickResume")
                     binding.main.resetStatus()
-
                 }
-
-                override fun onClickResumeFullscreen(url: String?, vararg objects: Any?) {
-                    Toaster.show("onClickResumeFullscreen")
-                }
-
-                override fun onClickStop(url: String?, vararg objects: Any?) {
-                    Toaster.show("onClickStop")
-                    super.onClickStop(url, *objects)
-                }
-
 
                 override fun onQuitFullscreen(url: String, vararg objects: Any) {
                     orientationUtils.backToProtVideo()
@@ -180,6 +178,7 @@ class VideoPlayerActivity : BaseActivity(),
                 orientationUtils.isEnable = !lock
             }
 
+        // 进入全屏
         binding.videoPlayer.fullscreenButton.setOnClickListener(View.OnClickListener { //直接横屏
             orientationUtils.resolveByClick()
             //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
@@ -196,6 +195,15 @@ class VideoPlayerActivity : BaseActivity(),
                 }
             }
         })
+    }
+
+    private fun calculateVideoViewHeight(): Int {
+        // 获取屏幕宽度
+        val screenWidth = DisplayUtil.getScreenWidth(this)
+        // 计算宽高比
+        val aspectRatio = 9f / 16f // TODO:这里先写死为16： 9，因为这需要服务端返回视频宽高比
+        // 计算VideoView的高度
+        return (screenWidth * aspectRatio).roundToInt()
     }
 
     override fun onPause() {
@@ -231,10 +239,15 @@ class VideoPlayerActivity : BaseActivity(),
         }
     }
 
-    override suspend fun sendBarrage(message: String?): Boolean {
+    override suspend fun sendBarrage(message: String): Boolean {
         Toaster.show(message)
         // TODO 提交弹幕数据
         // TODO 显示弹幕
+        binding.videoPlayer.mDanmakuController.addFakeData(TextData().apply {
+            text = message
+            layerType = LAYER_TYPE_SCROLL
+            textColor = resources.getColor(R.color.green_300,null)
+        })
         return true
     }
 }

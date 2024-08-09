@@ -41,6 +41,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://s01.oss.sonatype.org/content/groups/public") }
         maven { url = uri("https://maven.aliyun.com/repository/releases")  }
         maven { url = uri("https://maven.aliyun.com/repository/public")  }
+        maven { url = uri("https://artifact.bytedance.com/repository/releases/")  }
     }
 }
 
