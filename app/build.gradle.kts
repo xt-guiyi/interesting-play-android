@@ -77,5 +77,5 @@ dependencies {
     // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
     // 弹幕库,不太好用,有需求可以fork下来自己改 https://github.com/bytedance/DanmakuRenderEngine/blob/main/README_cn.md
-    implementation(libs.danmaku.render.engine)
+    implementation(libs.danmaku.render.engine) 
 }

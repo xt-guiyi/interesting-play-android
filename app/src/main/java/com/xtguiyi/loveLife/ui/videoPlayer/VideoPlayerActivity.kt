@@ -1,6 +1,7 @@
 package com.xtguiyi.loveLife.ui.videoPlayer
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -12,7 +13,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bytedance.danmaku.render.engine.render.draw.text.TextData
+import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_BOTTOM_CENTER
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
+import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hjq.toast.Toaster
@@ -28,6 +31,7 @@ import com.xtguiyi.loveLife.base.BaseActivity
 import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
+import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment.BarrageInfo
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
@@ -50,6 +54,7 @@ class VideoPlayerActivity : BaseActivity(),
     private lateinit var orientationUtils: OrientationUtils
     private var isPlay: Boolean = false
     private val gsyVideoOption = GSYVideoOptionBuilder()
+    private var barrageInfo = BarrageInfo("","默认","滚动","#FFFFFFFF")
 
     init {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java) // 使用Exo2内核
@@ -106,12 +111,17 @@ class VideoPlayerActivity : BaseActivity(),
     }
 
     override fun bindingListener() {
+        binding.back.setOnTouchListener { v, event ->
+            Toaster.show("!!")
+            return@setOnTouchListener true
+        }
         binding.back.setOnClickListener {
+            Toaster.show("!!")
             onBackPressedDispatcher.onBackPressed()
         }
         binding.barrageInput.setOnClickListener {
-            Toaster.show("发弹幕")
-            BarrageDialogFragment().show(supportFragmentManager, "BarrageDialogFragment")
+//            Toaster.show("发弹幕")
+            BarrageDialogFragment(barrageInfo).show(supportFragmentManager, "BarrageDialogFragment")
         }
     }
 
@@ -239,14 +249,20 @@ class VideoPlayerActivity : BaseActivity(),
         }
     }
 
-    override suspend fun sendBarrage(message: String): Boolean {
-        Toaster.show(message)
+    override suspend fun sendBarrage(bi: BarrageDialogFragment.BarrageInfo): Boolean {
         // TODO 提交弹幕数据
         // TODO 显示弹幕
+        Toaster.show(barrageInfo.color)
         binding.videoPlayer.mDanmakuController.addFakeData(TextData().apply {
-            text = message
-            layerType = LAYER_TYPE_SCROLL
-            textColor = resources.getColor(R.color.green_300,null)
+            text = barrageInfo.message
+            layerType = when(barrageInfo.position) {
+                "滚动" -> LAYER_TYPE_SCROLL
+                "置顶" -> LAYER_TYPE_TOP_CENTER
+                "置底" -> LAYER_TYPE_BOTTOM_CENTER
+                else -> LAYER_TYPE_SCROLL
+            }
+            textColor = Color.parseColor(barrageInfo.color)
+            textSize =  if (barrageInfo.size == "默认") DisplayUtil.spToPx(this@VideoPlayerActivity,20f).toFloat() else DisplayUtil.spToPx(this@VideoPlayerActivity,12f).toFloat()
         })
         return true
     }

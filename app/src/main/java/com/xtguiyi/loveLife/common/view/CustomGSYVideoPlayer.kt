@@ -8,7 +8,6 @@ import com.bytedance.danmaku.render.engine.control.DanmakuController
 import com.bytedance.danmaku.render.engine.data.DanmakuData
 import com.bytedance.danmaku.render.engine.render.draw.text.TextData
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
-import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer
 import com.xtguiyi.loveLife.R
@@ -171,7 +170,6 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
     override fun onSeekComplete() {
         super.onSeekComplete()
         mDanmakuController.clear()
-        Toaster.show(currentPositionWhenPlaying)
         // TODO 弹幕库修改时间轴轨道无效
        if(isInPlayingState) mDanmakuController.start(currentPositionWhenPlaying)
     }
