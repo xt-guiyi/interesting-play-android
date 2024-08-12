@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:gravity="center">
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:gravity="center">
@@ -136,10 +136,206 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:chipSpacingHorizontal="30dp"
-                app:chipSpacingVertical="30dp"
                 android:layout_marginStart="20dp"
                 >
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center|center"
+                        android:layout_width="33dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/button_bg"
+                        android:backgroundTint="#FFFFFFFF"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#fc8bab"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#FE3737"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#FF8B00"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#04B578"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#00E5FF"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#D500F9"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#76FF03"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#0D2780"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#DBB22F"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="33dp"
+                    android:layout_height="24dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="24dp"
+                    >
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="26dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/round_6"
+                        android:backgroundTint="#1DE9B6"/>
+                    <TextView
+                        android:layout_gravity="bottom|end"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/barrage_color_selected" />
+                </FrameLayout>
             </com.xtguiyi.loveLife.common.view.RadioGroup>
         </LinearLayout>
 

@@ -18,7 +18,6 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -55,6 +54,10 @@ class VideoPlayerActivity : BaseActivity(),
     private var isPlay: Boolean = false
     private val gsyVideoOption = GSYVideoOptionBuilder()
     private var barrageInfo = BarrageInfo("","默认","滚动","#FFFFFFFF")
+    // TODO 直接引用，试试会不会内存泄露
+    private val barrageDialog:BarrageDialogFragment by lazy{
+        BarrageDialogFragment(barrageInfo)
+    }
 
     init {
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java) // 使用Exo2内核
@@ -77,6 +80,13 @@ class VideoPlayerActivity : BaseActivity(),
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(0, systemBars.top, 0, 0)
+            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            if (imeHeight == 0 && barrageDialog.isAdded){
+                barrageDialog.setImeStatus(false)
+            }else if(imeHeight > 0 && barrageDialog.isAdded) {
+                barrageDialog.setImeStatus(true)
+
+            }
             insets
         }
         initView()
@@ -111,17 +121,11 @@ class VideoPlayerActivity : BaseActivity(),
     }
 
     override fun bindingListener() {
-        binding.back.setOnTouchListener { v, event ->
-            Toaster.show("!!")
-            return@setOnTouchListener true
-        }
         binding.back.setOnClickListener {
-            Toaster.show("!!")
             onBackPressedDispatcher.onBackPressed()
         }
         binding.barrageInput.setOnClickListener {
-//            Toaster.show("发弹幕")
-            BarrageDialogFragment(barrageInfo).show(supportFragmentManager, "BarrageDialogFragment")
+            barrageDialog.show(supportFragmentManager, "BarrageDialogFragment")
         }
     }
 
@@ -252,7 +256,6 @@ class VideoPlayerActivity : BaseActivity(),
     override suspend fun sendBarrage(bi: BarrageDialogFragment.BarrageInfo): Boolean {
         // TODO 提交弹幕数据
         // TODO 显示弹幕
-        Toaster.show(barrageInfo.color)
         binding.videoPlayer.mDanmakuController.addFakeData(TextData().apply {
             text = barrageInfo.message
             layerType = when(barrageInfo.position) {

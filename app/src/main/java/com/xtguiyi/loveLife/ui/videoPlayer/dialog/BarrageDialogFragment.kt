@@ -1,6 +1,5 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.dialog
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -23,7 +22,6 @@ import androidx.lifecycle.lifecycleScope
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.common.view.RadioGroup
 import com.xtguiyi.loveLife.utils.DisplayUtil
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -36,6 +34,7 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
     private lateinit var mPositionRadioGroup: RadioGroup
     private lateinit var mColorRadioGroup: RadioGroup
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
+    private var imeStatus = false
     private val fontList = listOf("默认", "较小")
     private val positionList = listOf("滚动", "置顶", "置底")
     private val colorList = listOf(
@@ -86,10 +85,10 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
         dialog?.window?.let {
             windowInsetsController = WindowCompat.getInsetsController(it, it.decorView)
             mInputView.requestFocus()
-            lifecycleScope.launch {
-                delay(100)
-                windowInsetsController.show(WindowInsetsCompat.Type.ime())
-            }
+            // 解决低版本dialogFragment弹出软键盘无效，加300ms延迟
+            mInputView.postDelayed({
+                setImeStatus(true)
+            }, 300)
         }
 
         // 定义自定义window属性,可覆盖xml定义
@@ -108,8 +107,10 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
 
     // 初始化状态
     private fun initView() {
+        // 这里用编程方式加入view
         val color = ContextCompat.getColorStateList(requireContext(), R.color.font_color)
         fontList.forEachIndexed { _, item ->
+            // drawable必须每次循环都创建一个新的
             val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.a_1, null)
             drawableLeft?.setTintList(color)
             mFontRadioGroup.addView(TextView(requireContext()).apply {
@@ -135,7 +136,7 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
         }
         mFontRadioGroup.setSelected(fontList.indexOf(barrageInfo.size))
 
-        positionList.forEachIndexed { index, item ->
+        positionList.forEachIndexed { _, item ->
             val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.a_1, null)
             drawableLeft?.setTintList(color)
             mPositionRadioGroup.addView(TextView(requireContext()).apply {
@@ -158,29 +159,6 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
             })
         }
         mPositionRadioGroup.setSelected(positionList.indexOf(barrageInfo.position))
-        colorList.forEachIndexed { index, item ->
-            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.a_1, null)
-            mColorRadioGroup.addView(TextView(requireContext()).apply {
-                setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawableLeft)
-                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), -6f))
-
-
-                background = ResourcesCompat.getDrawable(resources, R.drawable.round_6, null)
-                backgroundTintList = ColorStateList.valueOf(Color.parseColor(item))
-                gravity = Gravity.CENTER
-                val lp = ViewGroup.MarginLayoutParams(
-                    DisplayUtil.dip2px(requireContext(), 26f),
-                    DisplayUtil.dip2px(requireContext(), 20f)
-                )
-                lp.setMargins(
-                    0,
-                    0,
-                    DisplayUtil.dip2px(requireContext(), 24f),
-                    DisplayUtil.dip2px(requireContext(), 24f)
-                )
-                layoutParams = lp
-            })
-        }
         mColorRadioGroup.setSelected(colorList.indexOf(barrageInfo.color))
     }
 
@@ -225,17 +203,8 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
             return@setOnEditorActionListener true
         }
         // 显示隐藏软键盘
-        var imeStatus = true
         mImeToggle.setOnClickListener {
-            if (imeStatus) {
-                mImeToggle.backgroundTintList = resources.getColorStateList(R.color.green_300, null)
-                windowInsetsController.hide(WindowInsetsCompat.Type.ime())
-            } else {
-                mImeToggle.backgroundTintList =
-                    resources.getColorStateList(R.color.sliver_400, null)
-                windowInsetsController.show(WindowInsetsCompat.Type.ime())
-            }
-            imeStatus = !imeStatus
+            setImeStatus(!imeStatus)
         }
 
         // 监听单选事件
@@ -252,6 +221,24 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
         }
 
     }
+
+    fun setImeStatus(status: Boolean){
+        imeStatus = status
+        updateImeToggle()
+    }
+
+    private fun updateImeToggle() {
+        if (imeStatus) {
+            mImeToggle.backgroundTintList =
+                resources.getColorStateList(R.color.sliver_400, null)
+            windowInsetsController.show(WindowInsetsCompat.Type.ime())
+        } else {
+            mImeToggle.backgroundTintList = resources.getColorStateList(R.color.green_300, null)
+            windowInsetsController.hide(WindowInsetsCompat.Type.ime())
+        }
+    }
+
+
 
     /**
      * 弹幕信息
