@@ -25,7 +25,7 @@ import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 
 
-class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
+class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragment() {
     private lateinit var mInputView: EditText
     private lateinit var mSendButton: View
     private lateinit var mBarrageAction: View
@@ -82,6 +82,7 @@ class BarrageDialogFragment(val barrageInfo: BarrageInfo) : DialogFragment() {
     override fun onStart() {
         super.onStart()
         // 聚焦，显示软键盘
+        dialog?.setOnDismissListener {  }
         dialog?.window?.let {
             windowInsetsController = WindowCompat.getInsetsController(it, it.decorView)
             mInputView.requestFocus()

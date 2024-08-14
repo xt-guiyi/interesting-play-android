@@ -11,6 +11,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.bytedance.danmaku.render.engine.render.draw.text.TextData
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_BOTTOM_CENTER
@@ -18,6 +20,7 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -55,8 +58,32 @@ class VideoPlayerActivity : BaseActivity(),
     private val gsyVideoOption = GSYVideoOptionBuilder()
     private var barrageInfo = BarrageInfo("","默认","滚动","#FFFFFFFF")
     // TODO 直接引用，试试会不会内存泄露
-    private val barrageDialog:BarrageDialogFragment by lazy{
-        BarrageDialogFragment(barrageInfo)
+//    private val barrageDialog:BarrageDialogFragment by lazy{
+//        BarrageDialogFragment(barrageInfo)
+//    }
+    private val fragmentManagerListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            savedInstanceState: Bundle?
+        ) {
+//            Toaster.show("${f is BarrageDialogFragment}")
+            super.onFragmentCreated(fm, f, savedInstanceState)
+        }
+
+        override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
+            Toaster.show("${f is BarrageDialogFragment}")
+            super.onFragmentStopped(fm, f)
+        }
+
+        override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
+            Toaster.show("${f is BarrageDialogFragment}")
+            super.onFragmentDetached(fm, f)
+        }
+        override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+            Toaster.show("${f is BarrageDialogFragment}")
+            super.onFragmentDestroyed(fm, f)
+        }
     }
 
     init {
@@ -81,14 +108,16 @@ class VideoPlayerActivity : BaseActivity(),
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(0, systemBars.top, 0, 0)
             val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            if (imeHeight == 0 && barrageDialog.isAdded){
-                barrageDialog.setImeStatus(false)
-            }else if(imeHeight > 0 && barrageDialog.isAdded) {
-                barrageDialog.setImeStatus(true)
-
-            }
+//            if (imeHeight == 0 && barrageDialog.isAdded){
+//                barrageDialog.setImeStatus(false)
+//            }else if(imeHeight > 0 && barrageDialog.isAdded) {
+//                barrageDialog.setImeStatus(true)
+//
+//            }
+            Toaster.show("${supportFragmentManager.fragments.size}")
             insets
         }
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentManagerListener, true)
         initView()
         initData()
         bindingListener()
@@ -121,11 +150,11 @@ class VideoPlayerActivity : BaseActivity(),
     }
 
     override fun bindingListener() {
-        binding.back.setOnClickListener {
+        binding.backMain.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         binding.barrageInput.setOnClickListener {
-            barrageDialog.show(supportFragmentManager, "BarrageDialogFragment")
+            BarrageDialogFragment(barrageInfo).show(supportFragmentManager, "BarrageDialogFragment")
         }
     }
 
