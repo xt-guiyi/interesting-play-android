@@ -90,7 +90,7 @@
                     android:background="@drawable/round_24"
                     android:textColor="#abacae"
                     android:textSize="12sp"
-                    android:text="点我发弹幕"/>
+                    android:text="@string/barrage_input_text_1"/>
             </LinearLayout>
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"

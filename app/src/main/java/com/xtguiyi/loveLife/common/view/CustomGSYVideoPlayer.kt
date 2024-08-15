@@ -11,6 +11,7 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer
 import com.xtguiyi.loveLife.R
+import com.xtguiyi.loveLife.utils.DisplayUtil
 import moe.codeest.enviews.ENDownloadView
 
 /**
@@ -99,6 +100,8 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
         val customPlayer = gbPlayer as CustomGSYVideoPlayer
         // 设置全屏状态，底部操作栏适配沉浸式布局
         customPlayer.mBottomContainer.fitsSystemWindows = true
+        customPlayer.mBottomContainer.layoutParams.height =  DisplayUtil.dip2px(getContext(),40f)
+
         return gbPlayer
     }
 

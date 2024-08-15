@@ -17,6 +17,8 @@
     <string name="no_more_message">没有跟多了</string>
     <string name="retry_2">重试</string>
     <string name="send_barrage">发个弹幕吧/(ㄒoㄒ)/~~</string>
+    <string name="barrage_input_text_1">点我发弹幕</string>
+    <string name="barrage_input_text_2">弹幕输入中</string>
 
     <string-array name="danmaku_text_contents">
         <item>awsl</item>

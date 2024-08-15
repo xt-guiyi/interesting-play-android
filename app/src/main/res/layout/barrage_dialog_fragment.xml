@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/ime_toggle"
+            android:id="@+id/action_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/a"
@@ -138,11 +138,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 >
+                <!-- Tips: ViewGroup被设置isSelected=true后，也会递归设置所有子view为true-->
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center|center"
@@ -160,7 +161,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -178,7 +179,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -196,7 +197,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -214,7 +215,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -232,7 +233,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -250,7 +251,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -268,7 +269,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -286,7 +287,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -304,7 +305,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"
@@ -322,7 +323,7 @@
                     android:layout_width="33dp"
                     android:layout_height="24dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     >
                     <TextView
                         android:layout_gravity="center"

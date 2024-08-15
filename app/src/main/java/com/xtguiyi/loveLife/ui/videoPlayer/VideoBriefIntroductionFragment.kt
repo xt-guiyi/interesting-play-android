@@ -56,6 +56,12 @@ class VideoBriefIntroductionFragment : BaseFragment() {
         // 设置线性布局
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.layoutManager = layoutManager
+        // 设置装饰器
+//        binding.rv.addItemDecoration(MaterialDividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL).apply {
+//            dividerColor = ResourcesCompat.getColor(resources, R.color.sliver_500,null)
+//            isLastItemDecorated = false
+//            this.dividerThickness = DisplayUtil.dip2px(requireContext(),0.5f)
+//        })
         // 设置适配器
         videoBriefIntroductionAdapter = VideoBriefIntroductionAdapter(mutableListOf())
         relateVideoCardAdapter = RelateVideoCardAdapter(mutableListOf())
