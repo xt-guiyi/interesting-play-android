@@ -113,14 +113,14 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         val color = ContextCompat.getColorStateList(requireContext(), R.color.font_color)
         fontList.forEachIndexed { _, item ->
             // drawable必须每次循环都创建一个新的引用
-            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.a_1, null)
+            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.font_size_icon, null)
             drawableLeft?.setTintList(color)
             mFontRadioGroup.addView(TextView(requireContext()).apply {
                 text = item
                 setTextColor(color)
                 // 设置drawable
                 setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
-                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 6f))
+                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 2f))
                 gravity = Gravity.CENTER
                 // 设置margin
                 val lp = ViewGroup.MarginLayoutParams(
@@ -130,7 +130,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 lp.setMargins(
                     0,
                     0,
-                    DisplayUtil.dip2px(requireContext(), 30f),
+                    DisplayUtil.dip2px(requireContext(), 25f),
                     0
                 )
                 layoutParams = lp
@@ -138,13 +138,13 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         }
 
         positionList.forEachIndexed { _, item ->
-            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.a_1, null)
+            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.barrage_position_icon, null)
             drawableLeft?.setTintList(color)
             mPositionRadioGroup.addView(TextView(requireContext()).apply {
                 text = item
                 setTextColor(color)
                 setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
-                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 6f))
+                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 2f))
                 gravity = Gravity.CENTER
                 val lp = ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -153,7 +153,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 lp.setMargins(
                     0,
                     0,
-                    DisplayUtil.dip2px(requireContext(), 30f),
+                    DisplayUtil.dip2px(requireContext(), 25f),
                     0
                 )
                 layoutParams = lp
