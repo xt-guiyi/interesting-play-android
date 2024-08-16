@@ -10,19 +10,19 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.R
-import com.xtguiyi.loveLife.databinding.VideoBriefIntroductionCardBinding
+import com.xtguiyi.loveLife.databinding.BriefIntroductionCardBinding
 import com.xtguiyi.loveLife.entity.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.xtguiyi.loveLife.utils.TimeUtil
 
-class VideoBriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.Adapter<VideoBriefIntroductionAdapter.ViewHolder>() {
+class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.Adapter<BriefIntroductionAdapter.ViewHolder>() {
 
     private var isExpand = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = VideoBriefIntroductionCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = BriefIntroductionCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -43,7 +43,7 @@ class VideoBriefIntroductionAdapter(private var list: List<VideoInfo>): Recycler
         changeExpandStatus(holder.binding)
     }
 
-    class ViewHolder(val binding:VideoBriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding:BriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
              binding.videoTitle.text = data.title
             binding.userName.text = data.owner.name
@@ -85,7 +85,7 @@ class VideoBriefIntroductionAdapter(private var list: List<VideoInfo>): Recycler
     }
 
     // 展开、收起详情
-    private fun changeExpandStatus(binding: VideoBriefIntroductionCardBinding) {
+    private fun changeExpandStatus(binding: BriefIntroductionCardBinding) {
         if(isExpand) {
             binding.expandedArrow.rotation = 180f
             binding.videoTitle.maxLines = Int.MAX_VALUE

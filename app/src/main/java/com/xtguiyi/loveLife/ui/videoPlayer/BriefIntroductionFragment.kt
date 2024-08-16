@@ -4,27 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hjq.toast.Toaster
+import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.common.adapter.FooterAdapter
-import com.xtguiyi.loveLife.databinding.FragmentVideoBriefIntroductionBinding
+import com.xtguiyi.loveLife.databinding.FragmentBriefIntroductionBinding
+import com.xtguiyi.loveLife.ui.videoPlayer.ItemDecoration.DividerDecoration
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
-import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoBriefIntroductionAdapter
+import com.xtguiyi.loveLife.ui.videoPlayer.adapter.BriefIntroductionAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
+import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "id"
 
-class VideoBriefIntroductionFragment : BaseFragment() {
+class BriefIntroductionFragment : BaseFragment() {
     private var id: Int? = null
-    private lateinit var binding: FragmentVideoBriefIntroductionBinding
+    private lateinit var binding: FragmentBriefIntroductionBinding
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var videoBriefIntroductionAdapter: VideoBriefIntroductionAdapter
+    private lateinit var briefIntroductionAdapter: BriefIntroductionAdapter
     private lateinit var relateVideoCardAdapter: RelateVideoCardAdapter
     private lateinit var footerAdapter: FooterAdapter
     private lateinit var concatAdapter: ConcatAdapter
@@ -45,7 +49,7 @@ class VideoBriefIntroductionFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentVideoBriefIntroductionBinding.inflate(inflater, container, false)
+        binding = FragmentBriefIntroductionBinding.inflate(inflater, container, false)
         initView()
         initData()
         bindingListener()
@@ -57,19 +61,18 @@ class VideoBriefIntroductionFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.layoutManager = layoutManager
         // 设置装饰器
-//        binding.rv.addItemDecoration(MaterialDividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL).apply {
-//            dividerColor = ResourcesCompat.getColor(resources, R.color.sliver_500,null)
-//            isLastItemDecorated = false
-//            this.dividerThickness = DisplayUtil.dip2px(requireContext(),0.5f)
-//        })
+        binding.rv.addItemDecoration(DividerDecoration(requireContext(),LinearLayoutManager.VERTICAL).apply {
+            dividerColor = ResourcesCompat.getColor(resources, R.color.sliver_500,null)
+            this.dividerThickness = DisplayUtil.dip2px(requireContext(),0.5f)
+        })
         // 设置适配器
-        videoBriefIntroductionAdapter = VideoBriefIntroductionAdapter(mutableListOf())
+        briefIntroductionAdapter = BriefIntroductionAdapter(mutableListOf())
         relateVideoCardAdapter = RelateVideoCardAdapter(mutableListOf())
         footerAdapter = FooterAdapter {
             Toaster.show("重试")
         }
         concatAdapter =
-            ConcatAdapter(videoBriefIntroductionAdapter, relateVideoCardAdapter, footerAdapter)
+            ConcatAdapter(briefIntroductionAdapter, relateVideoCardAdapter, footerAdapter)
         binding.rv.adapter = concatAdapter
     }
 
@@ -89,7 +92,7 @@ class VideoBriefIntroductionFragment : BaseFragment() {
             launch {
                 viewModel.videoInfoFlow.collect {
                     it?.let {
-                        videoBriefIntroductionAdapter.setData(it)
+                        briefIntroductionAdapter.setData(it)
                     }
                 }
             }
@@ -127,7 +130,7 @@ class VideoBriefIntroductionFragment : BaseFragment() {
     companion object {
         @JvmStatic
         fun newInstance(id: Int) =
-            VideoBriefIntroductionFragment().apply {
+            BriefIntroductionFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PARAM1, id)
                 }

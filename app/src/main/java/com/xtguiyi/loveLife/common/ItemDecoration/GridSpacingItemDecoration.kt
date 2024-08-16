@@ -1,4 +1,4 @@
-package com.xtguiyi.loveLife.common
+package com.xtguiyi.loveLife.common.ItemDecoration
 
 import android.graphics.Rect
 import android.view.View

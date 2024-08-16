@@ -61,7 +61,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.barrage_dialog_fragment, container, false)
+        return inflater.inflate(R.layout.barrage_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

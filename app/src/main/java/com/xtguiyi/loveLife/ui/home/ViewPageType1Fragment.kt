@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
-import com.xtguiyi.loveLife.common.GridSpacingItemDecoration
+import com.xtguiyi.loveLife.common.ItemDecoration.GridSpacingItemDecoration
 import com.xtguiyi.loveLife.databinding.FragmentHomeViewPageType1Binding
 import com.xtguiyi.loveLife.ui.home.adapter.BannerContainerAdapter
 import com.xtguiyi.loveLife.ui.home.adapter.VideoCardAdapter
