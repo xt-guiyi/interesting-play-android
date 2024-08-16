@@ -16,9 +16,9 @@ import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.common.adapter.FooterAdapter
 import com.xtguiyi.loveLife.databinding.FragmentBriefIntroductionBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.ItemDecoration.DividerDecoration
-import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.BriefIntroductionAdapter
-import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
+import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.BriefIntroductionViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 
@@ -32,7 +32,8 @@ class BriefIntroductionFragment : BaseFragment() {
     private lateinit var relateVideoCardAdapter: RelateVideoCardAdapter
     private lateinit var footerAdapter: FooterAdapter
     private lateinit var concatAdapter: ConcatAdapter
-    private val viewModel: VideoBriefIntroductionViewModel by activityViewModels()
+
+    private val viewModel: BriefIntroductionViewModel by activityViewModels()
 
     // 分页加载参数
     var scrollDirection = -1 // 滚动方向

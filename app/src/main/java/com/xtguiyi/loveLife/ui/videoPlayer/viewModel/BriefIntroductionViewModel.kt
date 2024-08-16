@@ -3,14 +3,12 @@ package com.xtguiyi.loveLife.ui.videoPlayer.viewModel
 import androidx.lifecycle.ViewModel
 import com.xtguiyi.loveLife.entity.VideoInfo
 import com.xtguiyi.loveLife.ui.videoPlayer.repository.VideoBriefIntroductionRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import java.io.IOException
 
-class VideoBriefIntroductionViewModel : ViewModel() {
+class BriefIntroductionViewModel : ViewModel() {
     private val repository: VideoBriefIntroductionRepository = VideoBriefIntroductionRepository()
     // 网络状态
     private val _netWorkError = MutableStateFlow(false)

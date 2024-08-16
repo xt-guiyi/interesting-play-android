@@ -263,4 +263,8 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         // 发送弹幕
         suspend fun sendBarrage(barrageInfo: BarrageInfo): Boolean
     }
+
+    companion object {
+        const val TAG = "BarrageDialogFragment"
+    }
 }

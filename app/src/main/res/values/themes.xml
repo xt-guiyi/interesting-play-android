@@ -19,6 +19,10 @@
         <item name="colorPrimary">@color/green_300</item>
     </style>
 
+    <!--  BottomSheetDialog主题    -->
+    <style name="BottomSheetDialog"  parent="Theme.Material3.DayNight.BottomSheetDialog" >
+    </style>
+
     <!-- 可全屏dialog   -->
     <style name="CustomDialog1" parent="Theme.AppCompat.Light.Dialog">
         <!-- true（默认值）：对话框会以浮动窗口的形式显示，通常会有圆角和阴影效果，并且不会占满整个屏幕。-->

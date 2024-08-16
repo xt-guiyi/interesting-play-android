@@ -34,7 +34,8 @@ import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment.BarrageInfo
-import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoBriefIntroductionViewModel
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.BriefIntroductionViewModel
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoPlayerViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
@@ -47,9 +48,10 @@ class VideoPlayerActivity : BaseActivity(),
 
     // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
-
     // private late init var binding: ActivityVideoPlayerTwoBinding
-    private val viewModel: VideoBriefIntroductionViewModel by viewModels()
+
+    private val videoPlayerViewModel: VideoPlayerViewModel by viewModels()
+    private val briefIntroductionViewModel: BriefIntroductionViewModel by viewModels()
     private val id: Int by lazy {
         intent.getIntExtra("id", -1)
     }
@@ -89,6 +91,7 @@ class VideoPlayerActivity : BaseActivity(),
         windowInsetsController.isAppearanceLightStatusBars = false
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            lifecycleScope.launch { videoPlayerViewModel.setNavHeight(systemBars.bottom) }
             v.setPadding(0, systemBars.top, 0, 0)
             val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
             if (imeHeight == 0 && barrageDialog.isAdded){
@@ -115,7 +118,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     override fun initData() {
         lifecycleScope.launch {
-            viewModel.videoInfoFlow.collect { videoInfo ->
+            briefIntroductionViewModel.videoInfoFlow.collect { videoInfo ->
                 videoInfo?.let {
                     // 设置地址
                     gsyVideoOption
@@ -138,7 +141,7 @@ class VideoPlayerActivity : BaseActivity(),
         }
         binding.barrageInput.setOnClickListener {
             binding.barrageInput.text = resources.getString(R.string.barrage_input_text_2)
-            barrageDialog.show(supportFragmentManager, "BarrageDialogFragment")
+            barrageDialog.show(supportFragmentManager, BarrageDialogFragment.TAG)
         }
     }
 
@@ -151,7 +154,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     private fun initTabLayoutAndViewPager() {
         // 初始化tabLayout
-        val tabItems = listOf("简介")
+        val tabItems = listOf("简介","评论")
         binding.tabs.isTabIndicatorFullWidth = false
         binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
         binding.tabs.tabGravity = TabLayout.GRAVITY_FILL
