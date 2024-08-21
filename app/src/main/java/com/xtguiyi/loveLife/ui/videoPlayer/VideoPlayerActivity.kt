@@ -21,6 +21,7 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -93,13 +94,6 @@ class VideoPlayerActivity : BaseActivity(),
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             lifecycleScope.launch { videoPlayerViewModel.setNavHeight(systemBars.bottom) }
             v.setPadding(0, systemBars.top, 0, 0)
-            val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            if (imeHeight == 0 && barrageDialog.isAdded){
-                barrageDialog.updateActionToggle(false)
-            }else if(imeHeight > 0 && barrageDialog.isAdded) {
-                barrageDialog.updateActionToggle(true)
-
-            }
             insets
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentManagerListener, true)
@@ -147,7 +141,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     private fun initStatus() {
         val calculatorHeight = calculateVideoViewHeight()
-        binding.videoPlayerContainer.layoutParams.height = calculatorHeight
+        binding.videoPlayerContainer.layoutParams.height = calculatorHeight.toInt()
         binding.videoPlayerContainer.requestLayout()
         binding.contentContainer.translationY = calculatorHeight.toFloat()
     }
@@ -227,13 +221,13 @@ class VideoPlayerActivity : BaseActivity(),
         })
     }
 
-    private fun calculateVideoViewHeight(): Int {
+    private fun calculateVideoViewHeight(): Float {
         // 获取屏幕宽度
         val screenWidth = DisplayUtil.getScreenWidth(this)
         // 计算宽高比
-        val aspectRatio = 9f / 16f // TODO:这里先写死为16： 9，因为这需要服务端返回视频宽高比
+        val aspectRatio = 9f / 16f // TODO:这里写死为16 ：9，因为这需要服务端提前返回视频宽高比
         // 计算VideoView的高度
-        return (screenWidth * aspectRatio).roundToInt()
+        return (screenWidth * aspectRatio)
     }
 
     override fun onPause() {
@@ -270,8 +264,8 @@ class VideoPlayerActivity : BaseActivity(),
     }
 
     override suspend fun sendBarrage(bi: BarrageInfo): Boolean {
-        // TODO 提交弹幕数据
-        // TODO 显示弹幕
+        // TODO 向服务器提交弹幕数据
+        // 显示弹幕
         binding.videoPlayer.mDanmakuController.addFakeData(TextData().apply {
             text = barrageInfo.message
             layerType = when(barrageInfo.position) {

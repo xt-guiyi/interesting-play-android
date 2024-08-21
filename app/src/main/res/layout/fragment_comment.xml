@@ -9,6 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
+        android:background="@color/sliver_300"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/comment_container"
         app:layout_constraintEnd_toEndOf="parent"

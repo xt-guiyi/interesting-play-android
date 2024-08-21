@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentCommentBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment
@@ -41,15 +42,16 @@ class CommentFragment : BaseFragment() {
     }
 
     override fun initView() {
-    }
-
-    override fun initData() {
         val pH = DisplayUtil.dip2px(requireContext(),12f)
         lifecycleScope.launch {
             videoPlayerViewModel.navHeight.collectLatest{
                 binding.commentContainer.setPadding(pH,pH,pH, it)
             }
         }
+    }
+
+    override fun initData() {
+
     }
 
     override fun bindingListener() {

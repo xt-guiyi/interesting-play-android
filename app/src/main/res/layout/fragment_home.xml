@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
         <include
             android:id="@+id/included_header"
-            layout="@layout/fragment_home_header"/>
+            layout="@layout/layout_home_header"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/home_tabs"
             app:tabRippleColor="@null"

@@ -20,6 +20,7 @@ import com.xtguiyi.loveLife.ui.videoPlayer.adapter.BriefIntroductionAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.BriefIntroductionViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "id"

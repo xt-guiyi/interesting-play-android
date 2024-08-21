@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.xtguiyi.loveLife.databinding.VideoCard2Binding
+import com.xtguiyi.loveLife.databinding.LayoutVideoCard2Binding
 import com.xtguiyi.loveLife.entity.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
@@ -19,7 +19,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = VideoCard2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = LayoutVideoCard2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -35,7 +35,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
         return videoData.size
     }
 
-    class ViewHolder(val binding: VideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: LayoutVideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
             binding.title.text = data.title
             binding.author.text = data.owner.name

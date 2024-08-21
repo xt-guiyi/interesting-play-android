@@ -28,7 +28,7 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
 
 
     override fun getLayoutId(): Int {
-        return R.layout.custom_video_player
+        return R.layout.layout_video_player
     }
 
     override fun init(context: Context?) {

@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.core.view.children
 
-class RadioGroup:FlowLayout {
+/**
+ * 单选group
+ * 其实单选实现逻辑都是一样的，区别在于布局方式，我这里使用的流式布局，如果需要其他布局方式，那么继承其他布局就可
+ * */
+class RadioGroup: FlowLayout {
     constructor(context: Context?) : super(context)
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -17,6 +21,7 @@ class RadioGroup:FlowLayout {
         defStyleAttr
     )
 
+    private var mLastSelected = 0
     private var mSelected = 0
     private var selectedListener: OnSelectedChangeListener? = null
 
@@ -26,9 +31,9 @@ class RadioGroup:FlowLayout {
                 // 确保所有子视图已经完全加载和布局
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                 // 执行需要在子视图完全加载后执行的操作
-//                getChildAt(mSelected).isSelected = true
                 children.forEachIndexed { index, view ->
                     view.setOnClickListener {
+                        mLastSelected = mSelected
                         mSelected = index
                         updateSelected()
                         selectedListener?.onItemSelectedChange(index,view)
@@ -39,13 +44,15 @@ class RadioGroup:FlowLayout {
     }
 
     private fun updateSelected() {
-        children.forEachIndexed { index, view ->
-            view.isSelected = index == mSelected
-        }
+        getChildAt(mLastSelected).isSelected =false
+        getChildAt(mSelected).isSelected = true
     }
 
+    // 设置选中项
     fun setSelected(index: Int) {
+        mLastSelected = mSelected
         mSelected = index
+        getChildAt(mLastSelected).isSelected =false
         getChildAt(mSelected).isSelected = true
     }
 

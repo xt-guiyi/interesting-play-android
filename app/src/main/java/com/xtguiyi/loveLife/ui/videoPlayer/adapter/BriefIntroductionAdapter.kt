@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.R
-import com.xtguiyi.loveLife.databinding.BriefIntroductionCardBinding
+import com.xtguiyi.loveLife.databinding.LayoutBriefIntroductionCardBinding
 import com.xtguiyi.loveLife.entity.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.DisplayUtil
@@ -22,7 +22,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
     private var isExpand = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = BriefIntroductionCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = LayoutBriefIntroductionCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -43,7 +43,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
         changeExpandStatus(holder.binding)
     }
 
-    class ViewHolder(val binding:BriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding:LayoutBriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
              binding.videoTitle.text = data.title
             binding.userName.text = data.owner.name
@@ -85,7 +85,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
     }
 
     // 展开、收起详情
-    private fun changeExpandStatus(binding: BriefIntroductionCardBinding) {
+    private fun changeExpandStatus(binding: LayoutBriefIntroductionCardBinding) {
         if(isExpand) {
             binding.expandedArrow.rotation = 180f
             binding.videoTitle.maxLines = Int.MAX_VALUE

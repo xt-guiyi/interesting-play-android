@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -35,6 +36,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
     private lateinit var mColorRadioGroup: RadioGroup
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private var imeStatus = false
+    private var imeHeight = 0
     private val fontList = listOf("默认", "较小")
     private val positionList = listOf("滚动", "置顶", "置底")
     private val colorList = listOf(
@@ -61,7 +63,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.barrage_dialog, container, false)
+        return inflater.inflate(R.layout.dialog_barrage, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,13 +76,14 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         mColorRadioGroup = view.findViewById(R.id.color_radioGroup)
         mBarrageAction = view.findViewById(R.id.barrage_action)
         mBarrageAction.layoutParams.height =
-            (DisplayUtil.getScreenHeight(requireContext()) * 0.34).toInt()
+            (DisplayUtil.getScreenHeight(requireContext()) * 0.4).toInt()
+        configuration()
         initView()
         bindingListener()
     }
 
-    override fun onStart() {
-        super.onStart()
+
+    private fun configuration() {
         isCancelable = true // 点击外部是否可取消
         // 聚焦，显示软键盘
         dialog?.window?.let {
@@ -93,27 +96,43 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
             }, 300)
         }
 
-        // 定义自定义window属性,可覆盖xml定义
+        // 配置window属性,可覆盖xml定义
         dialog?.window?.apply {
-            // 适配系统窗口，实现沉侵布局
-            WindowCompat.setDecorFitsSystemWindows(this, false)
             // 设置弹窗外的背景透明度
             setDimAmount(0.3f)
+            statusBarColor = Color.TRANSPARENT
             navigationBarColor = resources.getColor(R.color.green_100, null)
             // 设置弹窗的背景透明，来显示圆角，以及去掉padding
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             setGravity(Gravity.BOTTOM)
+            // decorView不适配系统栏区域，可以衍生到系统栏
+            WindowCompat.setDecorFitsSystemWindows(this, false)
+            ViewCompat.setOnApplyWindowInsetsListener(decorView) { _, insets ->
+                imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                if (imeHeight == 0 && isAdded) {
+                    updateActionToggle(false)
+                } else if (imeHeight > 0 && isAdded) {
+                    updateActionToggle(true)
+                }
+                // 如果软键盘弹出，且当前弹幕选项区域小于软键盘高度
+                if (imeHeight > 0 && mBarrageAction.height < imeHeight) {
+                    mBarrageAction.layoutParams.height = imeHeight + 60
+                    mBarrageAction.requestLayout()
+                }
+                insets
+            }
         }
     }
 
     // 初始化View
     private fun initView() {
-        // 这里用编程方式加入view
+        // 这里用编程方式加入字体大小，弹幕位置view
         val color = ContextCompat.getColorStateList(requireContext(), R.color.font_color)
         fontList.forEachIndexed { _, item ->
             // drawable必须每次循环都创建一个新的引用
-            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.font_size_icon, null)
+            val drawableLeft =
+                ResourcesCompat.getDrawable(resources, R.drawable.font_size_icon, null)
             drawableLeft?.setTintList(color)
             mFontRadioGroup.addView(TextView(requireContext()).apply {
                 text = item
@@ -138,7 +157,8 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         }
 
         positionList.forEachIndexed { _, item ->
-            val drawableLeft = ResourcesCompat.getDrawable(resources, R.drawable.barrage_position_icon, null)
+            val drawableLeft =
+                ResourcesCompat.getDrawable(resources, R.drawable.barrage_position_icon, null)
             drawableLeft?.setTintList(color)
             mPositionRadioGroup.addView(TextView(requireContext()).apply {
                 text = item
@@ -167,9 +187,10 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
 
     // 监听事件
     private fun bindingListener() {
+        // 发送消息事件
         mSendButton.setOnClickListener {
-            if(mInputView.text.isEmpty()) return@setOnClickListener
-            if(requireActivity() is OnBarrageListener) {
+            if (mInputView.text.isEmpty()) return@setOnClickListener
+            if (requireActivity() is OnBarrageListener) {
                 lifecycleScope.launch {
                     barrageInfo.message = mInputView.text.toString()
                     if ((requireActivity() as OnBarrageListener).sendBarrage(barrageInfo)) {
@@ -180,21 +201,14 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 }
             }
         }
-        // 监听文字变化事件
-        mInputView.doOnTextChanged { text, start, before, count ->
-            if(text?.isNotEmpty() == true) {
-                mSendButton.backgroundTintList = resources.getColorStateList(R.color.green_300, null)
-            }else {
-                mSendButton.backgroundTintList = resources.getColorStateList(R.color.sliver_400, null)
-            }
-        }
-        // 监听输入法发送事件
+        // 输入法发送事件
         mInputView.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEND ||
                 (event != null && event.action == KeyEvent.ACTION_DOWN &&
-                        event.keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        event.keyCode == KeyEvent.KEYCODE_ENTER)
+            ) {
                 // 处理发送事件
-                if(requireActivity() is OnBarrageListener) {
+                if (requireActivity() is OnBarrageListener) {
                     lifecycleScope.launch {
                         barrageInfo.message = mInputView.text.toString()
                         if ((requireActivity() as OnBarrageListener).sendBarrage(barrageInfo)) {
@@ -207,31 +221,38 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
             }
             return@setOnEditorActionListener true
         }
+        // 文字变化事件
+        mInputView.doOnTextChanged { text, _, _, _ ->
+            if (text?.isNotEmpty() == true) {
+                mSendButton.backgroundTintList =
+                    resources.getColorStateList(R.color.green_300, null)
+            } else {
+                mSendButton.backgroundTintList =
+                    resources.getColorStateList(R.color.sliver_400, null)
+            }
+        }
         // 显示隐藏软键盘
         mActionToggle.setOnClickListener {
             val status = !imeStatus
             updateActionToggle(status)
             updateImeToggle(status)
         }
-
         // 监听单选事件
         mFontRadioGroup.setOnSelectedChangeListener { index, _ ->
             barrageInfo.size = fontList[index]
         }
-
         mPositionRadioGroup.setOnSelectedChangeListener { index, _ ->
             barrageInfo.position = positionList[index]
         }
-
         mColorRadioGroup.setOnSelectedChangeListener { index, _ ->
             barrageInfo.color = colorList[index]
         }
     }
 
-     fun updateActionToggle(status: Boolean){
+    private fun updateActionToggle(status: Boolean) {
         imeStatus = status
         mActionToggle.backgroundTintList =
-            resources.getColorStateList(if(status) R.color.sliver_400 else R.color.green_300, null)
+            resources.getColorStateList(if (status) R.color.sliver_400 else R.color.green_300, null)
     }
 
     private fun updateImeToggle(status: Boolean) {
@@ -242,7 +263,6 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
             windowInsetsController.hide(WindowInsetsCompat.Type.ime())
         }
     }
-
 
 
     /**

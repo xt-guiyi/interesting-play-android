@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.common.ItemDecoration.GridSpacingItemDecoration
-import com.xtguiyi.loveLife.databinding.FragmentHomeViewPageType1Binding
+import com.xtguiyi.loveLife.databinding.LayoutHomeViewPageType1Binding
 import com.xtguiyi.loveLife.ui.home.adapter.BannerContainerAdapter
 import com.xtguiyi.loveLife.ui.home.adapter.VideoCardAdapter
 import com.xtguiyi.loveLife.ui.home.viewModel.ViewPageType1ViewModel
@@ -24,7 +24,7 @@ private const val ARG_PARAM1 = "type"
 
 class ViewPageType1Fragment : BaseFragment() {
     private var type: String? = null
-    private lateinit var binding: FragmentHomeViewPageType1Binding
+    private lateinit var binding: LayoutHomeViewPageType1Binding
     private val viewModel: ViewPageType1ViewModel by viewModels()
     private lateinit var bannerContainerAdapter:BannerContainerAdapter
     private lateinit var videoCardAdapter:VideoCardAdapter
@@ -41,7 +41,7 @@ class ViewPageType1Fragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeViewPageType1Binding.inflate(inflater, container, false)
+        binding =  LayoutHomeViewPageType1Binding.inflate(inflater, container, false)
         initView()
         initData()
         bindingListener()

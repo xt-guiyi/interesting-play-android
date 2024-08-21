@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.xtguiyi.loveLife.databinding.FragmentHomeViewPageType2Binding
+import com.xtguiyi.loveLife.databinding. LayoutHomeViewPageType2Binding
 import com.xtguiyi.loveLife.base.BaseFragment
 
 private const val ARG_PARAM1 = "type"
 
 class ViewPageType2Fragment : BaseFragment() {
     private var type: String? = null
-    private lateinit var binding: FragmentHomeViewPageType2Binding
+    private lateinit var binding:  LayoutHomeViewPageType2Binding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class ViewPageType2Fragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeViewPageType2Binding.inflate(inflater, container, false)
+        binding =  LayoutHomeViewPageType2Binding.inflate(inflater, container, false)
         return binding.root
     }
 

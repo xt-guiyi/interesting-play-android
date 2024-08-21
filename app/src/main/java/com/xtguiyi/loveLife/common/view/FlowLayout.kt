@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import kotlin.math.max
 
+/**
+ * 流式布局
+ * */
 open class FlowLayout : ViewGroup {
     constructor(context: Context?) : super(context)
 
@@ -64,7 +67,7 @@ open class FlowLayout : ViewGroup {
             } else {
                 MarginLayoutParams(0, 0)
             }
-            val childWidth = child.measuredWidth + lp.leftMargin + lp!!.rightMargin
+            val childWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
             val childHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
 
             if (lineWidth + childWidth > measureWidth) {
