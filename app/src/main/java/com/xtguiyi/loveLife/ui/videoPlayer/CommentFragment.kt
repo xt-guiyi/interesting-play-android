@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.hjq.toast.Toaster
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentCommentBinding
+import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.ui.videoPlayer.adapter.CommentCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoPlayerViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
@@ -21,6 +23,7 @@ private const val ARG_PARAM1 = "id"
 class CommentFragment : BaseFragment() {
     private var id: String? = null
     private lateinit var binding: FragmentCommentBinding
+    private lateinit var layoutManager: LinearLayoutManager
     private val videoPlayerViewModel: VideoPlayerViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,13 +44,35 @@ class CommentFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun initView() {
         val pH = DisplayUtil.dip2px(requireContext(),12f)
+//        binding.rv.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+////                binding.rv.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                Toaster.show("高度：" + binding.rv.height)
+//                // 在这里使用 height 的值
+//            }
+//        })
         lifecycleScope.launch {
             videoPlayerViewModel.navHeight.collectLatest{
-                binding.commentContainer.setPadding(pH,pH,pH, it)
+                binding.commentInputContainer.setPadding(pH,0,pH, it)
             }
         }
+        lifecycleScope.launch {
+            videoPlayerViewModel.offset.collect{
+                binding.commentInputContainer.translationY =it.toFloat()
+            }
+        }
+        // 设置线性布局
+        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rv.layoutManager = layoutManager
+        // 设置适配器
+        val adapter = CommentCardAdapter(mutableListOf(CommentInfo(1,"😂哈哈哈哈哈"),CommentInfo(2,"😂哈哈哈哈哈"),CommentInfo(3,"😂哈哈哈哈哈"),CommentInfo(4,"😂哈哈哈哈哈")))
+        binding.rv.adapter = adapter
     }
 
     override fun initData() {

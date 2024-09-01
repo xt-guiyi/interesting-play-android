@@ -10,8 +10,16 @@ class VideoPlayerViewModel : ViewModel() {
     private val _navHeight = MutableStateFlow(0)
     val navHeight: StateFlow<Int> = _navHeight.asStateFlow()
 
+    // 偏移距离
+    private val _offset = MutableStateFlow(0)
+    val offset: StateFlow<Int> = _offset.asStateFlow()
+
     fun setNavHeight(height: Int) {
-//        Toaster.show("11-$height")
         _navHeight.value = height
+    }
+
+
+    fun setOffset(height: Int) {
+        _offset.value = height
     }
 }

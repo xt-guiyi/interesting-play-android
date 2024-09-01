@@ -21,7 +21,6 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -41,7 +40,6 @@ import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
-import kotlin.math.roundToInt
 
 
 class VideoPlayerActivity : BaseActivity(),
@@ -137,6 +135,10 @@ class VideoPlayerActivity : BaseActivity(),
             binding.barrageInput.text = resources.getString(R.string.barrage_input_text_2)
             barrageDialog.show(supportFragmentManager, BarrageDialogFragment.TAG)
         }
+        binding.main.setOnScrollHeightChange { maxOffset, offset ->
+//            Toaster.show(maxOffset)
+            lifecycleScope.launch { videoPlayerViewModel.setOffset(-maxOffset - offset) }
+        }
     }
 
     private fun initStatus() {
@@ -192,7 +194,11 @@ class VideoPlayerActivity : BaseActivity(),
                 }
 
                 override fun onClickResume(url: String?, vararg objects: Any?) {
-                    binding.main.resetStatus()
+                    binding.main.resetStatus(false)
+                }
+
+                override fun onClickStop(url: String?, vararg objects: Any?) {
+                    binding.main.resetStatus(true)
                 }
 
                 override fun onQuitFullscreen(url: String, vararg objects: Any) {
