@@ -3,6 +3,7 @@ package com.xtguiyi.loveLife.ui.videoPlayer.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,8 +29,18 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
     private var totalOffset = 0 // 总偏移量
     private var topBarHeight = 0 // topBar高度
     private var videoPlayerHeight = 0 // 播放器初始高度
-    private var defaultScrollViewHeight = 0 // 可滚动去区域初始高度
+    private var viewPager2Height = 0 // 可滚动去区域初始高度
     private var canAbleScroll = false
+
+    init {
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                Toaster.show(mViewPager2.measuredHeight)
+                if (viewPager2Height == 0) viewPager2Height = mViewPager2.measuredHeight
+            }
+        })
+    }
 
     // 获取view实例
     override fun onFinishInflate() {
@@ -48,14 +59,14 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         // 设置contentContainer高度为：屏幕高度 - topBar高度 - paddingTop - paddingBottom
         mContentContainer.layoutParams.height =
             measuredHeight - topBarHeight - paddingTop - paddingBottom
+
     }
 
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
-        if (defaultScrollViewHeight == 0) defaultScrollViewHeight = target.height
          canAbleScroll =
             mVideoPlayer.currentState == CURRENT_STATE_PAUSE || mVideoPlayer.currentState == CURRENT_STATE_AUTO_COMPLETE
         updateRvHeight(
-            if(!canAbleScroll) defaultScrollViewHeight - (videoPlayerHeight - topBarHeight) else defaultScrollViewHeight
+            if(!canAbleScroll) viewPager2Height - (videoPlayerHeight - topBarHeight) else viewPager2Height
         )
         if(canAbleScroll) {
             mScrollHeightCall?.invoke(videoPlayerHeight - topBarHeight, totalOffset)
@@ -183,7 +194,6 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
     private fun updateRvHeight(height: Int) {
             mViewPager2.layoutParams.height  = height
         mViewPager2.requestLayout()
-        Toaster.show(mViewPager2.height)
 
     }
 
@@ -214,7 +224,7 @@ class NestParentLayout(private val ctx: Context, private val attrs: AttributeSet
         totalOffset = 0
         canAbleScroll = isPause
         updateRvHeight(
-            if(!canAbleScroll) defaultScrollViewHeight - (videoPlayerHeight - topBarHeight) else defaultScrollViewHeight
+            if(!canAbleScroll) viewPager2Height - (videoPlayerHeight - topBarHeight) else viewPager2Height
         )
         if(canAbleScroll) {
             mScrollHeightCall?.invoke(videoPlayerHeight - topBarHeight, totalOffset)
