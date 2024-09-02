@@ -26,7 +26,6 @@ class CommentFragment : BaseFragment() {
     private lateinit var binding: FragmentCommentBinding
     private lateinit var layoutManager: LinearLayoutManager
     private val videoPlayerViewModel: VideoPlayerViewModel by activityViewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -43,10 +42,6 @@ class CommentFragment : BaseFragment() {
         initData()
         bindingListener()
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     override fun initView() {
@@ -77,8 +72,7 @@ class CommentFragment : BaseFragment() {
 
     override fun bindingListener() {
         binding.inputBox.setOnClickListener {
-            val commentDialogFragment = CommentDialogFragment()
-            commentDialogFragment.show(requireActivity().supportFragmentManager, CommentDialogFragment.TAG)
+                CommentDialogFragment().show(requireActivity().supportFragmentManager, CommentDialogFragment.TAG)
         }
     }
 

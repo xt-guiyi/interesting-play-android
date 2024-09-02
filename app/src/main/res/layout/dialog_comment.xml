@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
-    android:fitsSystemWindows="true">
+    >
     <LinearLayout
-        android:id="@+id/comment_wrapper"
+        android:id="@+id/commentInputWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -61,6 +61,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/emote_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -72,7 +73,20 @@
                 android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:background="@drawable/button_bg_24"
+                android:stateListAnimator="@null"
                 android:text="@string/publish" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emote_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:orientation="horizontal"
+            android:padding="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:text="测试"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
