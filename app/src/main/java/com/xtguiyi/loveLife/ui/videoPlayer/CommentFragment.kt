@@ -15,6 +15,7 @@ import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoPlayerViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
@@ -50,21 +51,16 @@ class CommentFragment : BaseFragment() {
 
     override fun initView() {
         val pH = DisplayUtil.dip2px(requireContext(),12f)
-//        binding.rv.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-////                binding.rv.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                Toaster.show("高度：" + binding.rv.height)
-//                // 在这里使用 height 的值
-//            }
-//        })
         lifecycleScope.launch {
-            videoPlayerViewModel.navHeight.collectLatest{
-                binding.commentInputContainer.setPadding(pH,0,pH, it)
+            launch {
+                videoPlayerViewModel.navHeight.collectLatest{
+                    binding.commentInputContainer.setPadding(pH,0,pH, it)
+                }
             }
-        }
-        lifecycleScope.launch {
-            videoPlayerViewModel.offset.collect{
-                binding.commentInputContainer.translationY =it.toFloat()
+            launch {
+                videoPlayerViewModel.offset.collect{
+                    binding.commentInputContainer.translationY =it.toFloat()
+                }
             }
         }
         // 设置线性布局

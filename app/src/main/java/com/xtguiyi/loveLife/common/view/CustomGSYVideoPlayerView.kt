@@ -17,7 +17,7 @@ import moe.codeest.enviews.ENDownloadView
 /**
  * 自定义播放器
  * */
-class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
+class CustomGSYVideoPlayerView: StandardGSYVideoPlayer {
 
     constructor(context: Context, fullFlag: Boolean) : super(context,fullFlag) {}
     constructor(context: Context) : super(context) { }
@@ -97,7 +97,7 @@ class CustomGSYVideoPlayer: StandardGSYVideoPlayer {
         statusBar: Boolean
     ): GSYBaseVideoPlayer {
         val gbPlayer = super.startWindowFullscreen(context, actionBar, statusBar)
-        val customPlayer = gbPlayer as CustomGSYVideoPlayer
+        val customPlayer = gbPlayer as CustomGSYVideoPlayerView
         // 设置全屏状态，底部操作栏适配沉浸式布局
         customPlayer.mBottomContainer.fitsSystemWindows = true
         customPlayer.mBottomContainer.layoutParams.height =  DisplayUtil.dip2px(getContext(),40f)

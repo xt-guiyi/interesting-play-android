@@ -21,6 +21,7 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -40,6 +41,7 @@ import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
+import kotlin.math.max
 
 
 class VideoPlayerActivity : BaseActivity(),
@@ -57,14 +59,15 @@ class VideoPlayerActivity : BaseActivity(),
     private lateinit var orientationUtils: OrientationUtils
     private var isPlay: Boolean = false
     private val gsyVideoOption = GSYVideoOptionBuilder()
-    private var barrageInfo = BarrageInfo("","默认","滚动","#FFFFFFFF")
+    private var barrageInfo = BarrageInfo("", "默认", "滚动", "#FFFFFFFF")
+
     // TODO 直接引用，试试会不会内存泄露
-    private val barrageDialog: BarrageDialogFragment by lazy{
+    private val barrageDialog: BarrageDialogFragment by lazy {
         BarrageDialogFragment(barrageInfo)
     }
     private val fragmentManagerListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-            if(f is BarrageDialogFragment){
+            if (f is BarrageDialogFragment) {
                 binding.barrageInput.text = resources.getString(R.string.barrage_input_text_1)
             }
         }
@@ -135,9 +138,8 @@ class VideoPlayerActivity : BaseActivity(),
             binding.barrageInput.text = resources.getString(R.string.barrage_input_text_2)
             barrageDialog.show(supportFragmentManager, BarrageDialogFragment.TAG)
         }
-        binding.main.setOnScrollHeightChange { maxOffset, offset ->
-//            Toaster.show(maxOffset)
-            lifecycleScope.launch { videoPlayerViewModel.setOffset(-maxOffset - offset) }
+        binding.main.setOnOffsetChange { maxOffset, offset ->
+            lifecycleScope.launch { videoPlayerViewModel.setOffset(-(maxOffset - offset)) }
         }
     }
 
@@ -150,7 +152,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     private fun initTabLayoutAndViewPager() {
         // 初始化tabLayout
-        val tabItems = listOf("简介","评论")
+        val tabItems = listOf("简介", "评论")
         binding.tabs.isTabIndicatorFullWidth = false
         binding.tabs.tabMode = TabLayout.MODE_SCROLLABLE
         binding.tabs.tabGravity = TabLayout.GRAVITY_FILL
@@ -173,9 +175,9 @@ class VideoPlayerActivity : BaseActivity(),
 
     private fun initPlayer() {
         //外部辅助的旋转，帮助全屏
-        orientationUtils = OrientationUtils(this, binding.videoPlayer);
+        orientationUtils = OrientationUtils(this, binding.videoPlayer)
         //初始化不打开外部的旋转
-        orientationUtils.setEnable(false);
+        orientationUtils.setEnable(false)
         gsyVideoOption
 //            .setThumbImageView(imageView)
             .setIsTouchWiget(true)
@@ -241,11 +243,6 @@ class VideoPlayerActivity : BaseActivity(),
         super.onPause()
     }
 
-    override fun onResume() {
-//        binding.videoPlayer.getCurrentPlayer().onVideoResume(false)
-        super.onResume()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (isPlay) {
@@ -274,14 +271,16 @@ class VideoPlayerActivity : BaseActivity(),
         // 显示弹幕
         binding.videoPlayer.mDanmakuController.addFakeData(TextData().apply {
             text = barrageInfo.message
-            layerType = when(barrageInfo.position) {
+            layerType = when (barrageInfo.position) {
                 "滚动" -> LAYER_TYPE_SCROLL
                 "置顶" -> LAYER_TYPE_TOP_CENTER
                 "置底" -> LAYER_TYPE_BOTTOM_CENTER
                 else -> LAYER_TYPE_SCROLL
             }
             textColor = Color.parseColor(barrageInfo.color)
-            textSize =  if (barrageInfo.size == "默认") DisplayUtil.spToPx(this@VideoPlayerActivity,20f).toFloat() else DisplayUtil.spToPx(this@VideoPlayerActivity,12f).toFloat()
+            textSize =
+                if (barrageInfo.size == "默认") DisplayUtil.spToPx(this@VideoPlayerActivity, 20f)
+                    .toFloat() else DisplayUtil.spToPx(this@VideoPlayerActivity, 12f).toFloat()
         })
         return true
     }
