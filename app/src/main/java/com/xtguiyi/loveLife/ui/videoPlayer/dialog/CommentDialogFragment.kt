@@ -6,31 +6,28 @@ import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.DialogCommentBinding
-import com.xtguiyi.loveLife.utils.DisplayUtil
 
-class CommentDialogFragment() : DialogFragment() {
+class CommentDialogFragment : DialogFragment() {
     private lateinit var binding: DialogCommentBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private var isFullScreen = false
     private var isEmoteArea = false
-    private var emoteAreaHeight =  0
+    private var emoteAreaHeight = 0
+    private var isClickable = false
+    private var isMounted = false
 
     init {
         setStyle(STYLE_NORMAL, R.style.CustomDialog2)
@@ -48,6 +45,14 @@ class CommentDialogFragment() : DialogFragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.commentInput.requestFocus()
+        windowInsetsController.show(WindowInsetsCompat.Type.ime())
+            isMounted = true
+
+    }
+
     override fun onPause() {
         super.onPause()
         binding.commentInput.clearFocus()
@@ -58,24 +63,20 @@ class CommentDialogFragment() : DialogFragment() {
         dialog?.window?.let {
             windowInsetsController = WindowCompat.getInsetsController(it, it.decorView)
             binding.commentInput.requestFocus()
-            // 解决低版本dialogFragment弹出软键盘无效，加300ms延迟
+            // 解决低版本dialogFragment弹出软键盘无效，加500ms延迟
             binding.commentInput.postDelayed({
-                windowInsetsController.show(WindowInsetsCompat.Type.ime())
+//                windowInsetsController.show(WindowInsetsCompat.Type.ime())
                 val insets = ViewCompat.getRootWindowInsets(it.decorView) ?: return@postDelayed
-                emoteAreaHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom - insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                it.decorView.setOnSystemUiVisibilityChangeListener {
-                    Toaster.show("11")
-                }
-//                ViewCompat.setOnApplyWindowInsetsListener(it.decorView) { _, insets ->
-//                    val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-//                    Toaster.show(imeVisible)
-//                    null
-//                }
-            }, 300)
+                emoteAreaHeight =
+                    insets.getInsets(WindowInsetsCompat.Type.ime()).bottom - insets.getInsets(
+                        WindowInsetsCompat.Type.navigationBars()
+                    ).bottom
+            }, 1000)
+
         }
         dialog?.window?.apply {
             statusBarColor = Color.TRANSPARENT
-            navigationBarColor = ResourcesCompat.getColor(resources,R.color.green_100, null)
+            navigationBarColor = ResourcesCompat.getColor(resources, R.color.green_100, null)
             windowInsetsController.isAppearanceLightNavigationBars = true
             windowInsetsController.isAppearanceLightStatusBars = false
             // 设置弹窗外的背景透明度
@@ -97,7 +98,7 @@ class CommentDialogFragment() : DialogFragment() {
             val childRect = Rect()
             binding.commentInputWrapper.getHitRect(childRect)
             if (!childRect.contains(event.x.toInt(), event.y.toInt())) {
-                if(!isFullScreen) dismiss()
+                if (!isFullScreen) dismiss()
             }
             return@setOnTouchListener true
         }
@@ -105,35 +106,63 @@ class CommentDialogFragment() : DialogFragment() {
 
         binding.scaleView.setOnClickListener {
             if (isFullScreen) {
-                binding.commentInputWrapper.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                binding.commentInputWrapper.layoutParams.height =
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 binding.commentInput.maxLines = 6
                 binding.commentInput.minLines = 2
             } else {
-               binding.commentInputWrapper.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                binding.commentInputWrapper.layoutParams.height =
+                    ViewGroup.LayoutParams.MATCH_PARENT
                 binding.commentInput.maxLines = Int.MAX_VALUE
                 binding.commentInput.minLines = 3
             }
             isFullScreen = !isFullScreen
         }
 
-        binding.emoteToggle.setOnClickListener{
+        binding.emoteToggle.setOnClickListener {
+            if (isClickable) return@setOnClickListener
+            isClickable = true
+            Handler(requireActivity().mainLooper).postDelayed({
+                isClickable = false
+
+            }, 600)
             isEmoteArea = !isEmoteArea
-            if(isEmoteArea){
+            if (isEmoteArea) {
                 binding.emoteLayout.layoutParams.height = emoteAreaHeight
-            }else{
-                binding.emoteLayout.layoutParams.height = 0
+                windowInsetsController.hide(WindowInsetsCompat.Type.ime())
+                binding.emoteLayout.requestLayout()
+                dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+            } else {
+                windowInsetsController.show(WindowInsetsCompat.Type.ime())
+                // 需要延迟，避免抖动
+                binding.commentDialog.postDelayed({
+//                    binding.emoteLayout.layoutParams.height = 0
+//                    binding.emoteLayout.requestLayout()
+//                    dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+                }, 500)
             }
-            binding.emoteLayout.requestLayout()
-            windowInsetsController.hide(WindowInsetsCompat.Type.ime())
         }
 
-        binding.commentInput.setOnClickListener { v,  ->
-            if(isEmoteArea) {
-                isEmoteArea = false
-                binding.emoteLayout.layoutParams.height = 0
-                binding.emoteLayout.requestLayout()
-            }
-            windowInsetsController.show(WindowInsetsCompat.Type.ime())
+
+        binding.commentInput.setOnClickListener { v ->
+//            if (isClickable) return@setOnClickListener
+//            if (isEmoteArea) {
+//                isEmoteArea = false
+//                windowInsetsController.show(WindowInsetsCompat.Type.ime())
+//                // 需要延迟，避免抖动
+//                binding.commentDialog.postDelayed({
+//                    binding.emoteLayout.layoutParams.height = 0
+//                    binding.emoteLayout.requestLayout()
+//                    dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+//                }, 300)
+//            }
+        }
+
+        binding.commentDialog.viewTreeObserver.addOnGlobalLayoutListener {
+            val insets = ViewCompat.getRootWindowInsets(binding.commentDialog) ?: return@addOnGlobalLayoutListener
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            Toaster.show(imeVisible)
+//          if(!imeVisible && isMounted) dismiss()
         }
     }
 
