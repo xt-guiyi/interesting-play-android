@@ -67,7 +67,6 @@ class VideoPlayerActivity : BaseActivity(),
     }
     private val fragmentManagerListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-            Toaster.show(f.javaClass.simpleName)
             if (f is BarrageDialogFragment) {
                 binding.barrageInput.text = resources.getString(R.string.barrage_input_text_1)
             }

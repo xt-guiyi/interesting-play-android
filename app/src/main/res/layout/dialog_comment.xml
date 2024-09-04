@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/comment_dialog"
+    android:id="@+id/post_comment_dialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
     >
     <LinearLayout
-        android:id="@+id/commentInputWrapper"
+        android:id="@+id/comment_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -76,17 +76,17 @@
                 android:stateListAnimator="@null"
                 android:text="@string/publish" />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/emote_layout"
+        <FrameLayout
+            android:id="@+id/bottom_action_layout"
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:orientation="horizontal"
             android:padding="8dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/emoji_viewpage2"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="28sp"
-                android:text="测试"/>
-        </LinearLayout>
+                >
+            </androidx.viewpager2.widget.ViewPager2>
+        </FrameLayout>
     </LinearLayout>
 </FrameLayout>
