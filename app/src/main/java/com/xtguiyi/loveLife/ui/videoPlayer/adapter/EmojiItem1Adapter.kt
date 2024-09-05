@@ -20,11 +20,20 @@ class EmojiItem1Adapter(private var list: List<String>): RecyclerView.Adapter<Em
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.bindTo(list[position])
+       holder.binding.root.setOnClickListener{
+           mClickCall?.invoke(list[position])
+       }
     }
 
     class ViewHolder(val binding:LayoutEmojiItem1Binding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(text: String){
              binding.emojiUnicodeText.text = text
-            }
+        }
+    }
+
+    private var mClickCall: ((str: String) -> Unit)? = null
+
+    public fun setOnClickListenerByRoot(mClickCall: (str: String) -> Unit) {
+        this.mClickCall = mClickCall
     }
 }

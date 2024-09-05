@@ -26,7 +26,7 @@ import kotlinx.serialization.json.Json
 class CommentDialogFragment : DialogFragment() {
     private lateinit var binding: DialogCommentBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
-    private var isFirst = true
+    private var isPrepare = false
     private var isFullScreen = false
     private var isBottomLayout = false
     private var bottomLayoutHeight = 0
@@ -47,8 +47,8 @@ class CommentDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // 聚焦，显示软键盘
         binding.commentInput.requestFocus()
         windowInsetsController.show(WindowInsetsCompat.Type.ime())
@@ -56,17 +56,14 @@ class CommentDialogFragment : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        if(!binding.commentInput.isFocused) binding.commentInput.requestFocus()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        binding.commentInput.clearFocus()
+        isPrepare = false
+        if(!binding.commentInput.isFocused)  binding.commentInput.requestFocus()
     }
 
     private fun configuration() {
         // 配置窗口变化
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            if(!isResumed) return@setOnApplyWindowInsetsListener insets // 切后台，不应修改状态
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val imeBar = insets.getInsets(WindowInsetsCompat.Type.ime())
             val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
@@ -76,14 +73,12 @@ class CommentDialogFragment : DialogFragment() {
             v.setPadding(0, topPadding, 0, bottomPadding)
             binding.bottomActionLayout.layoutParams.height = if (isBottomLayout) bottomLayoutHeight else 0
             binding.bottomActionLayout.requestLayout()
+            binding.emojiViewpage2.visibility = if (isBottomLayout) ViewGroup.VISIBLE else ViewGroup.GONE
             if (!imeVisible && !isBottomLayout)  {
-                if (isFirst) {
-                    binding.root.postDelayed({isFirst = false}, 300)
+                if (!isPrepare) {
+                    binding.root.postDelayed({isPrepare = true}, 500)
                 }else {
-                    // 延300ms关闭
-                    binding.root.postDelayed({
-                        dismiss()
-                    },300)
+                    dismiss()
                 }
             }
              // CONSUMED   知识扩展：还可以返回这个表示已经被消费了,就不会处理inset
@@ -147,7 +142,11 @@ class CommentDialogFragment : DialogFragment() {
             isBottomLayout = !isBottomLayout
             if (isBottomLayout) {
                 windowInsetsController.hide(WindowInsetsCompat.Type.ime())
-                if(binding.emojiViewpage2.adapter == null) initEmoji()
+                if(binding.emojiViewpage2.adapter == null) {
+                    binding.root.postDelayed({
+                        initEmoji()
+                    },200)
+                }
             } else {
                 windowInsetsController.show(WindowInsetsCompat.Type.ime())
             }

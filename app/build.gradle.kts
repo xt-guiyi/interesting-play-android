@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.getactivity.toaster)
     // glide 图片加载 https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     implementation(libs.github.glide)
+    annotationProcessor(libs.compiler)
     // banner控件：https://github.com/youth5201314/banner
     implementation(libs.banner)
     implementation(libs.androidx.recyclerview)

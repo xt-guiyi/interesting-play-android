@@ -41,7 +41,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
             binding.author.text = data.owner.name
             binding.duration.text = TimeUtil.geDurationTime(data.duration)
             binding.views.text = CommonUtil.formatNumber(data.views)
-            GlideUtil.loadUrl(data.pic, binding.pic.context, binding.pic as ShapeableImageView) // 必须指定为ShapeableImageView
+            GlideUtil.loadUrl(data.pic, binding.pic.context, binding.pic)
         }
     }
 

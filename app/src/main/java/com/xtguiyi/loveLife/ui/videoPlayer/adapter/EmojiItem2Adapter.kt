@@ -7,6 +7,7 @@ import com.xtguiyi.loveLife.databinding.LayoutCommentCardBinding
 import com.xtguiyi.loveLife.databinding.LayoutEmojiItem1Binding
 import com.xtguiyi.loveLife.databinding.LayoutEmojiItem2Binding
 import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.utils.GlideUtil
 
 class EmojiItem2Adapter(private var list: List<String>): RecyclerView.Adapter<EmojiItem2Adapter.ViewHolder>() {
 
@@ -21,11 +22,20 @@ class EmojiItem2Adapter(private var list: List<String>): RecyclerView.Adapter<Em
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.bindTo(list[position])
+       holder.binding.root.setOnClickListener {
+//            mClickCall?.invoke(it, position, videoData[position])
+       }
     }
 
     class ViewHolder(val binding:LayoutEmojiItem2Binding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(text: String){
-//             binding.emojiImage
-            }
+            GlideUtil.loadUrlNoCache(text, binding.root.context, binding.emojiImage)
+        }
     }
+
+//    private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
+//
+//    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfo) -> Unit) {
+//        this.mClickCall = mClickCall
+//    }
 }

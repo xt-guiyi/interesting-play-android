@@ -44,6 +44,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
     }
 
     class ViewHolder(val binding:LayoutBriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bindTo(data: VideoInfo){
              binding.videoTitle.text = data.title
             binding.userName.text = data.owner.name

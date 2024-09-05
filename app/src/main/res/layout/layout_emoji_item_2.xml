@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatImageView
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/emoji_image"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:src="@drawable/bilibil_vision">
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:padding="8dp"
+    tools:src="@drawable/bilibil_vision">
 
 </androidx.appcompat.widget.AppCompatImageView>
