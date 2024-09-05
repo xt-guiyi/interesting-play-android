@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentEmojiList2Binding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.EmojiItem2Adapter
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentDialogViewModel
+import kotlinx.coroutines.launch
 
 
 class EmojiList2Fragment : BaseFragment() {
     private lateinit var binding: FragmentEmojiList2Binding
     private lateinit var layoutManager: GridLayoutManager
+    private val commentDialogViewModel: CommentDialogViewModel by viewModels({requireParentFragment()})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +48,9 @@ class EmojiList2Fragment : BaseFragment() {
                 )
                 val adapter = EmojiItem2Adapter(emojiList)
                 binding.rv.adapter = adapter
+                adapter.setOnClickListenerByRoot {
+                   lifecycleScope.launch{ commentDialogViewModel.setEmojiStr("哈哈哈👀")}
+                }
         } catch (e: Exception) {
             e.printStackTrace()
         }

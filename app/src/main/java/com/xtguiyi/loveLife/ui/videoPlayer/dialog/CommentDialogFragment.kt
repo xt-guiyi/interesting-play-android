@@ -1,7 +1,6 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.dialog
 
 import android.annotation.SuppressLint
-import android.content.res.AssetManager
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
@@ -15,17 +14,19 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.DialogCommentBinding
-import com.xtguiyi.loveLife.entity.User
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.EmojiViewPageAdapter
-import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
-import kotlinx.serialization.json.Json
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentDialogViewModel
+import kotlinx.coroutines.launch
 
 class CommentDialogFragment : DialogFragment() {
     private lateinit var binding: DialogCommentBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
+    private val commentDialogViewModel: CommentDialogViewModel by viewModels()
     private var isPrepare = false
     private var isFullScreen = false
     private var isBottomLayout = false
@@ -43,6 +44,7 @@ class CommentDialogFragment : DialogFragment() {
         binding = DialogCommentBinding.inflate(inflater, container, false)
         configuration()
         initView()
+        initData()
         bindingListener()
         return binding.root
     }
@@ -105,8 +107,16 @@ class CommentDialogFragment : DialogFragment() {
     fun initView() {}
 
     private fun initEmoji() {
-        val adapter = EmojiViewPageAdapter(requireActivity(), 2)
+        val adapter = EmojiViewPageAdapter(this, 2)
         binding.emojiViewpage2.adapter = adapter
+    }
+
+    fun initData() {
+        lifecycleScope.launch{
+            commentDialogViewModel.emojiStr.collect{
+                Toaster.show(it)
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -161,4 +171,6 @@ class CommentDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "CommentDialogFragment"
     }
+
+
 }
