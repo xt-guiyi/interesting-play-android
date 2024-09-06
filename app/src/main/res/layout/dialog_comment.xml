@@ -38,6 +38,7 @@
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:maxLines="6"
+                android:textSize="18sp"
                 android:textColorHint="@color/sliver_100"
                 tools:ignore="NestedWeights" />
 

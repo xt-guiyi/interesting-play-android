@@ -13,6 +13,7 @@ import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -111,8 +112,8 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
 
         }
         if(!isBottomLayout) {
-            binding.commentInput.requestFocus()
-            windowInsetsController.show(WindowInsetsCompat.Type.ime())
+               binding.commentInput.requestFocus()
+               windowInsetsController.show(WindowInsetsCompat.Type.ime())
         }
     }
 
@@ -246,13 +247,16 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
             }
         }
 
-
-        binding.commentInput.onFocusChangeListener = object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        binding.commentInput.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(
+                v: View?,
+                event: MotionEvent?
+            ): Boolean {
                 isBottomLayout = false
+                return false
             }
 
-        }
+        })
     }
 
     companion object {

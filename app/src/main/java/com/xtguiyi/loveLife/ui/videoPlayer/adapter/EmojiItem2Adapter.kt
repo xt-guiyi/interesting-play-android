@@ -1,16 +1,12 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.adapter
 
-import android.R
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.databinding.LayoutEmojiItem2Binding
+import com.xtguiyi.loveLife.utils.DisplayUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 
 class EmojiItem2Adapter(private var list: List<String>): RecyclerView.Adapter<EmojiItem2Adapter.ViewHolder>() {
@@ -27,7 +23,10 @@ class EmojiItem2Adapter(private var list: List<String>): RecyclerView.Adapter<Em
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.bindTo(list[position])
         holder.binding.root.setOnClickListener{
-            mClickCall?.invoke(holder.binding.emojiImage.drawable.toBitmap(70, 70))
+            val round = DisplayUtil.dip2px(holder.binding.root.context, 22f)
+            val originalBitmap = holder.binding.emojiImage.drawable.toBitmap()
+            val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, round, round, true)
+            mClickCall?.invoke(scaledBitmap)
         }
     }
 

@@ -32,5 +32,7 @@
         <item name="android:windowIsFloating">false</item>
         <!-- dialog外点击关闭-->
         <item name="android:windowCloseOnTouchOutside">true</item>
+        <!--  兼容安卓R以下必须设置       -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 </resources>

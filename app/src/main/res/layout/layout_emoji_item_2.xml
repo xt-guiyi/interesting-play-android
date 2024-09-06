@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:padding="8dp"
+    android:scaleType="fitCenter"
     tools:src="@drawable/bilibil_vision">
 
 </androidx.appcompat.widget.AppCompatImageView>
