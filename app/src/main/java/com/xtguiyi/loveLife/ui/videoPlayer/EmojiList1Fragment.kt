@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentEmojiList1Binding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.EmojiItem1Adapter
+import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentDialogViewModel
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 
 class EmojiList1Fragment : BaseFragment() {
     private lateinit var binding: FragmentEmojiList1Binding
+    private val commentDialogViewModel: CommentDialogViewModel by viewModels({requireParentFragment()})
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreateView(
@@ -36,6 +41,9 @@ class EmojiList1Fragment : BaseFragment() {
                 val emojiList = Json.decodeFromString<List<String>>(it.bufferedReader().readText())
                 val adapter = EmojiItem1Adapter(emojiList)
                 binding.rv.adapter = adapter
+                adapter.setOnClickListenerByRoot {
+                    lifecycleScope.launch{ commentDialogViewModel.setEmojiStr(it)}
+                }
             }
         }catch (e: Exception) {
             e.printStackTrace()

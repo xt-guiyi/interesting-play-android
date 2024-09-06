@@ -9,16 +9,13 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="60dp"
     />
 
     <LinearLayout
         android:id="@+id/comment_input_container"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@color/white"

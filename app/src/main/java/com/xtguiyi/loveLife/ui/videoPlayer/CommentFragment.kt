@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentCommentBinding
 import com.xtguiyi.loveLife.entity.CommentInfo
@@ -50,11 +51,15 @@ class CommentFragment : BaseFragment() {
             launch {
                 videoPlayerViewModel.navHeight.collectLatest{
                     binding.commentInputContainer.setPadding(pH,0,pH, it)
+                    binding.commentInputContainer.post {
+                        binding.rv.setPadding(pH,pH,pH,binding.commentInputContainer.height)
+
+                    }
                 }
             }
             launch {
                 videoPlayerViewModel.offset.collect{
-                    binding.commentInputContainer.translationY =it.toFloat()
+                    binding.commentInputContainer.translationY = it.toFloat()
                 }
             }
         }
@@ -73,6 +78,10 @@ class CommentFragment : BaseFragment() {
     override fun bindingListener() {
         binding.inputBox.setOnClickListener {
                 CommentDialogFragment().show(requireActivity().supportFragmentManager, CommentDialogFragment.TAG)
+        }
+
+        binding.emoteView.setOnClickListener {
+            CommentDialogFragment(true).show(requireActivity().supportFragmentManager, CommentDialogFragment.TAG)
         }
     }
 

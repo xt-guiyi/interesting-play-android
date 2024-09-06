@@ -1,11 +1,18 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.dialog
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ImageSpan
+import android.view.ActionMode
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
@@ -16,24 +23,24 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.DialogCommentBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.EmojiViewPageAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentDialogViewModel
+import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 
-class CommentDialogFragment : DialogFragment() {
+class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
     private lateinit var binding: DialogCommentBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private val commentDialogViewModel: CommentDialogViewModel by viewModels()
     private var isPrepare = false
     private var isFullScreen = false
-    private var isBottomLayout = false
+    private var isBottomLayout = isOpenEmoji
     private var bottomLayoutHeight = 0
 
     init {
-        setStyle(STYLE_NORMAL, R.style.CustomDialog2)
+        setStyle(STYLE_NORMAL, R.style.CustomDialog1)
     }
 
     override fun onCreateView(
@@ -42,6 +49,7 @@ class CommentDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogCommentBinding.inflate(inflater, container, false)
+        bottomLayoutHeight =  (DisplayUtil.getScreenHeight(requireContext()) * 0.4).toInt()
         configuration()
         initView()
         initData()
@@ -52,14 +60,66 @@ class CommentDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 聚焦，显示软键盘
-        binding.commentInput.requestFocus()
-        windowInsetsController.show(WindowInsetsCompat.Type.ime())
+        binding.commentInput.customInsertionActionModeCallback =  object : ActionMode.Callback2() {
+            override fun onCreateActionMode(
+                mode: ActionMode?,
+                menu: Menu?
+            ): Boolean {
+                return false
+            }
+
+            override fun onPrepareActionMode(
+                mode: ActionMode?,
+                menu: Menu?
+            ): Boolean {
+                return true
+            }
+
+            override fun onActionItemClicked(
+                mode: ActionMode?,
+                item: MenuItem?
+            ): Boolean {
+                return true
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) { }
+
+        }
+        binding.commentInput.customSelectionActionModeCallback = object : ActionMode.Callback2() {
+            override fun onCreateActionMode(
+                mode: ActionMode?,
+                menu: Menu?
+            ): Boolean {
+                return false
+            }
+
+            override fun onPrepareActionMode(
+                mode: ActionMode?,
+                menu: Menu?
+            ): Boolean {
+                return false
+            }
+
+            override fun onActionItemClicked(
+                mode: ActionMode?,
+                item: MenuItem?
+            ): Boolean {
+                return false
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) { }
+
+        }
+        if(!isBottomLayout) {
+            binding.commentInput.requestFocus()
+            windowInsetsController.show(WindowInsetsCompat.Type.ime())
+        }
     }
 
     override fun onResume() {
         super.onResume()
         isPrepare = false
-        if(!binding.commentInput.isFocused)  binding.commentInput.requestFocus()
+        if(!binding.commentInput.isFocused && !isBottomLayout)  binding.commentInput.requestFocus()
     }
 
     private fun configuration() {
@@ -104,7 +164,9 @@ class CommentDialogFragment : DialogFragment() {
         }
     }
 
-    fun initView() {}
+    fun initView() {
+        initEmoji()
+    }
 
     private fun initEmoji() {
         val adapter = EmojiViewPageAdapter(this, 2)
@@ -113,10 +175,37 @@ class CommentDialogFragment : DialogFragment() {
 
     fun initData() {
         lifecycleScope.launch{
-            commentDialogViewModel.emojiStr.collect{
-                Toaster.show(it)
+           launch{
+               commentDialogViewModel.emojiStr.collect{
+                   setEmojiStr(it)
+               }
+           }
+            launch{
+                commentDialogViewModel.emojiBitmap.collect{
+                    setEmojiDrawable(it)
+                }
             }
         }
+    }
+
+    private fun setEmojiStr(str: String) {
+        val selectionStart = binding.commentInput.selectionStart
+        if (selectionStart == -1 ) return
+        val stringBuilder = SpannableStringBuilder(binding.commentInput.text)
+        stringBuilder.insert(selectionStart,str)
+        binding.commentInput.setText(stringBuilder)
+        binding.commentInput.setSelection(selectionStart + str.length)
+    }
+
+    private fun setEmojiDrawable(bitmap: Bitmap) {
+        val selectionStart = binding.commentInput.selectionStart
+        if (selectionStart == -1 ) return
+        val stringBuilder = SpannableStringBuilder(binding.commentInput.text)
+        stringBuilder.insert(selectionStart, " ")
+        val imageSpan = ImageSpan(requireContext(),bitmap)
+        stringBuilder.setSpan(imageSpan, selectionStart, selectionStart + 1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.commentInput.setText(stringBuilder)
+        binding.commentInput.setSelection(selectionStart + 1)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -152,19 +241,17 @@ class CommentDialogFragment : DialogFragment() {
             isBottomLayout = !isBottomLayout
             if (isBottomLayout) {
                 windowInsetsController.hide(WindowInsetsCompat.Type.ime())
-                if(binding.emojiViewpage2.adapter == null) {
-                    binding.root.postDelayed({
-                        initEmoji()
-                    },200)
-                }
             } else {
                 windowInsetsController.show(WindowInsetsCompat.Type.ime())
             }
         }
 
 
-        binding.commentInput.setOnClickListener {
-            if (isBottomLayout)  isBottomLayout = false
+        binding.commentInput.onFocusChangeListener = object : View.OnFocusChangeListener {
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                isBottomLayout = false
+            }
+
         }
     }
 
