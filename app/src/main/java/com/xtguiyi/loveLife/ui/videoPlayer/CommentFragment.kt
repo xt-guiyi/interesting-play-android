@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.databinding.FragmentCommentBinding
 import com.xtguiyi.loveLife.entity.CommentInfo
@@ -16,7 +15,6 @@ import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoPlayerViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
@@ -46,7 +44,7 @@ class CommentFragment : BaseFragment() {
     }
 
     override fun initView() {
-        val pH = DisplayUtil.dip2px(requireContext(),12f)
+        val pH = DisplayUtil.dip2px(12f)
         lifecycleScope.launch {
             launch {
                 videoPlayerViewModel.navHeight.collectLatest{

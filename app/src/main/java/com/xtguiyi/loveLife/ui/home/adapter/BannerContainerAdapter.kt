@@ -38,10 +38,10 @@ class BannerContainerAdapter(private val bannerData: MutableList<Banner>, privat
                 .setIndicatorMargins(IndicatorConfig.Margins(
                     0,
                     0,
-                    DisplayUtil.dip2px(context,20f),
-                    DisplayUtil.dip2px(context,8f)
+                    DisplayUtil.dip2px(20f),
+                    DisplayUtil.dip2px(8f)
                 ))
-                .setIndicatorWidth( DisplayUtil.dip2px(context,8f),DisplayUtil.dip2px(context,8f))
+                .setIndicatorWidth( DisplayUtil.dip2px(8f),DisplayUtil.dip2px(8f))
                 .setIndicatorSelectedColorRes(R.color.green_300)
                 .setIndicatorNormalColorRes(R.color.sliver_100)
         }

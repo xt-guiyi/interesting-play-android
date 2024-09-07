@@ -5,15 +5,12 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -24,17 +21,16 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.R
+import com.xtguiyi.loveLife.databinding.DialogBarrageBinding
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
-import com.xtguiyi.loveLife.databinding.DialogBarrageBinding
 
 
 class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragment() {
     private lateinit var binding: DialogBarrageBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
-    private var imeStatus = false
+    private var imeVisible = false
     private val fontList = listOf("默认", "较小")
     private val positionList = listOf("滚动", "置顶", "置底")
     private val colorList = listOf(
@@ -63,7 +59,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
     ): View {
         binding = DialogBarrageBinding.inflate(inflater, container, false)
         binding.barrageAction.layoutParams.height =
-            (DisplayUtil.getScreenHeight(requireContext()) * 0.4).toInt()
+            (DisplayUtil.getScreenHeight() * 0.4).toInt()
         binding.barrageAction.requestLayout()
         configuration()
         initView()
@@ -92,8 +88,8 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
             } else if (imeVisible && isAdded) {
                 updateActionToggle(true)
             }
-            // 如果软键盘弹出，且软键盘高度小于当前屏幕高度*0.3
-            if (imeVisible && imeBar.bottom > (DisplayUtil.getScreenHeight(requireContext()) * 0.3).toInt()) {
+            // 如果软键盘弹出，且软键盘高度小于当前屏幕高度*0.3，这是为了避免软键盘高度太小
+            if (imeVisible && imeBar.bottom > (DisplayUtil.getScreenHeight() * 0.3).toInt()) {
                 binding.barrageAction.layoutParams.height = imeBar.bottom - systemBars.bottom + 30
                 binding.barrageAction.requestLayout()
             }
@@ -132,7 +128,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 setTextColor(color)
                 // 设置drawable
                 setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
-                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 2f))
+                setCompoundDrawablePadding(DisplayUtil.dip2px(2f))
                 gravity = Gravity.CENTER
                 // 设置margin
                 val lp = ViewGroup.MarginLayoutParams(
@@ -142,7 +138,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 lp.setMargins(
                     0,
                     0,
-                    DisplayUtil.dip2px(requireContext(), 25f),
+                    DisplayUtil.dip2px(25f),
                     0
                 )
                 layoutParams = lp
@@ -157,7 +153,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 text = item
                 setTextColor(color)
                 setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
-                setCompoundDrawablePadding(DisplayUtil.dip2px(requireContext(), 2f))
+                setCompoundDrawablePadding(DisplayUtil.dip2px(2f))
                 gravity = Gravity.CENTER
                 val lp = ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -166,7 +162,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
                 lp.setMargins(
                     0,
                     0,
-                    DisplayUtil.dip2px(requireContext(), 25f),
+                    DisplayUtil.dip2px(25f),
                     0
                 )
                 layoutParams = lp
@@ -235,7 +231,7 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
         }
         // 显示隐藏软键盘
         binding.actionToggle.setOnClickListener {
-            val status = !imeStatus
+            val status = !imeVisible
             updateActionToggle(status)
             updateImeToggle(status)
         }
@@ -252,14 +248,14 @@ class BarrageDialogFragment(private val barrageInfo: BarrageInfo) : DialogFragme
     }
 
     private fun updateActionToggle(status: Boolean) {
-        imeStatus = status
+        imeVisible = status
         binding.actionToggle.backgroundTintList =
             resources.getColorStateList(if (status) R.color.sliver_400 else R.color.green_300, null)
     }
 
     private fun updateImeToggle(status: Boolean) {
-        imeStatus = status
-        if (imeStatus) {
+        imeVisible = status
+        if (imeVisible) {
             windowInsetsController.show(WindowInsetsCompat.Type.ime())
         } else {
             windowInsetsController.hide(WindowInsetsCompat.Type.ime())

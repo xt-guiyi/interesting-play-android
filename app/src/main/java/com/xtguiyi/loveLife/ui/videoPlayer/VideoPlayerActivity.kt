@@ -21,7 +21,6 @@ import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_SCROLL
 import com.bytedance.danmaku.render.engine.utils.LAYER_TYPE_TOP_CENTER
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.hjq.toast.Toaster
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -41,7 +40,6 @@ import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
-import kotlin.math.max
 
 
 class VideoPlayerActivity : BaseActivity(),
@@ -279,8 +277,8 @@ class VideoPlayerActivity : BaseActivity(),
             }
             textColor = Color.parseColor(barrageInfo.color)
             textSize =
-                if (barrageInfo.size == "默认") DisplayUtil.spToPx(this@VideoPlayerActivity, 20f)
-                    .toFloat() else DisplayUtil.spToPx(this@VideoPlayerActivity, 12f).toFloat()
+                if (barrageInfo.size == "默认") DisplayUtil.spToPx(20f)
+                    .toFloat() else DisplayUtil.spToPx(12f).toFloat()
         })
         return true
     }

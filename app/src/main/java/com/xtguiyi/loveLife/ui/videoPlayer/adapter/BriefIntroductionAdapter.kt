@@ -73,10 +73,10 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
                 tagView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#dddee0"))
                 // padding
                 tagView.setPadding(
-                    DisplayUtil.dip2px(tagContainer.context,6f),
-                    DisplayUtil.dip2px(tagContainer.context,2f),
-                    DisplayUtil.dip2px(tagContainer.context,6f),
-                    DisplayUtil.dip2px(tagContainer.context,2f),
+                    DisplayUtil.dip2px(6f),
+                    DisplayUtil.dip2px(2f),
+                    DisplayUtil.dip2px(6f),
+                    DisplayUtil.dip2px(2f),
                 )
                 tagView.text = tag
                 tagContainer.addView(tagView)

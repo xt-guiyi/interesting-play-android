@@ -100,7 +100,7 @@ class CustomGSYVideoPlayerView: StandardGSYVideoPlayer {
         val customPlayer = gbPlayer as CustomGSYVideoPlayerView
         // 设置全屏状态，底部操作栏适配沉浸式布局
         customPlayer.mBottomContainer.fitsSystemWindows = true
-        customPlayer.mBottomContainer.layoutParams.height =  DisplayUtil.dip2px(getContext(),40f)
+        customPlayer.mBottomContainer.layoutParams.height =  DisplayUtil.dip2px(40f)
 
         return gbPlayer
     }

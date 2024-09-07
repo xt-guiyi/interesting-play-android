@@ -24,7 +24,7 @@ class BannerDataAdapter(mData: List<Banner>) : BannerAdapter<Banner, BannerDataA
 
         val imageContainer = FrameLayout(parent.context)
         // 设置容器padding
-        imageContainer.setPadding(DisplayUtil.dip2px(parent.context,2f),0,DisplayUtil.dip2px(parent.context,2f), 0)
+        imageContainer.setPadding(DisplayUtil.dip2px(2f),0,DisplayUtil.dip2px(2f), 0)
         imageContainer.addView(imageView)
         //注意，必须设置为match_parent，这个是viewpager2强制要求的
         imageContainer.setLayoutParams(

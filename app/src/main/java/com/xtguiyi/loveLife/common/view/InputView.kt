@@ -7,9 +7,7 @@ import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
-import android.view.WindowInsetsAnimation.Bounds
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import com.xtguiyi.loveLife.R
@@ -18,7 +16,7 @@ import com.xtguiyi.loveLife.utils.DisplayUtil
 class InputView(private val ctx: Context, private val attr: AttributeSet): AppCompatEditText(ctx, attr) {
 
     private val mDeleteDrawable = ResourcesCompat.getDrawable(resources, R.drawable.delete, null)
-    private val deletePaddingEnd = DisplayUtil.dip2px(ctx, 6f) // 与右边距离
+    private val deletePaddingEnd = DisplayUtil.dip2px(6f) // 与右边距离
     private var isShowDeleteDrawable = false
 
     init {

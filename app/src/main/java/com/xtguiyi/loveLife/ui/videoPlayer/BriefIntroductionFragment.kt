@@ -20,7 +20,6 @@ import com.xtguiyi.loveLife.ui.videoPlayer.adapter.BriefIntroductionAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.RelateVideoCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.BriefIntroductionViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "id"
@@ -65,7 +64,7 @@ class BriefIntroductionFragment : BaseFragment() {
         // 设置装饰器
         binding.rv.addItemDecoration(DividerDecoration(requireContext(),LinearLayoutManager.VERTICAL).apply {
             dividerColor = ResourcesCompat.getColor(resources, R.color.sliver_500,null)
-            this.dividerThickness = DisplayUtil.dip2px(requireContext(),0.5f)
+            this.dividerThickness = DisplayUtil.dip2px(0.5f)
         })
         // 设置适配器
         briefIntroductionAdapter = BriefIntroductionAdapter(mutableListOf())

@@ -59,7 +59,7 @@ class ViewPageType1Fragment : BaseFragment() {
         }
         binding.rv.layoutManager = layoutManager
         // 设置间距
-        val spacing = DisplayUtil.dip2px(requireContext(), 2f) // 间距，单位为px
+        val spacing = DisplayUtil.dip2px(2f) // 间距，单位为px
         val includeEdge = true
         binding.rv.addItemDecoration(GridSpacingItemDecoration(2, spacing, includeEdge))
         // 设置适配器

@@ -45,7 +45,7 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
     private var isPrepare = false
     private var isFullScreen = false
     private var isBottomLayout = isOpenEmoji
-    private var bottomLayoutHeight = 0
+    private var bottomLayoutHeight = (DisplayUtil.getScreenHeight() * 0.4).toInt()
 
     init {
         setStyle(STYLE_NORMAL, R.style.CustomDialog1)
@@ -57,7 +57,6 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogCommentBinding.inflate(inflater, container, false)
-        bottomLayoutHeight =  (DisplayUtil.getScreenHeight(requireContext()) * 0.4).toInt()
         configuration()
         initView()
         initData()
@@ -208,7 +207,7 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
     private fun setEmojiDrawable(str: String) {
         val selectionStart = binding.commentInput.selectionStart
         if (selectionStart == -1 ) return
-        val round = DisplayUtil.dip2px(requireContext(), 22f)
+        val round = DisplayUtil.dip2px(22f)
         Glide.with(requireContext())
             .load(str)
             .priority(Priority.HIGH)
