@@ -3,14 +3,12 @@ package com.xtguiyi.loveLife.ui.videoPlayer.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.xtguiyi.loveLife.databinding.LayoutCommentCardBinding
-import com.xtguiyi.loveLife.databinding.LayoutEmojiItem1Binding
-import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.databinding.ItemEmojiItem1Binding
 
 class EmojiItem1Adapter(private var list: List<String>): RecyclerView.Adapter<EmojiItem1Adapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayoutEmojiItem1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemEmojiItem1Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -25,7 +23,7 @@ class EmojiItem1Adapter(private var list: List<String>): RecyclerView.Adapter<Em
        }
     }
 
-    class ViewHolder(val binding:LayoutEmojiItem1Binding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding:ItemEmojiItem1Binding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(text: String){
              binding.emojiUnicodeText.text = text
         }

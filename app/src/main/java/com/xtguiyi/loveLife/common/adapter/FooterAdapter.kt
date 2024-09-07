@@ -3,11 +3,8 @@ package com.xtguiyi.loveLife.common.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hjq.toast.Toaster
-import com.xtguiyi.loveLife.databinding.LayoutFooterItemBinding
+import com.xtguiyi.loveLife.databinding.ItemFooterItemBinding
 
 /**
  * recycleView 底部加载适配器1
@@ -21,7 +18,7 @@ class FooterAdapter(private val retry: () -> Unit) : RecyclerView.Adapter<Footer
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayoutFooterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemFooterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding, retry)
     }
 
@@ -30,7 +27,7 @@ class FooterAdapter(private val retry: () -> Unit) : RecyclerView.Adapter<Footer
     }
 
 
-    class ViewHolder(val binding: LayoutFooterItemBinding, private val retry: () -> Unit): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemFooterItemBinding, private val retry: () -> Unit): RecyclerView.ViewHolder(binding.root) {
         fun bingTo(loadResult: LoadResult) {
             binding.progressBar.isVisible = loadResult is LoadResult.Loading
             binding.retryAction.isVisible = loadResult is LoadResult.Error

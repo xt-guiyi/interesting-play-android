@@ -215,14 +215,14 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
             .diskCacheStrategy(DiskCacheStrategy.NONE) //不启用磁盘策略
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(
-                    resource: Drawable,
+                    drawable: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    if (resource is Animatable)  resource.start()
-                    resource.setBounds(0,0,round,round)
+                    if (drawable is Animatable)  drawable.start()
+                    drawable.setBounds(0,0,round,round)
                     val stringBuilder = SpannableStringBuilder(binding.commentInput.text)
                     stringBuilder.insert(selectionStart, "\r")
-                    val imageSpan = ImageSpan(resource,DynamicDrawableSpan.ALIGN_BOTTOM)
+                    val imageSpan = ImageSpan(drawable,DynamicDrawableSpan.ALIGN_BOTTOM)
                     stringBuilder.setSpan(imageSpan, selectionStart, selectionStart + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.commentInput.setText(stringBuilder)
                     binding.commentInput.setSelection(selectionStart + 1)

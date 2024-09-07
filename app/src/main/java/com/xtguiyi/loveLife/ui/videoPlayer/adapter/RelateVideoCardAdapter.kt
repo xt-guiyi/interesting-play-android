@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.xtguiyi.loveLife.databinding.LayoutVideoCard2Binding
+import com.xtguiyi.loveLife.databinding.ItemVideoCard2Binding
 import com.xtguiyi.loveLife.entity.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.xtguiyi.loveLife.utils.TimeUtil
-import com.google.android.material.imageview.ShapeableImageView
 
 class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<RelateVideoCardAdapter.ViewHolder>() {
     private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
@@ -19,7 +18,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayoutVideoCard2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemVideoCard2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -35,7 +34,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
         return videoData.size
     }
 
-    class ViewHolder(val binding: LayoutVideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemVideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: VideoInfo){
             binding.title.text = data.title
             binding.author.text = data.owner.name
