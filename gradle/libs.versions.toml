@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.6.0"
 banner = "2.2.3"
 danmakuRenderEngine = "0.1.0"
 datastorePreferencesVersion = "1.1.1"

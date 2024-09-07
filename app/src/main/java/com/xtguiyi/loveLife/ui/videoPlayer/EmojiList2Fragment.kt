@@ -70,7 +70,7 @@ class EmojiList2Fragment : BaseFragment() {
                 val adapter = EmojiItem2Adapter(emojiList)
                 binding.rv.adapter = adapter
                 adapter.setOnClickListenerByRoot {
-                   lifecycleScope.launch{ commentDialogViewModel.setEmojiBitmap(it)}
+                   lifecycleScope.launch{ commentDialogViewModel.setEmojiImage(it)}
                 }
         } catch (e: Exception) {
             e.printStackTrace()

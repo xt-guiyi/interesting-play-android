@@ -1,13 +1,15 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.dialog
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.style.DynamicDrawableSpan
 import android.text.style.ImageSpan
 import android.view.ActionMode
 import android.view.LayoutInflater
@@ -24,6 +26,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.DialogCommentBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.EmojiViewPageAdapter
@@ -60,7 +67,7 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 聚焦，显示软键盘
+        // 聚焦，显示软键盘， 配置上下文
         binding.commentInput.customInsertionActionModeCallback =  object : ActionMode.Callback2() {
             override fun onCreateActionMode(
                 mode: ActionMode?,
@@ -182,7 +189,7 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
                }
            }
             launch{
-                commentDialogViewModel.emojiBitmap.collect{
+                commentDialogViewModel.emojiImage.collect{
                     setEmojiDrawable(it)
                 }
             }
@@ -198,15 +205,32 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
         binding.commentInput.setSelection(selectionStart + str.length)
     }
 
-    private fun setEmojiDrawable(bitmap: Bitmap) {
+    private fun setEmojiDrawable(str: String) {
         val selectionStart = binding.commentInput.selectionStart
         if (selectionStart == -1 ) return
-        val stringBuilder = SpannableStringBuilder(binding.commentInput.text)
-        stringBuilder.insert(selectionStart, " ")
-        val imageSpan = ImageSpan(requireContext(),bitmap)
-        stringBuilder.setSpan(imageSpan, selectionStart, selectionStart + 1,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.commentInput.setText(stringBuilder)
-        binding.commentInput.setSelection(selectionStart + 1)
+        val round = DisplayUtil.dip2px(requireContext(), 22f)
+        Glide.with(requireContext())
+            .load(str)
+            .priority(Priority.HIGH)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE) //不启用磁盘策略
+            .into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    if (resource is Animatable)  resource.start()
+                    resource.setBounds(0,0,round,round)
+                    val stringBuilder = SpannableStringBuilder(binding.commentInput.text)
+                    stringBuilder.insert(selectionStart, "\r")
+                    val imageSpan = ImageSpan(resource,DynamicDrawableSpan.ALIGN_BOTTOM)
+                    stringBuilder.setSpan(imageSpan, selectionStart, selectionStart + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.commentInput.setText(stringBuilder)
+                    binding.commentInput.setSelection(selectionStart + 1)
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

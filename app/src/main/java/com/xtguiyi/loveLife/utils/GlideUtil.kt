@@ -56,12 +56,28 @@ object GlideUtil {
      * @param context 上下文
      * @param v 容器
      */
-    fun loadUrlNoCache(url: String?, context: Context, v: ImageView) {
+    fun loadUrlNoMemoryCache(url: String?, context: Context, v: ImageView) {
         Glide.with(context).load(url)
             .placeholder(R.drawable.default_img)
             .error(R.drawable.default_img)
             .priority(Priority.HIGH)
             .skipMemoryCache(true) //不启动缓存
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE) //不启用磁盘策略
+            .into(v)
+    }
+
+    /**
+     * 设置图片，不开启磁盘缓存
+     * @param url
+     * @param context 上下文
+     * @param v 容器
+     */
+    fun loadUrlNoDiskCache(url: String?, context: Context, v: ImageView) {
+        Glide.with(context).load(url)
+            .placeholder(R.drawable.default_img)
+            .error(R.drawable.default_img)
+            .priority(Priority.HIGH)
+            .skipMemoryCache(false)
             .diskCacheStrategy(DiskCacheStrategy.NONE) //不启用磁盘策略
             .into(v)
     }
