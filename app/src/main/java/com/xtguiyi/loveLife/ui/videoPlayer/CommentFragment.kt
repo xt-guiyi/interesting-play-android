@@ -48,9 +48,9 @@ class CommentFragment : BaseFragment() {
         lifecycleScope.launch {
             launch {
                 videoPlayerViewModel.navHeight.collectLatest{
-                    binding.commentInputContainer.setPadding(pH,0,pH, it)
+                    binding.commentInputContainer.setPadding(pH, pH, pH, it)
                     binding.commentInputContainer.post {
-                        binding.rv.setPadding(pH,pH,pH,binding.commentInputContainer.height)
+                        binding.rv.setPadding(pH, 0, pH, binding.commentInputContainer.height)
 
                     }
                 }
@@ -65,7 +65,13 @@ class CommentFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.layoutManager = layoutManager
         // 设置适配器
-        val adapter = CommentCardAdapter(mutableListOf(CommentInfo(1,"😂哈哈哈哈哈"),CommentInfo(2,"😂哈哈哈哈哈"),CommentInfo(3,"😂哈哈哈哈哈"),CommentInfo(4,"😂哈哈哈哈哈")))
+        val adapter = CommentCardAdapter(
+            mutableListOf(CommentInfo(1,"😂哈哈哈哈哈"),
+            CommentInfo(2,"😂哈哈哈哈哈"),
+            CommentInfo(3,"😂哈哈哈哈哈"),
+            CommentInfo(4,"😂哈哈哈哈哈")
+        )
+        )
         binding.rv.adapter = adapter
     }
 

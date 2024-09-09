@@ -46,7 +46,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
     class ViewHolder(val binding:ItemBriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bindTo(data: VideoInfo){
-             binding.videoTitle.text = data.title
+            binding.videoTitle.text = data.title
             binding.userName.text = data.owner.name
             binding.fans.text = String.format("%s粉", CommonUtil.formatNumber(data.owner.fans))
             binding.publishVideoNumber.text = String.format("%s视频",data.owner.videos)

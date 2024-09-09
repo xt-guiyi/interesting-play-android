@@ -17,5 +17,6 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="bilibili_pink">#fc8bab</color>
+    <color name="blue_100">#2979FF</color>
 </resources>
 

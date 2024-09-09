@@ -3,7 +3,11 @@ package com.xtguiyi.loveLife.utils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 object TimeUtil {
 
@@ -21,33 +25,39 @@ object TimeUtil {
 
     /**
      * 时间格式化( 02:00、01:01:00)
-     * @param second 秒
+     * @param mSecond 秒
      */
-    fun geDurationTime(second: Long): String {
-        val hours = TimeUnit.SECONDS.toHours(second)
-        val minutes = TimeUnit.SECONDS.toMinutes(second) % 60
-        val secs = second % 60
+    fun geDurationTime(mSecond: Long): String {
+        val duration = mSecond.seconds
+        val hours = duration.inWholeHours
+        val minutes = duration.inWholeMinutes % 60
+        val secs = duration.inWholeSeconds % 60
 
         return if (hours > 0) {
-            String.format(Locale.getDefault(),"%02d:%02d:%02d", hours, minutes, secs)
+            "%02d:%02d:%02d".format(hours, minutes, secs)
         } else {
-            String.format(Locale.getDefault(),"%02d:%02d", minutes, secs)
+            "%02d:%02d".format(minutes, secs)
         }
     }
 
     /**
      * 时间格式化(刚刚、几秒前、几分钟前、几小时前、几天前)
+     * @param timeStamp 时间戳
      * */
-    fun getTimeAgo(time: Long): String {
-        val now = System.currentTimeMillis()
-        val diff = now - time
-
+    fun getTimeAgo(timeStamp: Long): String {
+        val diff = (System.currentTimeMillis() - timeStamp).milliseconds
         return when {
-            diff < TimeUnit.SECONDS.toMillis(1) -> "刚刚"
-            diff < TimeUnit.MINUTES.toMillis(1) -> "${TimeUnit.MILLISECONDS.toSeconds(diff)}秒前"
-            diff < TimeUnit.HOURS.toMillis(1) -> "${TimeUnit.MILLISECONDS.toMinutes(diff)}分钟前"
-            diff < TimeUnit.DAYS.toMillis(1) -> "${TimeUnit.MILLISECONDS.toHours(diff)}小时前"
-            else -> "${TimeUnit.MILLISECONDS.toDays(diff)}天前"
+            diff < 1.seconds -> "刚刚"
+            diff < 1.minutes -> "${diff.inWholeSeconds}秒前"
+            diff < 1.hours -> "${diff.inWholeMinutes}分钟前"
+            diff < 1.days -> "${diff.inWholeHours}小时前"
+            diff in 1.days..2.days -> {
+                val remainMillis = (2.days - diff)
+                val hours = remainMillis.inWholeHours.toString().padStart(2, '0')
+                val minutes = (remainMillis.inWholeMinutes % 60).toString().padStart(2, '0')
+                "昨天 $hours:$minutes"
+            }
+            else -> "${diff.inWholeDays}天前"
         }
     }
 }
