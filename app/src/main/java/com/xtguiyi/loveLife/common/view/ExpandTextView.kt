@@ -12,8 +12,17 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import com.hjq.toast.Toaster
+import com.xtguiyi.loveLife.R
 
 class ExpandTextView: AppCompatTextView {
+
+    private var expandable = false
+    private var expandSuffixText = ""
+    private var collapseSuffixText = ""
+    private var lines = 0
+    private var initialText = ""
+    private var isBreak = false
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attribute: AttributeSet) : super(context, attribute) {
         initAttr(context, attribute)
@@ -22,39 +31,42 @@ class ExpandTextView: AppCompatTextView {
         initAttr(context, attribute)
     }
 
-
-    fun initAttr(context: Context, set: AttributeSet) {}
-
-    private lateinit var expandText: SpannableStringBuilder
-    private lateinit var collapseText: SpannableStringBuilder
-    private var isExpand = false
-    private val expandSuffixText = "展开"
-    private val collapseSuffixText = "收起"
-    private var initialMaxLines = 0
-    private var initialText = ""
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        movementMethod = LinkMovementMethod.getInstance()
-        highlightColor = Color.TRANSPARENT
-        if(initialText.length == 0)initialText = text.toString()
-        initialMaxLines = 3
+    init {
         maxLines = Int.MAX_VALUE
-        if(!isExpand)setupText()
+        highlightColor = Color.TRANSPARENT
+        movementMethod = LinkMovementMethod.getInstance()
     }
 
 
-    fun setupText() {
+    fun initAttr(context: Context, attribute: AttributeSet) {
+        val attrs = context.obtainStyledAttributes(attribute, R.styleable.ExpandTextView)
+        expandSuffixText = attrs.getString(R.styleable.ExpandTextView_expandSuffixText) ?: "展开"
+        collapseSuffixText = attrs.getString(R.styleable.ExpandTextView_collapseSuffixText) ?: "收起"
+        lines = attrs.getInt(R.styleable.ExpandTextView_lines, 0)
+        expandable = attrs.getBoolean(R.styleable.ExpandTextView_expandable, false)
+        attrs.recycle()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if(initialText.isEmpty()) initialText = text.toString()
+        if(!isBreak && lines > 0) setup()
+    }
+
+    fun setup() {
         val layout = StaticLayout.Builder.obtain(initialText, 0, initialText.length, paint, measuredWidth - paddingLeft - paddingRight).build()
-        Toaster.show("$isExpand-${layout.lineCount} -- $initialMaxLines")
-        if (layout.lineCount > initialMaxLines) {
+        Toaster.show("$expandable-${layout.lineCount} -- $lines")
+        if (layout.lineCount > lines) {
+            val endIndex = layout.getLineEnd(lines - 1)
             // 收起文本
-            val endIndex = layout.getLineEnd(initialMaxLines - 1)
-            collapseText = SpannableStringBuilder("${initialText.substring(0, endIndex - expandSuffixText.length -1)}...$expandSuffixText")
+            val collapseText = SpannableStringBuilder("${initialText.substring(0, endIndex - expandSuffixText.length -1)}...$expandSuffixText")
+            // 展开文本
+            val expandText = SpannableStringBuilder("$initialText  $collapseSuffixText")
             collapseText.setSpan(
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        isExpand = true
+                        expandable = true
+                        isBreak = true
                         mClickCall?.invoke(true)
                         text = expandText
 
@@ -69,12 +81,11 @@ class ExpandTextView: AppCompatTextView {
                 collapseText.length, // end
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            // 展开文本
-            expandText = SpannableStringBuilder("$initialText  $collapseSuffixText")
             expandText.setSpan(
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        isExpand = false
+                        expandable = false
+                        isBreak = true
                         mClickCall?.invoke(false)
                         text = collapseText
                     }
@@ -93,9 +104,9 @@ class ExpandTextView: AppCompatTextView {
 
     }
 
-    private var mClickCall: ((isExpand: Boolean) -> Unit)? = null
+    private var mClickCall: ((expandable: Boolean) -> Unit)? = null
 
-    public fun setOnClickListenerExpandChange(mClickCall: (isExpand: Boolean) -> Unit) {
+    public fun setOnClickListenerExpandChange(mClickCall: (expandable: Boolean) -> Unit) {
         this.mClickCall = mClickCall
     }
 }

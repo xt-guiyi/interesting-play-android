@@ -60,15 +60,16 @@ open class FlowLayout : ViewGroup {
             measureChild(child, widthMeasureSpec, heightMeasureSpec)
             //如果忘记重写generateLayoutParams，则hild.getLayoutParams()将不是MarginLayoutParams的实例
             //在强制转换时就会出错，此时我们把左右间距设置为0，但由于在计算布局宽高时没有加上间距值，就是计算出的宽高要比实际小，所以是onLayout时就会出错
-            var lp: MarginLayoutParams? = null
-            lp = if (child.layoutParams is MarginLayoutParams) {
-                child
-                    .layoutParams as MarginLayoutParams
-            } else {
-                MarginLayoutParams(0, 0)
+            var lp = child.layoutParams
+            var childWidth = 0
+            var childHeight = 0
+            if(lp is MarginLayoutParams) {
+                childWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
+                childHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
+            }else {
+                 childWidth = child.measuredWidth
+                 childHeight = child.measuredHeight
             }
-            val childWidth = child.measuredWidth + lp.leftMargin + lp.rightMargin
-            val childHeight = child.measuredHeight + lp.topMargin + lp.bottomMargin
 
             if (lineWidth + childWidth > measureWidth) {
                 //需要换行

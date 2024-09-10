@@ -21,6 +21,8 @@
     <string name="barrage_input_text_2">弹幕输入中</string>
     <string name="comment_hint">快来评论吧</string>
     <string name="publish">发布</string>
+    <string name="expand">展开</string>
+    <string name="collapse">收起</string>"
 
     <string-array name="danmaku_text_contents">
         <item>awsl</item>
