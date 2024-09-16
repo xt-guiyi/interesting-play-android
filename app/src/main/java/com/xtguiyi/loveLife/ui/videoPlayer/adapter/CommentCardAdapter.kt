@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.databinding.ItemCommentCardBinding
 import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.xtguiyi.loveLife.utils.TimeUtil
 
-class CommentCardAdapter(private var list: List<CommentInfo>): RecyclerView.Adapter<CommentCardAdapter.ViewHolder>() {
+class CommentCardAdapter(private var list: MutableList<CommentInfo>): RecyclerView.Adapter<CommentCardAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCommentCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,24 +22,27 @@ class CommentCardAdapter(private var list: List<CommentInfo>): RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.bindTo(list[position])
-       holder.binding.commentContent.setOnClickListenerExpandChange{
-//            notifyItemChanged(position,1)
-        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        super.onBindViewHolder(holder, position, payloads)
+    fun addItems(newItems: List<CommentInfo>) {
+        val startPosition = list.size
+        list.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
+    }
+
+    fun shiftItem(newItem: CommentInfo) {
+        list.add(0, newItem)
+        notifyItemInserted(0)
     }
 
 
     class ViewHolder(val binding:ItemCommentCardBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(data: CommentInfo){
-//             binding.commentText.text = data.title
-            GlideUtil.setUrlCircle("https://himg.bdimg.com/sys/portrait/item/pp.1.7c5c476b.2CynSFe9r91wua7eUYwRAA.jpg?tt=1725802230061", binding.root.context, binding.avatarCircle)
-            binding.userName.text = "小王同学"
-            binding.publishTime.text = TimeUtil.getTimeAgo(1725689192073)
-            binding.commentContent.text = "\uD83D\uDE02哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\uD83D\uDE02哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\uD83D\uDE02哈哈哈哈哈哈哈\uD83D\uDE02哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈\uD83D\uDE02\uD83D\uDE02\uD83D\uDE02\uD83D\uDE02"
-
+            GlideUtil.setUrlCircle(data.avatar, binding.root.context, binding.avatarCircle)
+            binding.userName.text = data.username
+            binding.publishTime.text = TimeUtil.getTimeAgo(data.pubDate)
+            binding.commentContent.text = data.content
+            binding.dianZanNumber.text = CommonUtil.formatNumber(data.like)
         }
     }
 }

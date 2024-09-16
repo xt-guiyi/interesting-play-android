@@ -6,5 +6,10 @@ package com.xtguiyi.loveLife.entity
  * */
 data class CommentInfo(
     val id: Int,
-    val title: String,
+    val username: String,
+    val pubDate: Long,
+    val ipAddress: String,
+    val content: String,
+    val avatar: String,
+    val like: Long,
 )

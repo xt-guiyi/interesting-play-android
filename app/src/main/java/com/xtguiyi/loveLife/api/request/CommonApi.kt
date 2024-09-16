@@ -6,7 +6,7 @@ import com.xtguiyi.loveLife.entity.Banner
 import retrofit2.http.GET
 
 interface CommonApi {
-    @GET("mock/common/getBanners")
+    @GET("mock/getBanners")
     suspend fun getBanners(): ResponseResult<List<Banner>>
 
     companion object {

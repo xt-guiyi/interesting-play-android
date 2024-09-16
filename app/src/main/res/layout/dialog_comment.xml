@@ -72,6 +72,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/send"
                 android:layout_width="72dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"

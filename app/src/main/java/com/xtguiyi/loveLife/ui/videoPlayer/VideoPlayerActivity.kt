@@ -45,7 +45,7 @@ import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 class VideoPlayerActivity : BaseActivity(),
     BarrageDialogFragment.OnBarrageListener {
 
-    // 这里我使用了两种方法实现，一种是自定义View，一种是使用协调者布局Behaviors
+    // 这里我使用了两种方法实现跟随触摸移动布局，一种是自定义View，一种是使用协调者布局Behaviors
     private lateinit var binding: ActivityVideoPlayerBinding
     // private late init var binding: ActivityVideoPlayerTwoBinding
 

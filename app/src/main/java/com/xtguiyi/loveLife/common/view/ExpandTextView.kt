@@ -11,7 +11,6 @@ import android.text.style.ClickableSpan
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
-import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.R
 
 class ExpandTextView: AppCompatTextView {
@@ -21,7 +20,7 @@ class ExpandTextView: AppCompatTextView {
     private var collapseSuffixText = ""
     private var lines = 0
     private var initialText = ""
-    private var isBreak = false
+    private var issetup = false
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attribute: AttributeSet) : super(context, attribute) {
@@ -29,12 +28,6 @@ class ExpandTextView: AppCompatTextView {
     }
     constructor(context: Context, attribute: AttributeSet, defStyleAttr: Int) : super(context, attribute, defStyleAttr) {
         initAttr(context, attribute)
-    }
-
-    init {
-        maxLines = Int.MAX_VALUE
-        highlightColor = Color.TRANSPARENT
-        movementMethod = LinkMovementMethod.getInstance()
     }
 
 
@@ -50,12 +43,14 @@ class ExpandTextView: AppCompatTextView {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if(initialText.isEmpty()) initialText = text.toString()
-        if(!isBreak && lines > 0) setup()
+        highlightColor = Color.TRANSPARENT
+        movementMethod = LinkMovementMethod.getInstance()
+        if(!issetup && lines > 0) setup()
     }
+
 
     fun setup() {
         val layout = StaticLayout.Builder.obtain(initialText, 0, initialText.length, paint, measuredWidth - paddingLeft - paddingRight).build()
-        Toaster.show("$expandable-${layout.lineCount} -- $lines")
         if (layout.lineCount > lines) {
             val endIndex = layout.getLineEnd(lines - 1)
             // 收起文本
@@ -66,10 +61,10 @@ class ExpandTextView: AppCompatTextView {
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
                         expandable = true
-                        isBreak = true
+                        issetup = true
                         mClickCall?.invoke(true)
+                        maxLines = Int.MAX_VALUE
                         text = expandText
-
                     }
                     override fun updateDrawState(ds: TextPaint) {
                         super.updateDrawState(ds)
@@ -85,8 +80,9 @@ class ExpandTextView: AppCompatTextView {
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
                         expandable = false
-                        isBreak = true
+                        issetup = true
                         mClickCall?.invoke(false)
+                        maxLines = lines
                         text = collapseText
                     }
                     override fun updateDrawState(ds: TextPaint) {
@@ -99,7 +95,8 @@ class ExpandTextView: AppCompatTextView {
                 expandText.length, // end
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            text = collapseText
+            maxLines = lines
+            text = if(expandable) expandText else collapseText
         }
 
     }

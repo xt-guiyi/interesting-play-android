@@ -86,7 +86,7 @@ class BriefIntroductionFragment : BaseFragment() {
 
             launch {
                 viewModel.netWorkErrorFlow.collect {
-                    footerAdapter.setStatus(FooterAdapter.LoadResult.Error())
+                    if (it) footerAdapter.setStatus(FooterAdapter.LoadResult.Error())
                 }
             }
 

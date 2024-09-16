@@ -7,6 +7,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.DynamicDrawableSpan
@@ -38,7 +39,7 @@ import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentDialogViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.launch
 
-class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
+class CommentDialogFragment(private  val parent: OnCommentListener ,isOpenEmoji : Boolean = false) : DialogFragment() {
     private lateinit var binding: DialogCommentBinding
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private val commentDialogViewModel: CommentDialogViewModel by viewModels()
@@ -280,6 +281,20 @@ class CommentDialogFragment(isOpenEmoji : Boolean = false) : DialogFragment() {
             }
 
         })
+
+        binding.send.setOnClickListener{
+            lifecycleScope.launch {
+                if (parent.sendComment(binding.commentInput.text)) {
+                    windowInsetsController.hide(WindowInsetsCompat.Type.ime())
+                    dismiss()
+                }
+            }
+        }
+    }
+
+    interface OnCommentListener {
+        // 发送弹幕
+        suspend fun sendComment(text: Editable?): Boolean
     }
 
     companion object {
