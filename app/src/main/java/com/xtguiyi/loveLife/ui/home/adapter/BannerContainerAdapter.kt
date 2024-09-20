@@ -41,7 +41,7 @@ class BannerContainerAdapter(private val bannerData: MutableList<Banner>, privat
                     DisplayUtil.dip2px(20f),
                     DisplayUtil.dip2px(8f)
                 ))
-                .setIndicatorWidth( DisplayUtil.dip2px(8f),DisplayUtil.dip2px(8f))
+                .setIndicatorWidth(DisplayUtil.dip2px(8f),DisplayUtil.dip2px(8f))
                 .setIndicatorSelectedColorRes(R.color.green_300)
                 .setIndicatorNormalColorRes(R.color.sliver_100)
         }

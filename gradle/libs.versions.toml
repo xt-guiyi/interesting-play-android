@@ -27,6 +27,8 @@ constraintlayout = "2.1.4"
 retrofit = "2.11.0"
 toasterVersion = "12.6"
 pagingRuntimeKtx = "3.3.1"
+androidxComposeBom = "2024.09.00"
+storage = "1.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,10 +59,12 @@ refresh-layout-kernel = { module = "io.github.scwang90:refresh-layout-kernel", v
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
-
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization"}
-
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

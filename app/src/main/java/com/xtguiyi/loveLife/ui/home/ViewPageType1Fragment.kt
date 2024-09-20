@@ -53,7 +53,7 @@ class ViewPageType1Fragment : BaseFragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                if (position == 0) return 2
+                if (position == 0 && type == "0") return 2
                 return 1
             }
         }
@@ -65,7 +65,10 @@ class ViewPageType1Fragment : BaseFragment() {
         // 设置适配器
         bannerContainerAdapter = BannerContainerAdapter(mutableListOf(), this, requireContext())
         videoCardAdapter = VideoCardAdapter(mutableListOf())
-        val concatAdapter = ConcatAdapter(bannerContainerAdapter, videoCardAdapter)
+        val concatAdapter = when(type) {
+            "0" -> ConcatAdapter(bannerContainerAdapter, videoCardAdapter)
+            else -> ConcatAdapter(videoCardAdapter)
+        }
         binding.rv.adapter = concatAdapter
 
     }

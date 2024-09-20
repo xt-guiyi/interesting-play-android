@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -28,6 +29,7 @@ android {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
         dataBinding = false
     }
@@ -49,6 +51,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.storage)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
@@ -65,6 +68,7 @@ dependencies {
     // glide 图片加载 https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     implementation(libs.github.glide)
     annotationProcessor(libs.compiler)
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     // banner控件：https://github.com/youth5201314/banner
     implementation(libs.banner)
     implementation(libs.androidx.recyclerview)
@@ -75,8 +79,16 @@ dependencies {
     implementation(libs.refresh.footer.classics) // 经典加载
     // Lottie动画：https://github.com/airbnb/lottie-android
     implementation(libs.lottie)
+    implementation("com.airbnb.android:lottie-compose:6.5.2")
     // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
     // 弹幕库,不太好用,有需求可以fork下来自己改 https://github.com/bytedance/DanmakuRenderEngine/blob/main/README_cn.md
-    implementation(libs.danmaku.render.engine) 
+    implementation(libs.danmaku.render.engine)
+    // compose库
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    implementation(libs.androidx.compose.foundation)
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }

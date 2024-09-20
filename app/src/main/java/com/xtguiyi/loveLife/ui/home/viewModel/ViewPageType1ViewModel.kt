@@ -35,23 +35,31 @@ class ViewPageType1ViewModel : ViewModel() {
     private val _videoList: MutableStateFlow<List<VideoInfo>> = MutableStateFlow(emptyList())
     val videoListFlow: StateFlow<List<VideoInfo>> = _videoList.asStateFlow()
 
-    // 轮播图数据, 尝试冷流用法
-    var bannersFlow: Flow<List<Banner>> = flow {
-        val result = runCatching { repository.fetchBanner() }
-        result.onFailure { e ->
-            e.printStackTrace()
-            emit(emptyList())
-        }
-        result.onSuccess {
-            if (it.isOk()) {
-                emit(it.data)
-            }
-        }
-    }
+    private val _bannersFlow: MutableStateFlow<List<Banner>> = MutableStateFlow(emptyList())
+    val bannersFlow: StateFlow<List<Banner>> = _bannersFlow.asStateFlow()
+
 
     init {
         _uiState.update { currentState -> currentState.copy(isLoading = true)}
+        viewModelScope.launch { getBannerList() }
         viewModelScope.launch { getVideoList() }
+    }
+
+    private suspend fun getBannerList() {
+        val result = runCatching { repository.fetchBanner() }
+        result.onFailure { e ->
+            e.printStackTrace()
+            if (e is IOException) {
+                _uiState.update { currentState ->
+                    currentState.copy(netWorkError = true)
+                }
+            }
+        }
+        result.onSuccess {
+            if (it.isOk()) {
+                _bannersFlow.value = it.data
+            }
+        }
     }
 
     private suspend fun getVideoList() {
@@ -107,18 +115,7 @@ class ViewPageType1ViewModel : ViewModel() {
             currentState.copy(page = 1, updateType = 1, isLoading = true)
         }
         // 重新触发bannersFlow流
-        bannersFlow = flow {
-            val result = runCatching { repository.fetchBanner() }
-            result.onFailure { e ->
-                e.printStackTrace()
-                emit(emptyList())
-            }
-            result.onSuccess {
-                if (it.isOk()) {
-                    emit(it.data)
-                }
-            }
-        }
+        getBannerList()
         getVideoList()
     }
 }
