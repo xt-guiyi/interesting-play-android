@@ -14,7 +14,7 @@ import com.hjq.toast.Toaster
 import com.xtguiyi.loveLife.base.BaseFragment
 import com.xtguiyi.loveLife.common.adapter.FooterAdapter
 import com.xtguiyi.loveLife.databinding.FragmentCommentBinding
-import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.model.CommentInfo
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.CommentCardAdapter
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment.OnCommentListener

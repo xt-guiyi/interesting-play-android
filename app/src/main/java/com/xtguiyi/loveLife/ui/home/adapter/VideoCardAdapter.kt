@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 import com.xtguiyi.loveLife.databinding.ItemVideoCardBinding
-import com.xtguiyi.loveLife.entity.VideoInfo
+import com.xtguiyi.loveLife.model.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.xtguiyi.loveLife.utils.TimeUtil

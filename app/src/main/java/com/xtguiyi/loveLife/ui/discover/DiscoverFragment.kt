@@ -4,57 +4,86 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.xtguiyi.loveLife.R
+import com.xtguiyi.loveLife.base.BaseFragment
+import com.xtguiyi.loveLife.databinding.FragmentDiscoverBinding
+import com.xtguiyi.loveLife.ui.discover.adapter.DiscoverViewPageAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DiscoverFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DiscoverFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class DiscoverFragment : BaseFragment() {
+    private lateinit var binding: FragmentDiscoverBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_discover, container, false)
+        binding = FragmentDiscoverBinding.inflate(inflater, container, false)
+        initView()
+        initData()
+        bindingListener()
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DiscoverFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DiscoverFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun initView() {
+        // 初始化tabLayout
+        val tabItems = listOf("发现","同城","关注")
+        binding.discoverTabs.isTabIndicatorFullWidth = false
+        binding.discoverTabs.tabMode = TabLayout.MODE_FIXED
+        binding.discoverTabs.tabGravity = TabLayout.GRAVITY_CENTER
+        binding.discoverTabs.setSelectedTabIndicatorColor(ResourcesCompat.getColor(resources,R.color.green_300,null))
+        binding.discoverTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.customView?.let { textView ->
+                    if (textView is TextView) {
+                        textView.setTextAppearance(R.style.TabItemSelectedTextStyle)
+                    }
                 }
             }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.customView?.let { textView ->
+                    if (textView is TextView) {
+                        textView.setTextAppearance(R.style.TabItemTextStyle)
+                    }
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+
+
+        // 初始化viewPage
+        val adapter = DiscoverViewPageAdapter(this, tabItems.size)
+        binding.discoverViewpager.adapter = adapter
+        binding.discoverViewpager.offscreenPageLimit = 3 // 离屏加载，左右缓存3个
+
+        TabLayoutMediator(binding.discoverTabs,binding.discoverViewpager) { tab, position ->
+            val tabTextView = TextView(requireContext())
+            tabTextView.text = tabItems[position]
+            tabTextView.setTextAppearance(R.style.TabItemTextStyle)
+            // 去除长按提示，拦截长按事件
+            tabTextView.setOnLongClickListener { true }
+            tab.setCustomView(tabTextView);
+
+        }.attach()
+    }
+
+    override fun initData() {
+
+    }
+
+    override fun bindingListener() {}
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            DiscoverFragment()
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.ItemBannerCardBinding
-import com.xtguiyi.loveLife.entity.Banner
+import com.xtguiyi.loveLife.model.Banner
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator

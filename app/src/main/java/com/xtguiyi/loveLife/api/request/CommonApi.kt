@@ -2,7 +2,7 @@ package com.xtguiyi.loveLife.api.request
 
 import com.xtguiyi.loveLife.api.ApiService
 import com.xtguiyi.loveLife.api.ResponseResult
-import com.xtguiyi.loveLife.entity.Banner
+import com.xtguiyi.loveLife.model.Banner
 import retrofit2.http.GET
 
 interface CommonApi {

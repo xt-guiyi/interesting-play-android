@@ -3,8 +3,8 @@ package com.xtguiyi.loveLife.api.request
 import com.xtguiyi.loveLife.api.ApiService
 import com.xtguiyi.loveLife.api.PageData
 import com.xtguiyi.loveLife.api.ResponseResult
-import com.xtguiyi.loveLife.entity.CommentInfo
-import com.xtguiyi.loveLife.entity.VideoInfo
+import com.xtguiyi.loveLife.model.CommentInfo
+import com.xtguiyi.loveLife.model.VideoInfo
 import retrofit2.http.GET
 import retrofit2.http.Query
 

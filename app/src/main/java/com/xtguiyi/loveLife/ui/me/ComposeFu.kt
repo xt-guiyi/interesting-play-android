@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -71,7 +70,7 @@ fun Header(top: Dp) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .background(color = Color(4, 181, 120))
-                .padding(start = 18.dp, top = top.plus(24.dp), end = 18.dp, bottom = 68.dp)
+                .padding(start = 18.dp, top = top.plus(14.dp), end = 18.dp, bottom = 68.dp)
         ) {
             // 背景图片
             GlideImage(
@@ -165,8 +164,8 @@ fun Header(top: Dp) {
                 .align(Alignment.BottomEnd)
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .offset(y = 2.dp)
-                .scale(scaleX = 1.2f, scaleY = 1f),
+                .offset(y = 2.dp),
+            contentScale = ContentScale.Crop,
             composition = compositionResult.value,
             iterations = LottieConstants.IterateForever,
         )

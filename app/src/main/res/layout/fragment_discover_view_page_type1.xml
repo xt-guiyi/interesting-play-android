@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E3F0E0"
+    tools:context=".ui.discover.ViewPageType1Fragment">
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/sm_refreshLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+                <com.scwang.smart.refresh.header.MaterialHeader
+                    android:id="@+id/materialHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="always"
+            android:padding="4dp" />
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/circle_loading"
+        app:lottie_loop="true"
+        android:layout_marginBottom="30dp"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/red_200"
+        android:layout_marginBottom="20dp"
+        android:text="@string/retry"
+        />
+
+</FrameLayout>

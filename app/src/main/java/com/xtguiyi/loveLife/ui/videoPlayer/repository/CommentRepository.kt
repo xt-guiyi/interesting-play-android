@@ -3,7 +3,7 @@ package com.xtguiyi.loveLife.ui.videoPlayer.repository
 import com.xtguiyi.loveLife.api.PageData
 import com.xtguiyi.loveLife.api.ResponseResult
 import com.xtguiyi.loveLife.api.request.VideosApi
-import com.xtguiyi.loveLife.entity.CommentInfo
+import com.xtguiyi.loveLife.model.CommentInfo
 
 class CommentRepository {
     private val videosApi = VideosApi.instance

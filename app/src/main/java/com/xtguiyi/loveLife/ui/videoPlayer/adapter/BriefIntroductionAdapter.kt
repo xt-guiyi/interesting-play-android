@@ -11,7 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.databinding.ItemBriefIntroductionCardBinding
-import com.xtguiyi.loveLife.entity.VideoInfo
+import com.xtguiyi.loveLife.model.VideoInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import com.xtguiyi.loveLife.utils.GlideUtil

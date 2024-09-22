@@ -1,7 +1,7 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.xtguiyi.loveLife.entity.VideoInfo
+import com.xtguiyi.loveLife.model.VideoInfo
 import com.xtguiyi.loveLife.ui.videoPlayer.repository.VideoBriefIntroductionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

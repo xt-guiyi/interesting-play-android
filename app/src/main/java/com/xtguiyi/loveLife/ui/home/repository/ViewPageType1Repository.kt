@@ -4,8 +4,8 @@ import com.xtguiyi.loveLife.api.PageData
 import com.xtguiyi.loveLife.api.ResponseResult
 import com.xtguiyi.loveLife.api.request.CommonApi
 import com.xtguiyi.loveLife.api.request.VideosApi
-import com.xtguiyi.loveLife.entity.Banner
-import com.xtguiyi.loveLife.entity.VideoInfo
+import com.xtguiyi.loveLife.model.Banner
+import com.xtguiyi.loveLife.model.VideoInfo
 
 class ViewPageType1Repository {
     private val videosApi = VideosApi.instance

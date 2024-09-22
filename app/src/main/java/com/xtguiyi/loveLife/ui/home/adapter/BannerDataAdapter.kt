@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.xtguiyi.loveLife.entity.Banner
+import com.xtguiyi.loveLife.model.Banner
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.youth.banner.adapter.BannerAdapter

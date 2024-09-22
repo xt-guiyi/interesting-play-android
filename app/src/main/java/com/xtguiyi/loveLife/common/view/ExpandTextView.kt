@@ -103,7 +103,7 @@ class ExpandTextView: AppCompatTextView {
 
     private var mClickCall: ((expandable: Boolean) -> Unit)? = null
 
-    public fun setOnClickListenerExpandChange(mClickCall: (expandable: Boolean) -> Unit) {
+    fun setOnClickListenerExpandChange(mClickCall: (expandable: Boolean) -> Unit) {
         this.mClickCall = mClickCall
     }
 }

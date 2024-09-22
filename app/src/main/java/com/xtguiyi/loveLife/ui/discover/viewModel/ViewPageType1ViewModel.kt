@@ -1,10 +1,9 @@
-package com.xtguiyi.loveLife.ui.home.viewModel
+package com.xtguiyi.loveLife.ui.discover.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xtguiyi.loveLife.model.Banner
-import com.xtguiyi.loveLife.model.VideoInfo
-import com.xtguiyi.loveLife.ui.home.repository.ViewPageType1Repository
+import com.xtguiyi.loveLife.model.DiscoverInfo
+import com.xtguiyi.loveLife.ui.discover.repository.ViewPageType1Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,38 +28,16 @@ class ViewPageType1ViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(ViewPageType1UiState())
     val uiStateFlow: StateFlow<ViewPageType1UiState> = _uiState.asStateFlow()
 
-    // 视频列表数据
-    private val _videoList: MutableStateFlow<List<VideoInfo>> = MutableStateFlow(emptyList())
-    val videoListFlow: StateFlow<List<VideoInfo>> = _videoList.asStateFlow()
-
-    private val _bannersFlow: MutableStateFlow<List<Banner>> = MutableStateFlow(emptyList())
-    val bannersFlow: StateFlow<List<Banner>> = _bannersFlow.asStateFlow()
-
+    // 列表数据
+    private val _discoverList: MutableStateFlow<List<DiscoverInfo>> = MutableStateFlow(emptyList())
+    val discoverList: StateFlow<List<DiscoverInfo>> = _discoverList.asStateFlow()
 
     init {
         _uiState.update { currentState -> currentState.copy(isLoading = true)}
-        viewModelScope.launch { getBannerList() }
-        viewModelScope.launch { getVideoList() }
+        viewModelScope.launch { getDiscoverList() }
     }
 
-    private suspend fun getBannerList() {
-        val result = runCatching { repository.fetchBanner() }
-        result.onFailure { e ->
-            e.printStackTrace()
-            if (e is IOException) {
-                _uiState.update { currentState ->
-                    currentState.copy(netWorkError = true)
-                }
-            }
-        }
-        result.onSuccess {
-            if (it.isOk()) {
-                _bannersFlow.value = it.data
-            }
-        }
-    }
-
-    private suspend fun getVideoList() {
+    private suspend fun getDiscoverList() {
             val result = runCatching {
 //                delay(300) // 延迟300ms,防止滑动页面期间渲染数据，导致卡顿，不开启离屏加载使用
                 repository.fetchVideoList(
@@ -85,7 +62,7 @@ class ViewPageType1ViewModel : ViewModel() {
                         currentState.copy(page = it.data.page, pageSize = it.data.pageSize, total = it.data.total,netWorkError = false)
                     }
                     // 更新 videoList
-                    _videoList.update { _ ->
+                    _discoverList.update { _ ->
                         it.data.data
                     }
                 }
@@ -97,7 +74,7 @@ class ViewPageType1ViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(page = 1, updateType = 1)
         }
-        getVideoList()
+        getDiscoverList()
     }
 
     // 上拉加载
@@ -105,15 +82,13 @@ class ViewPageType1ViewModel : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(page = currentState.page + 1, updateType = 0)
         }
-        getVideoList()
+        getDiscoverList()
     }
 
     suspend fun retry() {
         _uiState.update { currentState ->
             currentState.copy(page = 1, updateType = 1, isLoading = true)
         }
-        // 重新触发bannersFlow流
-        getBannerList()
-        getVideoList()
+        getDiscoverList()
     }
 }

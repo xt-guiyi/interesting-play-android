@@ -1,4 +1,4 @@
-package com.xtguiyi.loveLife.entity
+package com.xtguiyi.loveLife.model
 /**
  * 视频信息
  * @param mid 作者id

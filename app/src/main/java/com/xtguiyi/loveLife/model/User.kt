@@ -1,4 +1,4 @@
-package com.xtguiyi.loveLife.entity
+package com.xtguiyi.loveLife.model
 
 import kotlinx.serialization.Serializable
 

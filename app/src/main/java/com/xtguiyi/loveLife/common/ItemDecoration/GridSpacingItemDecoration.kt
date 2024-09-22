@@ -3,6 +3,7 @@ package com.xtguiyi.loveLife.common.ItemDecoration
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.hjq.toast.Toaster
 
 class GridSpacingItemDecoration(
     private val spanCount: Int,
@@ -23,11 +24,12 @@ class GridSpacingItemDecoration(
             }
             outRect.bottom = spacing // item bottom
         } else {
-            outRect.left = column * spacing / spanCount
-            outRect.right = spacing - (column + 1) * spacing / spanCount
+            outRect.left = if(column == 0) 0 else 30
+//            outRect.right =  if(column == 0) 30 else 0
             if (position >= spanCount) {
                 outRect.top = spacing // item top
             }
+            Toaster.show("$position:$column---${column * spacing / spanCount} --- ${spacing - (column + 1) * spacing / spanCount}")
         }
     }
 }
