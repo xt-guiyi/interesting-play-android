@@ -5,26 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="6dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
     android:background="@drawable/round_no_stroke_6">
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/pic"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:contentDescription="@string/video"
-        android:scaleType="fitXY"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/image"
+        android:adjustViewBounds="true"
         app:strokeColor="@null"
         app:shapeAppearance="@style/ImageRoundOnlyTop6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
-
-
-
-
-
 
     <TextView
         android:id="@+id/title"

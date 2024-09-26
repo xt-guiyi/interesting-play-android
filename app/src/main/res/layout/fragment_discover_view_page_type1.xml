@@ -10,19 +10,22 @@
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/sm_refreshLayout"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        >
 
-                <com.scwang.smart.refresh.header.MaterialHeader
-                    android:id="@+id/materialHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+        <com.scwang.smart.refresh.header.MaterialHeader
+            android:id="@+id/materialHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="always"
-            android:padding="4dp" />
+            android:clipToPadding="false"
+            android:paddingTop="6dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"/>
 
         <com.scwang.smart.refresh.footer.ClassicsFooter
             android:layout_width="match_parent"

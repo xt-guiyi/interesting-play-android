@@ -10,11 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.base.BaseFragment
-import com.xtguiyi.loveLife.common.ItemDecoration.GridSpacingItemDecoration
+import com.xtguiyi.loveLife.common.ItemDecoration.StaggeredGridSpacingItemDecoration
 import com.xtguiyi.loveLife.databinding.FragmentDiscoverViewPageType1Binding
 import com.xtguiyi.loveLife.ui.discover.adapter.DynamicsCardAdapter
 import com.xtguiyi.loveLife.ui.discover.viewModel.ViewPageType1ViewModel
-import com.xtguiyi.loveLife.ui.videoPlayer.VideoPlayerActivity
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,12 +48,14 @@ class ViewPageType1Fragment : BaseFragment() {
     override fun initView() {
         binding.materialHeader.setColorSchemeColors(resources.getColor(R.color.green_300,null))
         // 设置瀑布流布局
+        // TODO 瀑布流布局，图片最好能够知道提前知道高度，然后手动设置imageView的高度，这样能够避免滚动时，动态计算高度导致的item位置变化动画，
+        //  获取高度方式有两种一种是服务器接口直接告诉图片宽高信息，一种是已同步方式先下载图片，拿到图片宽高信息后才设置imageView的高度
         layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rv.layoutManager = layoutManager
         // 设置间距
-        val spacing = DisplayUtil.dip2px(23f) // 间距，单位为px
+        val spacing = DisplayUtil.dip2px(6f) // 间距，单位为px
         val includeEdge = false
-        binding.rv.addItemDecoration(GridSpacingItemDecoration(2, spacing, includeEdge))
+        binding.rv.addItemDecoration(StaggeredGridSpacingItemDecoration(2, spacing))
         // 设置适配器
         dynamicsCardAdapter = DynamicsCardAdapter(mutableListOf())
         binding.rv.adapter = dynamicsCardAdapter
@@ -64,6 +65,7 @@ class ViewPageType1Fragment : BaseFragment() {
         lifecycleScope.launch {
             launch {
                 viewModel.discoverList.collect {
+                    delay(500)
                     if (viewModel.uiStateFlow.value.updateType == 1) {
                         dynamicsCardAdapter.restItems(it)
                     } else {
@@ -102,7 +104,7 @@ class ViewPageType1Fragment : BaseFragment() {
         binding.smRefreshLayout.setOnLoadMoreListener {
             lifecycleScope.launch {
                 viewModel.loadMore()
-                it.finishLoadMore(true)
+                it.finishLoadMore(0)
             }
         }
 
@@ -114,11 +116,7 @@ class ViewPageType1Fragment : BaseFragment() {
 
         dynamicsCardAdapter.setOnClickListenerByRoot { view, position, videoData ->
             // 处理点击事件
-            val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
-            intent.putExtra("id", videoData.id)
-            startActivity(intent)
         }
-
     }
 
 

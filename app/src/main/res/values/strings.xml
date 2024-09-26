@@ -22,7 +22,8 @@
     <string name="comment_hint">快来评论吧</string>
     <string name="publish">发布</string>
     <string name="expand">展开</string>
-    <string name="collapse">收起</string>"
+    <string name="collapse">收起</string>
+    <string name="image">图片</string>"
 
     <string-array name="danmaku_text_contents">
         <item>awsl</item>

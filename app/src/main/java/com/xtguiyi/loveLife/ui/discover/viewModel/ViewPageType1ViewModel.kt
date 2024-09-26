@@ -14,7 +14,7 @@ import java.io.IOException
 
 data class ViewPageType1UiState(
     var page: Int = 1,
-    var pageSize: Int = 10,
+    var pageSize: Int = 20,
     var total: Int = 0,
     var updateType: Int = 0,
     var netWorkError: Boolean = false,

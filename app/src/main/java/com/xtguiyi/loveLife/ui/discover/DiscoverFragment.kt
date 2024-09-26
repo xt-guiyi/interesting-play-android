@@ -33,7 +33,7 @@ class DiscoverFragment : BaseFragment() {
 
     override fun initView() {
         // 初始化tabLayout
-        val tabItems = listOf("发现","同城","关注")
+        val tabItems = listOf("附近","同城","关注")
         binding.discoverTabs.isTabIndicatorFullWidth = false
         binding.discoverTabs.tabMode = TabLayout.MODE_FIXED
         binding.discoverTabs.tabGravity = TabLayout.GRAVITY_CENTER
