@@ -1,17 +1,20 @@
 package com.xtguiyi.loveLife
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
 import com.xtguiyi.loveLife.base.BaseActivity
 import com.xtguiyi.loveLife.databinding.ActivityMainBinding
 import com.xtguiyi.loveLife.ui.discover.DiscoverFragment
 import com.xtguiyi.loveLife.ui.home.HomeFragment
 import com.xtguiyi.loveLife.ui.me.MeFragment
-import com.xtguiyi.loveLife.ui.videoPlayer.VideoPlayerActivity
 import com.xtguiyi.loveLife.utils.FragmentUtil
 
 class MainActivity : BaseActivity() {
@@ -24,9 +27,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = true
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // 重要：配置更改就不需要再添加Fragment
+        // 配置更改就不需要再添加Fragment
         if(savedInstanceState == null) { initView() }
         bindingListener()
     }

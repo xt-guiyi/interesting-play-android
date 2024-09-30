@@ -7,7 +7,6 @@ import android.util.Log
 import com.hjq.toast.Toaster
 
 class MainApplication : Application() {
-//    private var executorService: ExecutorService = Executors.newFixedThreadPool(4) // 全局线程池
 
     init {
         Log.i("Toaster","应用创建")

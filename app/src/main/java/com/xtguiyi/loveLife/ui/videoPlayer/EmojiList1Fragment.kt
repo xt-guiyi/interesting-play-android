@@ -32,7 +32,6 @@ class EmojiList1Fragment : BaseFragment() {
     }
 
     override fun initView() {
-        // 设置线性布局
         layoutManager = GridLayoutManager(requireContext(),6)
         binding.rv.layoutManager = layoutManager
         // 设置适配器

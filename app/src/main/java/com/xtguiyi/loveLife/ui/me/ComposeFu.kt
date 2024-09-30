@@ -49,7 +49,7 @@ fun MePage() {
             modifier = Modifier.fillMaxSize()
         ) {
             Header(innerPadding.calculateTopPadding())
-            // 使用weight填充剩余高度
+            // 填充剩余高度
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -78,12 +78,12 @@ fun Header(top: Dp) {
                 contentDescription = "头像",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(125.dp)
+                    .size(100.dp)
                     .clip(CircleShape)
             )
             Text(
                 "xt_guiyi",
-                fontSize = 30.sp,
+                fontSize = 26.sp,
                 color = Color.White,
                 modifier = Modifier.padding(top = 10.dp, bottom = 2.dp)
             )

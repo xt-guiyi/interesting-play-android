@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtguiyi.loveLife.base.BaseFragment
-import com.xtguiyi.loveLife.common.ItemDecoration.GridSpacingItemDecoration
 import com.xtguiyi.loveLife.databinding.FragmentHomeViewPageType1Binding
+import com.xtguiyi.loveLife.ui.home.itemDecoration.GridSpacingItemDecoration
 import com.xtguiyi.loveLife.ui.home.adapter.BannerContainerAdapter
 import com.xtguiyi.loveLife.ui.home.adapter.VideoCardAdapter
 import com.xtguiyi.loveLife.ui.home.viewModel.ViewPageType1ViewModel
@@ -59,9 +59,8 @@ class ViewPageType1Fragment : BaseFragment() {
         }
         binding.rv.layoutManager = layoutManager
         // 设置间距
-        val spacing = DisplayUtil.dip2px(3f) // 间距，单位为px
-        val includeEdge = true
-        binding.rv.addItemDecoration(GridSpacingItemDecoration(2, spacing, includeEdge))
+        val spacing = DisplayUtil.dip2px(6f) // 间距，单位为px
+        binding.rv.addItemDecoration(GridSpacingItemDecoration(2, spacing))
         // 设置适配器
         bannerContainerAdapter = BannerContainerAdapter(mutableListOf(), this, requireContext())
         videoCardAdapter = VideoCardAdapter(mutableListOf())

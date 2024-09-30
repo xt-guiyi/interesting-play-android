@@ -15,21 +15,21 @@ object DisplayUtil {
     /**
      * 获取设备屏幕宽度，单位为像素
      * */
-    fun getScreenWidth(context: Context): Int {
+    fun getScreenWidth(): Int {
         return MainApplication.getContext().resources.displayMetrics.widthPixels
     }
 
     /**
      * 获取屏幕密度
      * */
-    fun getDensity(context: Context): Float {
+    fun getDensity(): Float {
         return MainApplication.getContext().resources.displayMetrics.density
     }
 
     /**
      * 获取屏幕密度DPI
      * */
-    fun getDensityDpi(context: Context): Int {
+    fun getDensityDpi(): Int {
         return MainApplication.getContext().resources.displayMetrics.densityDpi
     }
 

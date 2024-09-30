@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.storage)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)

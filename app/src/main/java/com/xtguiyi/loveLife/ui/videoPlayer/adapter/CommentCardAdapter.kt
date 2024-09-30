@@ -1,11 +1,13 @@
 package com.xtguiyi.loveLife.ui.videoPlayer.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.loveLife.databinding.ItemCommentCardBinding
 import com.xtguiyi.loveLife.model.CommentInfo
 import com.xtguiyi.loveLife.utils.CommonUtil
+import com.xtguiyi.loveLife.utils.ExpandTextUtil
 import com.xtguiyi.loveLife.utils.GlideUtil
 import com.xtguiyi.loveLife.utils.TimeUtil
 
@@ -30,9 +32,10 @@ class CommentCardAdapter(private var list: MutableList<CommentInfo>): RecyclerVi
         notifyItemRangeInserted(startPosition, newItems.size)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun shiftItem(newItem: CommentInfo) {
         list.add(0, newItem)
-        notifyItemInserted(0)
+        notifyDataSetChanged()
     }
 
 
@@ -41,7 +44,7 @@ class CommentCardAdapter(private var list: MutableList<CommentInfo>): RecyclerVi
             GlideUtil.setUrlCircle(data.avatar, binding.root.context, binding.avatarCircle)
             binding.userName.text = data.username
             binding.publishTime.text = TimeUtil.getTimeAgo(data.pubDate)
-            binding.commentContent.text = data.content
+            ExpandTextUtil().setColorStr("#04B578").show(binding.commentContent,  data.content)
             binding.dianZanNumber.text = CommonUtil.formatNumber(data.like)
         }
     }

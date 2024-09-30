@@ -229,7 +229,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     private fun calculateVideoViewHeight(): Float {
         // 获取屏幕宽度
-        val screenWidth = DisplayUtil.getScreenWidth(this)
+        val screenWidth = DisplayUtil.getScreenWidth()
         // 计算宽高比
         val aspectRatio = 9f / 16f // TODO:这里写死为16 ：9，因为这需要服务端提前返回视频宽高比
         // 计算VideoView的高度

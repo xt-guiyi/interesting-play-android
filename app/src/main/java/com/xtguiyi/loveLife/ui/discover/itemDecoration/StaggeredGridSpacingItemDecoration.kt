@@ -1,10 +1,9 @@
-package com.xtguiyi.loveLife.common.ItemDecoration
+package  com.xtguiyi.loveLife.ui.discover.itemDecoration
 
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.hjq.toast.Toaster
 
 class StaggeredGridSpacingItemDecoration(
     private val spanCount: Int,

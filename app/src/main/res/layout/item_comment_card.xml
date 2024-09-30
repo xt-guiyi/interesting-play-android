@@ -59,7 +59,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="44dp" />
 
-    <com.xtguiyi.loveLife.common.view.ExpandTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/comment_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,9 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline1"
-        app:lines="3"
-        android:maxLines="3"
-        tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
+     />
 
     <ImageView
         android:id="@+id/dian_zan"
@@ -161,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="共5条回复 >"
-            android:textColor="@color/blue_100"
+            android:textColor="@color/green_300"
             android:textSize="14sp" />
     </LinearLayout>
 

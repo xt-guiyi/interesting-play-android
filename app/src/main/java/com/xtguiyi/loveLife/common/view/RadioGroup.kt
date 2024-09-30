@@ -10,7 +10,7 @@ import androidx.core.view.children
  * 单选group
  * 其实单选实现逻辑都是一样的，区别在于布局方式，我这里使用的流式布局，如果需要其他布局方式，那么继承其他布局就可
  * */
-class RadioGroup: FlowLayout {
+class RadioGroup : FlowLayout {
     constructor(context: Context?) : super(context)
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -26,7 +26,8 @@ class RadioGroup: FlowLayout {
     private var selectedListener: OnSelectedChangeListener? = null
 
     init {
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 // 确保所有子视图已经完全加载和布局
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -36,7 +37,7 @@ class RadioGroup: FlowLayout {
                         mLastSelected = mSelected
                         mSelected = index
                         updateSelected()
-                        selectedListener?.onItemSelectedChange(index,view)
+                        selectedListener?.onItemSelectedChange(index, view)
                     }
                 }
             }
@@ -44,7 +45,7 @@ class RadioGroup: FlowLayout {
     }
 
     private fun updateSelected() {
-        getChildAt(mLastSelected).isSelected =false
+        getChildAt(mLastSelected).isSelected = false
         getChildAt(mSelected).isSelected = true
     }
 
@@ -52,7 +53,7 @@ class RadioGroup: FlowLayout {
     fun setSelected(index: Int) {
         mLastSelected = mSelected
         mSelected = index
-        getChildAt(mLastSelected).isSelected =false
+        getChildAt(mLastSelected).isSelected = false
         getChildAt(mSelected).isSelected = true
     }
 
