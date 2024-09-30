@@ -23,6 +23,11 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+<!--        <activity-->
+<!--            android:name=".ui.videoPlayer.VideoPlayerActivityTwo"-->
+<!--            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"-->
+<!--            android:exported="false"-->
+<!--            android:windowSoftInputMode="adjustResize" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -30,8 +31,9 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.xtguiyi.loveLife.R
 import com.xtguiyi.loveLife.base.BaseActivity
-import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerBinding
+import com.xtguiyi.loveLife.databinding.ActivityVideoPlayerTwoBinding
 import com.xtguiyi.loveLife.ui.videoPlayer.adapter.VideoPlayViewPageAdapter
+import com.xtguiyi.loveLife.ui.videoPlayer.behaviors.VideoPlayBehavior
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment
 import com.xtguiyi.loveLife.ui.videoPlayer.dialog.BarrageDialogFragment.BarrageInfo
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.BriefIntroductionViewModel
@@ -42,17 +44,19 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 
 
-class VideoPlayerActivity : BaseActivity(),
+class VideoPlayerActivityTwo : BaseActivity(),
     BarrageDialogFragment.OnBarrageListener {
 
-    // 自定义View布局
-    private lateinit var binding: ActivityVideoPlayerBinding
+    // 使用协调者布局Behaviors
+    private lateinit var binding: ActivityVideoPlayerTwoBinding
+
     private val videoPlayerViewModel: VideoPlayerViewModel by viewModels()
     private val briefIntroductionViewModel: BriefIntroductionViewModel by viewModels()
     private val id: Int by lazy {
         intent.getIntExtra("id", -1)
     }
     private lateinit var orientationUtils: OrientationUtils
+    private lateinit var videoPlayBehavior: VideoPlayBehavior
     private var isPlay: Boolean = false
     private val gsyVideoOption = GSYVideoOptionBuilder()
     private var barrageInfo = BarrageInfo("", "默认", "滚动", "#FFFFFFFF")
@@ -82,7 +86,7 @@ class VideoPlayerActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityVideoPlayerBinding.inflate(layoutInflater)
+        binding = ActivityVideoPlayerTwoBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         // 修改状态栏, 适配沉浸式布局
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
@@ -94,6 +98,9 @@ class VideoPlayerActivity : BaseActivity(),
             insets
         }
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentManagerListener, true)
+        // 获取 Behavior
+        val params = binding.videoPlayerContainer.layoutParams as CoordinatorLayout.LayoutParams
+        videoPlayBehavior = params.behavior as VideoPlayBehavior
         initView()
         initData()
         bindingListener()
@@ -134,7 +141,7 @@ class VideoPlayerActivity : BaseActivity(),
             binding.barrageInput.text = resources.getString(R.string.barrage_input_text_2)
             barrageDialog.show(supportFragmentManager, BarrageDialogFragment.TAG)
         }
-        binding.main.setOnOffsetChange { maxOffset, offset ->
+        videoPlayBehavior.setOnOffsetChange { maxOffset, offset ->
             lifecycleScope.launch { videoPlayerViewModel.setOffset(-(maxOffset - offset)) }
         }
     }
@@ -192,11 +199,11 @@ class VideoPlayerActivity : BaseActivity(),
                 }
 
                 override fun onClickResume(url: String?, vararg objects: Any?) {
-                    binding.main.resetStatus(false)
+                    videoPlayBehavior.resetStatus(false)
                 }
 
                 override fun onClickStop(url: String?, vararg objects: Any?) {
-                    binding.main.resetStatus(true)
+                    videoPlayBehavior.resetStatus(true)
                 }
 
                 override fun onQuitFullscreen(url: String, vararg objects: Any) {
@@ -217,7 +224,7 @@ class VideoPlayerActivity : BaseActivity(),
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 orientationUtils.backToProtVideo()
-                if (!GSYVideoManager.backFromWindowFull(this@VideoPlayerActivity)) {
+                if (!GSYVideoManager.backFromWindowFull(this@VideoPlayerActivityTwo)) {
                     //退出应用
                     finish()
                 }

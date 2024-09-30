@@ -16,6 +16,7 @@ import com.xtguiyi.loveLife.ui.home.adapter.BannerContainerAdapter
 import com.xtguiyi.loveLife.ui.home.adapter.VideoCardAdapter
 import com.xtguiyi.loveLife.ui.home.viewModel.ViewPageType1ViewModel
 import com.xtguiyi.loveLife.ui.videoPlayer.VideoPlayerActivity
+import com.xtguiyi.loveLife.ui.videoPlayer.VideoPlayerActivityTwo
 import com.xtguiyi.loveLife.utils.DisplayUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -132,6 +133,7 @@ class ViewPageType1Fragment : BaseFragment() {
         videoCardAdapter.setOnClickListenerByRoot { view, position, videoData ->
             // 处理点击事件
             val intent = Intent(requireActivity(), VideoPlayerActivity::class.java)
+//            val intent = Intent(requireActivity(), VideoPlayerActivityTwo::class.java)
             intent.putExtra("id", videoData.id)
             startActivity(intent)
         }

@@ -21,6 +21,7 @@ import com.xtguiyi.loveLife.ui.videoPlayer.dialog.CommentDialogFragment.OnCommen
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.CommentViewModel
 import com.xtguiyi.loveLife.ui.videoPlayer.viewModel.VideoPlayerViewModel
 import com.xtguiyi.loveLife.utils.DisplayUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -92,6 +93,7 @@ class CommentFragment : BaseFragment(),OnCommentListener {
     override fun initData() {
         lifecycleScope.launch {
             id?.let {
+                delay(300)
                 viewModel.getCommentList()
             }
 

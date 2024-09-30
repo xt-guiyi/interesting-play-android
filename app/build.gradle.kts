@@ -17,14 +17,29 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        create("release") {
+            keyAlias = findProperty("MYAPP_RELEASE_KEY_ALIAS") as String
+            keyPassword = findProperty("MYAPP_RELEASE_KEY_PASSWORD") as String
+            storeFile = file(findProperty("MYAPP_RELEASE_STORE_FILE") as String)
+            storePassword = findProperty("MYAPP_RELEASE_STORE_PASSWORD") as String
+        }
+    }
 
     buildTypes {
+        debug {
+            // 可以设置调试特性，例如启用日志、调试信息等
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            versionNameSuffix = "-DEBUG"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

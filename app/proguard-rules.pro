@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-printmapping mapping.txt
+-verbose
+#-keep class com.scwang.smart.refresh.layout.SmartRefreshLayout$* { *; }
+#-keep class com.** { *; }
+-keep class com.scwang.** { *; }
+#-keep class com.scwang.smart.** { *; }
+#-keep class com.scwang.smart.refresh.** { *; }
