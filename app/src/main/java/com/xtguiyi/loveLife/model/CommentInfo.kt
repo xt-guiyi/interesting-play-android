@@ -1,9 +1,12 @@
 package com.xtguiyi.loveLife.model
 
+import kotlinx.serialization.Serializable
 /**
  * 评论信息
  * @param id 视频id
  * */
+
+@Serializable
 data class CommentInfo(
     val id: Int,
     val username: String,

@@ -30,11 +30,10 @@ android {
         debug {
             // 可以设置调试特性，例如启用日志、调试信息等
             applicationIdSuffix = ".debug"
-            isDebuggable = true
             versionNameSuffix = "-DEBUG"
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -67,8 +66,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.storage)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
@@ -79,7 +76,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     // retrofit网络请求框架
     implementation(libs.retrofit)
-    implementation(libs.squareup.converter.gson)
+    implementation(libs.squareup.converter.kotlinx.serialization)
     // 吐司框架：https://github.com/getActivity/Toaster
     implementation(libs.getactivity.toaster)
     // glide 图片加载 https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
@@ -96,7 +93,7 @@ dependencies {
     implementation(libs.refresh.footer.classics) // 经典加载
     // Lottie动画：https://github.com/airbnb/lottie-android
     implementation(libs.lottie)
-    implementation("com.airbnb.android:lottie-compose:6.5.2")
+    implementation(libs.lottie.compose)
     // GSY播放器总成 https://github.com/CarGuo/GSYVideoPlayer
     implementation(libs.gsyvideoplayer)
     // 弹幕库,不太好用,有需求可以fork下来自己改 https://github.com/bytedance/DanmakuRenderEngine/blob/main/README_cn.md

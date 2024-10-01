@@ -1,5 +1,7 @@
 package com.xtguiyi.loveLife.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * 视频信息
  * @param id 视频id
@@ -19,6 +21,7 @@ package com.xtguiyi.loveLife.model
  * @param owner 作者信息
  * @param pubDate 作者信息
  * */
+@Serializable
 data class VideoInfo(
     val id: Int,
     val title: String,
