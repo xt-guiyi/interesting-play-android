@@ -35,7 +35,7 @@
             android:background="@drawable/a"
             android:backgroundTint="@color/sliver_400"/>
 
-        <com.xtguiyi.loveLife.common.view.InputView
+        <com.xtguiyi.play.common.view.InputView
             android:id="@+id/inputView"
             android:layout_width="0dp"
             android:layout_height="36dp"
@@ -87,14 +87,14 @@
                 android:layout_gravity="center"
                 android:text="字体大小"
                 />
-            <com.xtguiyi.loveLife.common.view.RadioGroup
+            <com.xtguiyi.play.common.view.RadioGroup
                 android:id="@+id/font_radioGroup"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                >
-            </com.xtguiyi.loveLife.common.view.RadioGroup>
+            </com.xtguiyi.play.common.view.RadioGroup>
         </LinearLayout>
 
         <LinearLayout
@@ -112,7 +112,7 @@
                 android:text="弹幕位置"
                 />
 
-            <com.xtguiyi.loveLife.common.view.RadioGroup
+            <com.xtguiyi.play.common.view.RadioGroup
                 android:id="@+id/position_radioGroup"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -121,7 +121,7 @@
                 app:chipSpacingVertical="8dp"
                 android:layout_marginStart="20dp"
                 >
-            </com.xtguiyi.loveLife.common.view.RadioGroup>
+            </com.xtguiyi.play.common.view.RadioGroup>
         </LinearLayout>
 
         <LinearLayout
@@ -139,7 +139,7 @@
                 android:text="弹幕颜色"
                 />
 
-            <com.xtguiyi.loveLife.common.view.RadioGroup
+            <com.xtguiyi.play.common.view.RadioGroup
                 android:id="@+id/color_radioGroup"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -345,7 +345,7 @@
                         android:layout_height="10dp"
                         android:background="@drawable/barrage_color_selected" />
                 </FrameLayout>
-            </com.xtguiyi.loveLife.common.view.RadioGroup>
+            </com.xtguiyi.play.common.view.RadioGroup>
         </LinearLayout>
 
     </LinearLayout>

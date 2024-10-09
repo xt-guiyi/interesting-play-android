@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.xtguiyi.loveLife.ui.discover.DiscoverFragment">
+    tools:context="com.xtguiyi.play.ui.discover.DiscoverFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:fitsSystemWindows="true"

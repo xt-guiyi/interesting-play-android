@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.xtguiyi.loveLife"
+    namespace = "com.xtguiyi.play"
     compileSdk = 34
     // https://developer.android.com/build/configure-app-module?hl=zh-cn#set-application-id
     defaultConfig {
-        applicationId = "com.xtguiyi.loveLife"
+        applicationId = "com.xtguiyi.play"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -31,6 +31,7 @@ android {
             // 可以设置调试特性，例如启用日志、调试信息等
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
+            buildConfigField("String", "ENV", "\"DEV\"")
         }
         release {
             isMinifyEnabled = true
@@ -38,6 +39,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "ENV", "\"DEV\"")
             signingConfig = signingConfigs.getByName("release")
         }
     }
@@ -46,6 +48,7 @@ android {
         compose = true
         viewBinding = true
         dataBinding = false
+        buildConfig = true // 启用 BuildConfig 字段
     }
 
     // https://developer.android.com/build/jdks?hl=zh-cn#source-compat

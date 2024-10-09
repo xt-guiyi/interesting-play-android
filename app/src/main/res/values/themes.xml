@@ -1,6 +1,6 @@
 <resources>
     <!-- APP theme. -->
-    <style name="Theme.LoveLife" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Play" parent="Theme.AppCompat.Light.NoActionBar">
         <!--状态栏,导航栏配置，非全面屏生效-->
         <item name="android:statusBarColor">@color/green_100</item>
         <item name="android:windowLightStatusBar">true</item>

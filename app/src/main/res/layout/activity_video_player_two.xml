@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_behavior=".ui.videoPlayer.behaviors.VideoPlayBehavior">
-        <com.xtguiyi.loveLife.common.view.CustomGSYVideoPlayerView
+        <com.xtguiyi.play.common.view.CustomGSYVideoPlayerView
             android:id="@+id/video_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
