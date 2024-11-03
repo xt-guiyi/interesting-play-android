@@ -45,7 +45,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "interesting-play"
+rootProject.name = "interesting-play-android"
 // 告知 Gradle 在构建应用时应将哪些模块包含在内
 include(":app")
  
