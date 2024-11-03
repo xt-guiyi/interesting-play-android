@@ -1,7 +1,7 @@
 package com.xtguiyi.play.ui.videoPlayer.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.xtguiyi.play.model.CommentInfo
+import com.xtguiyi.play.model.CommentInfoModel
 import com.xtguiyi.play.ui.videoPlayer.repository.CommentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,10 +16,10 @@ class CommentViewModel : ViewModel() {
     private var _page: Int = 1;
     private var _pageSize: Int = 20;
     private var _total: Int = 0;
-    private var _commentInfoList =  MutableStateFlow<List<CommentInfo>>(listOf())
+    private var _commentInfoList =  MutableStateFlow<List<CommentInfoModel>>(listOf())
 
     val total: Int  get() = _total
-    var commentInfoListFlow: StateFlow<List<CommentInfo>> = _commentInfoList.asStateFlow()
+    var commentInfoListFlow: StateFlow<List<CommentInfoModel>> = _commentInfoList.asStateFlow()
     val netWorkErrorFlow: StateFlow<Boolean> = _netWorkError.asStateFlow()
 
      suspend fun getCommentList() {
@@ -31,7 +31,7 @@ class CommentViewModel : ViewModel() {
             e.printStackTrace()
         }
         result.onSuccess {
-            if (it.isOk()) {
+            if (it.isOk() && it.data != null) {
                 _page = it.data.page
                 _pageSize = it.data.pageSize
                 _total = it.data.total

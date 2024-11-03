@@ -11,13 +11,13 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.play.R
 import com.xtguiyi.play.databinding.ItemBriefIntroductionCardBinding
-import com.xtguiyi.play.model.VideoInfo
+import com.xtguiyi.play.model.VideoInfoModel
 import com.xtguiyi.play.utils.CommonUtil
 import com.xtguiyi.play.utils.DisplayUtil
 import com.xtguiyi.play.utils.GlideUtil
 import com.xtguiyi.play.utils.TimeUtil
 
-class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.Adapter<BriefIntroductionAdapter.ViewHolder>() {
+class BriefIntroductionAdapter(private var list: List<VideoInfoModel>): RecyclerView.Adapter<BriefIntroductionAdapter.ViewHolder>() {
 
     private var isExpand = false
 
@@ -45,7 +45,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
 
     class ViewHolder(val binding:ItemBriefIntroductionCardBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bindTo(data: VideoInfo){
+        fun bindTo(data: VideoInfoModel){
             binding.videoTitle.text = data.title
             binding.userName.text = data.owner.name
             binding.fans.text = String.format("%s粉", CommonUtil.formatNumber(data.owner.fans))
@@ -99,7 +99,7 @@ class BriefIntroductionAdapter(private var list: List<VideoInfo>): RecyclerView.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data:VideoInfo) {
+    fun setData(data:VideoInfoModel) {
         list = listOf(data)
         notifyDataSetChanged()
     }

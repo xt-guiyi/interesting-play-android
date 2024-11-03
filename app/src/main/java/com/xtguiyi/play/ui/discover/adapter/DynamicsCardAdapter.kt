@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.play.databinding.ItemDynamicsCardBinding
-import com.xtguiyi.play.model.DiscoverInfo
+import com.xtguiyi.play.model.DiscoverInfoModel
 import com.xtguiyi.play.utils.CommonUtil
 import com.xtguiyi.play.utils.DisplayUtil
 import com.xtguiyi.play.utils.GlideUtil
 
-class DynamicsCardAdapter(private val list: MutableList<DiscoverInfo>): RecyclerView.Adapter<DynamicsCardAdapter.ViewHolder>() {
-    private var mClickCall: ((view: View,position: Int, list: DiscoverInfo) -> Unit)? = null
+class DynamicsCardAdapter(private val list: MutableList<DiscoverInfoModel>): RecyclerView.Adapter<DynamicsCardAdapter.ViewHolder>() {
+    private var mClickCall: ((view: View,position: Int, list: DiscoverInfoModel) -> Unit)? = null
 
-    fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, list: DiscoverInfo) -> Unit) {
+    fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, list: DiscoverInfoModel) -> Unit) {
         this.mClickCall = mClickCall
     }
 
@@ -46,7 +46,7 @@ class DynamicsCardAdapter(private val list: MutableList<DiscoverInfo>): Recycler
             return cachedItemHeight!!
         }
 
-        fun bindTo(data: DiscoverInfo){
+        fun bindTo(data: DiscoverInfoModel){
             binding.title.text = data.title
             binding.author.text = data.owner.name
             binding.reply.text = CommonUtil.formatNumber(data.reply)
@@ -62,13 +62,13 @@ class DynamicsCardAdapter(private val list: MutableList<DiscoverInfo>): Recycler
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun restItems(newItems: List<DiscoverInfo>) {
+    fun restItems(newItems: List<DiscoverInfoModel>) {
         list.clear()
         list.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun addItems(newItems: List<DiscoverInfo>) {
+    fun addItems(newItems: List<DiscoverInfoModel>) {
         val startPosition = list.size
         list.addAll(newItems)
         notifyItemRangeInserted(startPosition, newItems.size)

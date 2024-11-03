@@ -2,8 +2,8 @@ package com.xtguiyi.play.ui.home.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.xtguiyi.play.model.Banner
-import com.xtguiyi.play.model.VideoInfo
+import com.xtguiyi.play.model.BannerModel
+import com.xtguiyi.play.model.VideoInfoModel
 import com.xtguiyi.play.ui.home.repository.ViewPageType1Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,11 +30,11 @@ class ViewPageType1ViewModel : ViewModel() {
     val uiStateFlow: StateFlow<ViewPageType1UiState> = _uiState.asStateFlow()
 
     // 视频列表数据
-    private val _videoList: MutableStateFlow<List<VideoInfo>> = MutableStateFlow(emptyList())
-    val videoListFlow: StateFlow<List<VideoInfo>> = _videoList.asStateFlow()
+    private val _videoList: MutableStateFlow<List<VideoInfoModel>> = MutableStateFlow(emptyList())
+    val videoListFlow: StateFlow<List<VideoInfoModel>> = _videoList.asStateFlow()
 
-    private val _bannersFlow: MutableStateFlow<List<Banner>> = MutableStateFlow(emptyList())
-    val bannersFlow: StateFlow<List<Banner>> = _bannersFlow.asStateFlow()
+    private val _bannersFlow: MutableStateFlow<List<BannerModel>> = MutableStateFlow(emptyList())
+    val bannersFlow: StateFlow<List<BannerModel>> = _bannersFlow.asStateFlow()
 
 
     init {
@@ -54,7 +54,7 @@ class ViewPageType1ViewModel : ViewModel() {
             }
         }
         result.onSuccess {
-            if (it.isOk()) {
+            if (it.isOk() && it.data != null) {
                 _bannersFlow.value = it.data
             }
         }
@@ -80,7 +80,7 @@ class ViewPageType1ViewModel : ViewModel() {
                 }
             }
             result.onSuccess {
-                if (it.isOk()) {
+                if (it.isOk() && it.data != null) {
                     _uiState.update { currentState ->
                         currentState.copy(page = it.data.page, pageSize = it.data.pageSize, total = it.data.total,netWorkError = false)
                     }

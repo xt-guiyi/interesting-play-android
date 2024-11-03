@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.xtguiyi.play.model.Banner
+import com.xtguiyi.play.model.BannerModel
 import com.xtguiyi.play.utils.DisplayUtil
 import com.xtguiyi.play.utils.GlideUtil
 import com.youth.banner.adapter.BannerAdapter
@@ -14,7 +14,7 @@ import com.youth.banner.util.BannerUtils
 /**
  * 自定义布局，下面是常见的图片样式，更多实现可以看demo，可以自己随意发挥
  */
-class BannerDataAdapter(mData: List<Banner>) : BannerAdapter<Banner, BannerDataAdapter.BannerViewHolder>(mData) {
+class BannerDataAdapter(mData: List<BannerModel>) : BannerAdapter<BannerModel, BannerDataAdapter.BannerViewHolder>(mData) {
     //创建ViewHolder，可以用viewType这个字段来区分不同的ViewHolder
     override fun onCreateHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         val imageView = ImageView(parent.context)
@@ -36,7 +36,7 @@ class BannerDataAdapter(mData: List<Banner>) : BannerAdapter<Banner, BannerDataA
         return BannerViewHolder(imageContainer)
     }
 
-    override fun onBindView(holder: BannerViewHolder?, data: Banner?, position: Int, size: Int) {
+    override fun onBindView(holder: BannerViewHolder?, data: BannerModel?, position: Int, size: Int) {
         val imageView = holder?.imageContainer?.getChildAt(0) as ImageView
         GlideUtil.loadUrl(data?.url, imageView.context,imageView)
     }

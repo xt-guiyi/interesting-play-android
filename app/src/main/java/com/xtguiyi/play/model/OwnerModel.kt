@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
  * @param name 作者名字
  * */
 @Serializable
-data class Owner(
+data class OwnerModel(
     val mid: Long,
     val face: String,
     val fans: Long,

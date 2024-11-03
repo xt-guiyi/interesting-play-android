@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.play.databinding.ItemVideoCard2Binding
-import com.xtguiyi.play.model.VideoInfo
+import com.xtguiyi.play.model.VideoInfoModel
 import com.xtguiyi.play.utils.CommonUtil
 import com.xtguiyi.play.utils.GlideUtil
 import com.xtguiyi.play.utils.TimeUtil
 
-class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<RelateVideoCardAdapter.ViewHolder>() {
-    private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
+class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfoModel>): RecyclerView.Adapter<RelateVideoCardAdapter.ViewHolder>() {
+    private var mClickCall: ((view: View,position: Int, videoData: VideoInfoModel) -> Unit)? = null
 
-    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfo) -> Unit) {
+    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfoModel) -> Unit) {
         this.mClickCall = mClickCall
     }
 
@@ -35,7 +35,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
     }
 
     class ViewHolder(val binding: ItemVideoCard2Binding):RecyclerView.ViewHolder(binding.root) {
-        fun bindTo(data: VideoInfo){
+        fun bindTo(data: VideoInfoModel){
             binding.title.text = data.title
             binding.author.text = data.owner.name
             binding.duration.text = TimeUtil.geDurationTime(data.duration)
@@ -45,7 +45,7 @@ class RelateVideoCardAdapter(private val videoData: MutableList<VideoInfo>): Rec
     }
 
 
-    fun addItems(newItems: List<VideoInfo>) {
+    fun addItems(newItems: List<VideoInfoModel>) {
         val startPosition = videoData.size
         videoData.addAll(newItems)
         notifyItemRangeInserted(startPosition, newItems.size)

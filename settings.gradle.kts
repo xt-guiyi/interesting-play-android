@@ -45,7 +45,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Love Life"
+rootProject.name = "interesting-play"
 // 告知 Gradle 在构建应用时应将哪些模块包含在内
 include(":app")
  

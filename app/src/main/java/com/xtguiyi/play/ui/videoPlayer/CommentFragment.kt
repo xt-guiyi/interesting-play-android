@@ -14,7 +14,7 @@ import com.hjq.toast.Toaster
 import com.xtguiyi.play.base.BaseFragment
 import com.xtguiyi.play.common.adapter.FooterAdapter
 import com.xtguiyi.play.databinding.FragmentCommentBinding
-import com.xtguiyi.play.model.CommentInfo
+import com.xtguiyi.play.model.CommentInfoModel
 import com.xtguiyi.play.ui.videoPlayer.adapter.CommentCardAdapter
 import com.xtguiyi.play.ui.videoPlayer.dialog.CommentDialogFragment
 import com.xtguiyi.play.ui.videoPlayer.dialog.CommentDialogFragment.OnCommentListener
@@ -145,7 +145,7 @@ class CommentFragment : BaseFragment(),OnCommentListener {
 
     override suspend fun sendComment(text: Editable?): Boolean {
         text?.let {
-            commentCardAdapter.shiftItem(CommentInfo(customId--, "xtguiyi", System.currentTimeMillis(), "广东", text.toString(),"https://images.cubox.pro/1721051466053/240807/image.png",0))
+            commentCardAdapter.shiftItem(CommentInfoModel(customId--, "xtguiyi", System.currentTimeMillis(), "广东", text.toString(),"https://images.cubox.pro/1721051466053/240807/image.png",0))
             binding.root.postDelayed({
                 layoutManager.scrollToPosition(0)
             },0)

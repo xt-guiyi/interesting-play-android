@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  * @param data 数据本体
  */
 @Serializable
-data class ResponseResult<T>(val code: Int, val message: String, val data: T) {
+data class ResponseResult<T>(val code: Int, val message: String?, val data: T?) {
     /**
      * 判定接口返回是否正常
      */

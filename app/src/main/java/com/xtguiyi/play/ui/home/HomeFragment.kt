@@ -14,6 +14,7 @@ import com.xtguiyi.play.ui.home.adapter.HomeViewPageAdapter
 import com.xtguiyi.play.utils.GlideUtil
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.xtguiyi.play.store.UserInfoStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -61,11 +62,16 @@ class HomeFragment : BaseFragment() {
 
 
     private fun initHeaderData() {
-        GlideUtil.setUrlCircle(
-            "https://images.cubox.pro/iw3rni/file/2024061800331149633/IMG_0021.JPG",
-            requireContext(),
-            binding.includedHeader.avatar
-        )
+        lifecycleScope.launch{
+            val userInfo = UserInfoStore.getUserInfo()
+            if(userInfo!= null) {
+                GlideUtil.setUrlCircle(
+                    userInfo.avatar,
+                    requireContext(),
+                    binding.includedHeader.avatar
+                )
+            }
+        }
         // 定时切换
         lifecycleScope.launch(Dispatchers.IO) {
             while (true) {

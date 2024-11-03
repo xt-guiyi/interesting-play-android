@@ -22,7 +22,7 @@ import kotlinx.serialization.Serializable
  * @param pubDate 作者信息
  * */
 @Serializable
-data class VideoInfo(
+data class VideoInfoModel(
     val id: Int,
     val title: String,
     val duration: Long,
@@ -37,6 +37,6 @@ data class VideoInfo(
     val reply: Long,
     val share: Long,
     val favorite: Long,
-    val owner: Owner,
+    val owner: OwnerModel,
     val pubDate: Long,
 )

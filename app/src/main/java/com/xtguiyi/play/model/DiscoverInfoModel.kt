@@ -11,12 +11,12 @@ import kotlinx.serialization.Serializable
  * @param owner 作者信息
  * */
 @Serializable
-data class DiscoverInfo(
+data class DiscoverInfoModel(
     val id: Int,
     val title: String,
     val pic: String,
     val picW: Int?,
     val picH: Int?,
     val reply: Long,
-    val owner: Owner,
+    val owner: OwnerModel,
 )

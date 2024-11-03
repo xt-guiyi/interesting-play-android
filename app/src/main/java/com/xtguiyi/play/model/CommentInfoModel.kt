@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * */
 
 @Serializable
-data class CommentInfo(
+data class CommentInfoModel(
     val id: Int,
     val username: String,
     val pubDate: Long,

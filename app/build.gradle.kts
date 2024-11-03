@@ -39,7 +39,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "ENV", "\"DEV\"")
+            buildConfigField("String", "ENV", "\"PRO\"")
             signingConfig = signingConfigs.getByName("release")
         }
     }

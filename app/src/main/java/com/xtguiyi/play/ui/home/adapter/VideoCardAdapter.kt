@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xtguiyi.play.databinding.ItemVideoCardBinding
-import com.xtguiyi.play.model.VideoInfo
+import com.xtguiyi.play.model.VideoInfoModel
 import com.xtguiyi.play.utils.CommonUtil
 import com.xtguiyi.play.utils.GlideUtil
 import com.xtguiyi.play.utils.TimeUtil
 
-class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerView.Adapter<VideoCardAdapter.ViewHolder>() {
-    private var mClickCall: ((view: View,position: Int, videoData: VideoInfo) -> Unit)? = null
+class VideoCardAdapter(private val videoData: MutableList<VideoInfoModel>): RecyclerView.Adapter<VideoCardAdapter.ViewHolder>() {
+    private var mClickCall: ((view: View,position: Int, videoData: VideoInfoModel) -> Unit)? = null
 
-    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfo) -> Unit) {
+    public fun setOnClickListenerByRoot(mClickCall: (view: View,position: Int, videoData: VideoInfoModel) -> Unit) {
         this.mClickCall = mClickCall
     }
 
@@ -35,7 +35,7 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
     }
 
     class ViewHolder(val binding: ItemVideoCardBinding):RecyclerView.ViewHolder(binding.root) {
-        fun bindTo(data: VideoInfo){
+        fun bindTo(data: VideoInfoModel){
             binding.title.text = data.title
             binding.author.text = data.owner.name
             binding.duration.text = TimeUtil.geDurationTime(data.duration)
@@ -45,13 +45,13 @@ class VideoCardAdapter(private val videoData: MutableList<VideoInfo>): RecyclerV
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun restItems(newItems: List<VideoInfo>) {
+    fun restItems(newItems: List<VideoInfoModel>) {
         videoData.clear()
         videoData.addAll(newItems)
         notifyDataSetChanged()
     }
 
-    fun addItems(newItems: List<VideoInfo>) {
+    fun addItems(newItems: List<VideoInfoModel>) {
         val startPosition = videoData.size
         videoData.addAll(newItems)
         notifyItemRangeInserted(startPosition, newItems.size)

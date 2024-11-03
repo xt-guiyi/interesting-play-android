@@ -1,6 +1,8 @@
 package com.xtguiyi.play.ui.me
 
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,23 +36,40 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.*
+
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.hjq.toast.Toaster
+import com.xtguiyi.play.MainApplication
 import com.xtguiyi.play.R
+import com.xtguiyi.play.model.UserModel
+import com.xtguiyi.play.store.DataStoreManager
+import com.xtguiyi.play.store.UserInfoStore
+import com.xtguiyi.play.ui.auth.LoginActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun MePage() {
+    // remember类比于useState，用于保存状态
+    var userInfo: UserModel? by remember { mutableStateOf<UserModel?>(null) }
+    // LaunchedEffect类比于useEffect，用于在Composable中执行副作用，他是一个协程
+    LaunchedEffect(Unit) {
+        userInfo = UserInfoStore.getUserInfo()
+    }
     Scaffold() { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Header(innerPadding.calculateTopPadding())
+            Header(innerPadding.calculateTopPadding(),userInfo)
             // 填充剩余高度
             Column(
                 modifier = Modifier
@@ -64,7 +85,7 @@ fun MePage() {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun Header(top: Dp) {
+fun Header(top: Dp,userInfo: UserModel?) {
     Box() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,7 +95,7 @@ fun Header(top: Dp) {
         ) {
             // 背景图片
             GlideImage(
-                model = "https://images.cubox.pro/iw3rni/file/2024061800331149633/IMG_0021.JPG", // 替换为你的图片资源
+                model = userInfo?.avatar ?: "https://images.cubox.pro/iw3rni/file/2024061800331149633/IMG_0021.JPG", // 替换为你的图片资源
                 contentDescription = "头像",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -82,7 +103,7 @@ fun Header(top: Dp) {
                     .clip(CircleShape)
             )
             Text(
-                "xt_guiyi",
+                userInfo?.username ?: "未登录",
                 fontSize = 26.sp,
                 color = Color.White,
                 modifier = Modifier.padding(top = 10.dp, bottom = 2.dp)
@@ -92,7 +113,7 @@ fun Header(top: Dp) {
                 color = Color.White
             )
             Text(
-                "简介：我的灵魂深处有一缕阳光，里面飘着些尘埃",
+                userInfo?.introduction ?: "-",
                 fontSize = 12.sp,
                 maxLines = 2,
                 color = Color.White,
@@ -243,5 +264,31 @@ fun Body() {
             )
             Text("设置")
         }
+        Column(
+            modifier = Modifier.fillMaxWidth(0.25f).clickable(onClick = {
+                logOut()
+            }),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.mutiple_person),
+                modifier = Modifier.size(24.dp),
+                contentDescription = "注销"
+            )
+            Text("注销")
+        }
     }
 }
+
+
+fun logOut() {
+    Toaster.show("退出")
+    CoroutineScope(Dispatchers.IO).launch{
+        DataStoreManager.clearToken()
+        DataStoreManager.clearUserInfo()
+    }
+    // 跳转到 LoginActivity
+    MainApplication.startActivity(LoginActivity::class.java, Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK )
+}
+
